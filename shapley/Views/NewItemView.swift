@@ -8,8 +8,37 @@
 import SwiftUI
 
 struct NewItemView: View {
+    @StateObject var viewModel = NewItemViewModel()
+
+        
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+       
+        VStack {
+            Text("New Item")
+                .font(.system(size: 32))
+                .bold()
+                .padding()
+            
+            Form {
+                TextField("Item Name", text: $viewModel.title)
+                    .textFieldStyle(DefaultTextFieldStyle())
+                
+                
+                TextField("Price", text: $viewModel.value)
+                    .keyboardType(.decimalPad)
+                
+                
+                ButtonView(title: "Save",
+                           background: Color.pink,
+                           action: viewModel.save)
+                
+            }
+        }
+    
+        
+        
     }
 }
 

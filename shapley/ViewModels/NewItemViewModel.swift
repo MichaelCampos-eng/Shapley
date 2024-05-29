@@ -6,3 +6,18 @@
 //
 
 import Foundation
+
+
+class NewItemViewModel: ObservableObject {
+    @Published var title = ""
+    @Published var value = ""
+    
+    
+    init() {
+        
+    }
+    
+    public func save() -> Void {
+        
+    }
+}

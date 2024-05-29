@@ -17,7 +17,7 @@ struct LoginView: View {
                 // Header
                 
                 HeaderView(title: "Shapley",
-                           subtitle: "Make your trips fair",
+                           subtitle: "Make your road trips fair",
                            angle: 15,
                            background: Color.teal)
                     .padding(.bottom, 5)
@@ -60,9 +60,8 @@ struct LoginView: View {
                     NavigationLink("Create An Account", destination: RegisterView())
                     
                 }
-                .padding(.bottom, 50)
                 
-                Spacer()
+                
             }
         }
         

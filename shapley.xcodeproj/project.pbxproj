@@ -20,9 +20,9 @@
 		C7BFFF452BFECAA600FEE015 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF442BFECAA600FEE015 /* ListView.swift */; };
 		C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF462BFECAB000FEE015 /* LoginView.swift */; };
 		C7BFFF492BFECABE00FEE015 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF482BFECABE00FEE015 /* RegisterView.swift */; };
-		C7BFFF4B2BFECB1000FEE015 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF4A2BFECB1000FEE015 /* ItemView.swift */; };
+		C7BFFF4B2BFECB1000FEE015 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF4A2BFECB1000FEE015 /* ActivityView.swift */; };
 		C7BFFF4D2BFECB4B00FEE015 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF4C2BFECB4B00FEE015 /* User.swift */; };
-		C7BFFF4F2BFECB5300FEE015 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF4E2BFECB5300FEE015 /* Item.swift */; };
+		C7BFFF4F2BFECB5300FEE015 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF4E2BFECB5300FEE015 /* Activity.swift */; };
 		C7BFFF512BFECB6C00FEE015 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF502BFECB6C00FEE015 /* MainViewModel.swift */; };
 		C7BFFF532BFECB8400FEE015 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF522BFECB8400FEE015 /* ProfileViewModel.swift */; };
 		C7BFFF552BFECB9000FEE015 /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF542BFECB9000FEE015 /* NewItemViewModel.swift */; };
@@ -33,6 +33,18 @@
 		C7BFFF5F2BFEDC3800FEE015 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF5E2BFEDC3800FEE015 /* HeaderView.swift */; };
 		C7BFFF612BFFA39000FEE015 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF602BFFA39000FEE015 /* ButtonView.swift */; };
 		C7BFFF632C000A8F00FEE015 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF622C000A8F00FEE015 /* Encodable.swift */; };
+		C7DC6AFD2C02973E0020C788 /* SelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6AFC2C02973E0020C788 /* SelectView.swift */; };
+		C7DC6B032C03AF680020C788 /* SplitGasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B022C03AF680020C788 /* SplitGasView.swift */; };
+		C7DC6B052C03AF6F0020C788 /* SplitBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B042C03AF6F0020C788 /* SplitBillView.swift */; };
+		C7DC6B072C03AF7D0020C788 /* VendueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B062C03AF7C0020C788 /* VendueView.swift */; };
+		C7DC6B092C03B6D00020C788 /* SplitGasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B082C03B6D00020C788 /* SplitGasModel.swift */; };
+		C7DC6B0B2C03B6D90020C788 /* SplitBillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B0A2C03B6D90020C788 /* SplitBillModel.swift */; };
+		C7DC6B0D2C03B6E00020C788 /* VendueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B0C2C03B6E00020C788 /* VendueModel.swift */; };
+		C7DC6B0F2C06AC0A0020C788 /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B0E2C06AC0A0020C788 /* ActivitiesView.swift */; };
+		C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B102C06AD970020C788 /* ActivitiesViewModel.swift */; };
+		C7DC6B132C06AE190020C788 /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B122C06AE190020C788 /* NewActivityView.swift */; };
+		C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B142C06B0330020C788 /* NewActivityViewModel.swift */; };
+		C7DC6B172C0705720020C788 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC6B162C0705720020C788 /* ActivityViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,9 +59,9 @@
 		C7BFFF442BFECAA600FEE015 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		C7BFFF462BFECAB000FEE015 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C7BFFF482BFECABE00FEE015 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
-		C7BFFF4A2BFECB1000FEE015 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
+		C7BFFF4A2BFECB1000FEE015 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		C7BFFF4C2BFECB4B00FEE015 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		C7BFFF4E2BFECB5300FEE015 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		C7BFFF4E2BFECB5300FEE015 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		C7BFFF502BFECB6C00FEE015 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C7BFFF522BFECB8400FEE015 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		C7BFFF542BFECB9000FEE015 /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewModel.swift; sourceTree = "<group>"; };
@@ -60,6 +72,18 @@
 		C7BFFF5E2BFEDC3800FEE015 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		C7BFFF602BFFA39000FEE015 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		C7BFFF622C000A8F00FEE015 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		C7DC6AFC2C02973E0020C788 /* SelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectView.swift; sourceTree = "<group>"; };
+		C7DC6B022C03AF680020C788 /* SplitGasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGasView.swift; sourceTree = "<group>"; };
+		C7DC6B042C03AF6F0020C788 /* SplitBillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillView.swift; sourceTree = "<group>"; };
+		C7DC6B062C03AF7C0020C788 /* VendueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendueView.swift; sourceTree = "<group>"; };
+		C7DC6B082C03B6D00020C788 /* SplitGasModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGasModel.swift; sourceTree = "<group>"; };
+		C7DC6B0A2C03B6D90020C788 /* SplitBillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillModel.swift; sourceTree = "<group>"; };
+		C7DC6B0C2C03B6E00020C788 /* VendueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendueModel.swift; sourceTree = "<group>"; };
+		C7DC6B0E2C06AC0A0020C788 /* ActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesView.swift; sourceTree = "<group>"; };
+		C7DC6B102C06AD970020C788 /* ActivitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesViewModel.swift; sourceTree = "<group>"; };
+		C7DC6B122C06AE190020C788 /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
+		C7DC6B142C06B0330020C788 /* NewActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityViewModel.swift; sourceTree = "<group>"; };
+		C7DC6B162C0705720020C788 /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,14 +150,20 @@
 			isa = PBXGroup;
 			children = (
 				C7BFFF3C2BFEC80400FEE015 /* MainView.swift */,
+				C7DC6B0E2C06AC0A0020C788 /* ActivitiesView.swift */,
+				C7DC6B122C06AE190020C788 /* NewActivityView.swift */,
 				C7BFFF602BFFA39000FEE015 /* ButtonView.swift */,
+				C7DC6AFC2C02973E0020C788 /* SelectView.swift */,
 				C7BFFF402BFECA7F00FEE015 /* ProfileView.swift */,
 				C7BFFF422BFECA8A00FEE015 /* NewItemView.swift */,
 				C7BFFF442BFECAA600FEE015 /* ListView.swift */,
+				C7DC6B022C03AF680020C788 /* SplitGasView.swift */,
+				C7DC6B042C03AF6F0020C788 /* SplitBillView.swift */,
+				C7DC6B062C03AF7C0020C788 /* VendueView.swift */,
 				C7BFFF462BFECAB000FEE015 /* LoginView.swift */,
 				C7BFFF5E2BFEDC3800FEE015 /* HeaderView.swift */,
 				C7BFFF482BFECABE00FEE015 /* RegisterView.swift */,
-				C7BFFF4A2BFECB1000FEE015 /* ItemView.swift */,
+				C7BFFF4A2BFECB1000FEE015 /* ActivityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -142,12 +172,18 @@
 			isa = PBXGroup;
 			children = (
 				C7BFFF502BFECB6C00FEE015 /* MainViewModel.swift */,
+				C7DC6B082C03B6D00020C788 /* SplitGasModel.swift */,
+				C7DC6B0A2C03B6D90020C788 /* SplitBillModel.swift */,
+				C7DC6B0C2C03B6E00020C788 /* VendueModel.swift */,
 				C7BFFF522BFECB8400FEE015 /* ProfileViewModel.swift */,
 				C7BFFF542BFECB9000FEE015 /* NewItemViewModel.swift */,
 				C7BFFF562BFECB9E00FEE015 /* ListViewModel.swift */,
 				C7BFFF582BFECBA600FEE015 /* LoginViewModel.swift */,
 				C7BFFF5A2BFECBAD00FEE015 /* RegisterViewModel.swift */,
 				C7BFFF5C2BFECBBA00FEE015 /* ItemViewLogin.swift */,
+				C7DC6B102C06AD970020C788 /* ActivitiesViewModel.swift */,
+				C7DC6B142C06B0330020C788 /* NewActivityViewModel.swift */,
+				C7DC6B162C0705720020C788 /* ActivityViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -156,7 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				C7BFFF4C2BFECB4B00FEE015 /* User.swift */,
-				C7BFFF4E2BFECB5300FEE015 /* Item.swift */,
+				C7BFFF4E2BFECB5300FEE015 /* Activity.swift */,
 				C7BFFF622C000A8F00FEE015 /* Encodable.swift */,
 			);
 			path = Models;
@@ -241,25 +277,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7BFFF4F2BFECB5300FEE015 /* Item.swift in Sources */,
+				C7DC6B052C03AF6F0020C788 /* SplitBillView.swift in Sources */,
+				C7BFFF4F2BFECB5300FEE015 /* Activity.swift in Sources */,
+				C7DC6B092C03B6D00020C788 /* SplitGasModel.swift in Sources */,
 				C7BFFF5F2BFEDC3800FEE015 /* HeaderView.swift in Sources */,
+				C7DC6AFD2C02973E0020C788 /* SelectView.swift in Sources */,
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
 				C7BFFF572BFECB9E00FEE015 /* ListViewModel.swift in Sources */,
+				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
 				C7BFFF5B2BFECBAD00FEE015 /* RegisterViewModel.swift in Sources */,
 				C7BFFF432BFECA8A00FEE015 /* NewItemView.swift in Sources */,
 				C7BFFF3D2BFEC80400FEE015 /* MainView.swift in Sources */,
-				C7BFFF4B2BFECB1000FEE015 /* ItemView.swift in Sources */,
+				C7DC6B172C0705720020C788 /* ActivityViewModel.swift in Sources */,
+				C7BFFF4B2BFECB1000FEE015 /* ActivityView.swift in Sources */,
+				C7DC6B0D2C03B6E00020C788 /* VendueModel.swift in Sources */,
 				C7BFFF492BFECABE00FEE015 /* RegisterView.swift in Sources */,
 				C7BFFF532BFECB8400FEE015 /* ProfileViewModel.swift in Sources */,
+				C7DC6B0B2C03B6D90020C788 /* SplitBillModel.swift in Sources */,
 				C7BFFF592BFECBA600FEE015 /* LoginViewModel.swift in Sources */,
 				C7BFFF5D2BFECBBA00FEE015 /* ItemViewLogin.swift in Sources */,
 				C7BFFF552BFECB9000FEE015 /* NewItemViewModel.swift in Sources */,
 				C7BFFF4D2BFECB4B00FEE015 /* User.swift in Sources */,
+				C7DC6B0F2C06AC0A0020C788 /* ActivitiesView.swift in Sources */,
 				C7BFFF452BFECAA600FEE015 /* ListView.swift in Sources */,
 				C7BFFF412BFECA7F00FEE015 /* ProfileView.swift in Sources */,
+				C7DC6B032C03AF680020C788 /* SplitGasView.swift in Sources */,
 				C7BFFF612BFFA39000FEE015 /* ButtonView.swift in Sources */,
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
+				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,
+				C7DC6B072C03AF7D0020C788 /* VendueView.swift in Sources */,
 				C7BFFF512BFECB6C00FEE015 /* MainViewModel.swift in Sources */,
+				C7DC6B132C06AE190020C788 /* NewActivityView.swift in Sources */,
 				C7BFFF632C000A8F00FEE015 /* Encodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
