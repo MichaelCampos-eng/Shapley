@@ -14,15 +14,17 @@ class RegisterViewModel: ObservableObject {
     @Published var email = ""
     @Published var password = ""
     
-    init(){}
+    init(){
+    }
     
     func register() {
         guard validate() else {
             return
         }
-        
+    
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
             guard let userId = result?.user.uid else {
+                print(error!)
                 return
             }
             self?.insertUserRecord(id: userId)

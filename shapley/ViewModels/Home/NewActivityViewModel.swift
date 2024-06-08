@@ -34,8 +34,13 @@ class NewActivityViewModel: ObservableObject {
         let groupId = UUID().uuidString
         
         
-        let activityUser = UserActivity(admin: true, id: newId, groupId: groupId)
-        let activityContent = ContentActivity(id: newId, title: activityName, createdDate: Date().timeIntervalSince1970)
+        let userActivity = UserActivity(admin: true,
+                                        id: newId,
+                                        groupId: self.groupId)
+        
+        let content = ContentActivity(id: newId,
+                                              title: self.activityName,
+                                              createdDate: Date().timeIntervalSince1970)
         
         let db = Firestore.firestore()
         
@@ -44,12 +49,24 @@ class NewActivityViewModel: ObservableObject {
             .document(uId)
             .collection("activities")
             .document(newId)
-            .setData(activityUser.asDictionary())
+            .setData(userActivity.asDictionary(), completion: {error in
+                if let error = error {
+                    print("Error saving user activity: \(error.localizedDescription)")
+                } else {
+                    print("Sucessfully saved user activity!")
+                }
+            })
         
         // Save content metadata about activity
-        db.collection("content")
+        db.collection("activities")
             .document(newId)
-            .setData(activityContent.asDictionary())
+            .setData(content.asDictionary(), completion: {error in
+                if let error = error {
+                    print("Error saving content activty: \(error.localizedDescription)")
+                } else {
+                    print("Successfully saved content activity!")
+                }
+            })
         
     }
     

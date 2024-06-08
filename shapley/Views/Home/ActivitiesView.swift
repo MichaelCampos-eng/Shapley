@@ -22,7 +22,8 @@ struct ActivitiesView: View {
         NavigationView {
             VStack {
                 List(viewModel.metadata) { item in
-        
+                
+                    
                     // TODO: With ActivityUser, use the activity id to access shared data
                     ActivityView(metadata: item)
                         .swipeActions {
@@ -56,5 +57,5 @@ struct ActivitiesView: View {
 }
 
 #Preview {
-    ActivitiesView(userId: "RigPlWygk9NOJOwSNhaJ8QfGBv22")
+    ActivitiesView(userId: "10b8fa78neXKKsaGdiZvbnzDCN62")
 }

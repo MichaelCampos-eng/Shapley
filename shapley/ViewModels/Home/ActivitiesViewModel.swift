@@ -17,6 +17,7 @@ class ActivitiesViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let userId: String
+    public var errorMessage: String = ""
     
     init(userId: String) {
         self.userId = userId
@@ -32,6 +33,7 @@ class ActivitiesViewModel: ObservableObject {
                 print("No documents")
                 return
             }
+            
             self?.userData = documents.compactMap{queryDocumentSnapshot -> UserActivity? in
                 return try? queryDocumentSnapshot.data(as: UserActivity.self)
             }
@@ -72,12 +74,34 @@ class ActivitiesViewModel: ObservableObject {
     /// - Parameter id: activity id to delete
     func delete(id: String) {
         let db = Firestore.firestore()
+        let document = db.collection("users")
+                .document(userId)
+                .collection("activities")
+                .document(id)
         
-        db.collection("users")
-            .document(userId)
-            .collection("activities")
-            .document(id)
-            .delete()
+        document.getDocument(as: UserActivity.self) { result in
+            switch result {
+            case .success(let userActivity):
+                document.delete()
+                
+                if userActivity.admin {
+                    print("Should delete here")
+                    db.collection("activities")
+                        .document(id)
+                        .delete() { error in
+                            if let error = error {
+                                print("Incorrectly deleting from activites folder: \(error.localizedDescription)")
+                            } else {
+                                print("Correctly deleting from activities folder")
+                            }
+                        }
+                }
+            case .failure(let error):
+                self.errorMessage = "Error fetching activity: \(error.localizedDescription)"
+            }
+            
+        }
+        
     }
     
 }

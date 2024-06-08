@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseFirestoreSwift
 
 struct UserActivity: Codable, Identifiable {
     let admin: Bool
