@@ -11,26 +11,25 @@ import SwiftUI
 
 struct ActivitiesView: View {
     @StateObject var viewModel: ActivitiesViewModel
-    @FirestoreQuery var items: [Activity]
     
-    
-    
-    // Might have to update path for group sessions
+    // TODO: Incorporate group session join
     init(userId: String) {
-        self._items = FirestoreQuery(
-            collectionPath: "users/\(userId)/todos")
-        
         self._viewModel = StateObject(
             wrappedValue: ActivitiesViewModel(userId: userId))
     }
     
-    
     var body: some View {
         NavigationView {
             VStack {
-                List(items) { item in
-                    ActivityView(activity: item)
+                List(viewModel.metadata) { item in
+        
+                    // TODO: With ActivityUser, use the activity id to access shared data
+                    ActivityView(metadata: item)
                         .swipeActions {
+                            Button("Edit") {
+                                // TODO: Add some function to edit
+                            }
+                            .tint(Color.blue)
                             Button("Delete") {
                                 viewModel.delete(id: item.id)
                             }
@@ -46,6 +45,7 @@ struct ActivitiesView: View {
                     viewModel.showingNewActivity = true
                 } label: {
                     Image(systemName: "plus")
+                        .foregroundColor(.orange)
                 }
             }
             .sheet(isPresented: $viewModel.showingNewActivity) {

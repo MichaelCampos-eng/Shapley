@@ -16,14 +16,14 @@ struct NewActivityView: View {
             Text("New Activity")
                 .font(.system(size: 32))
                 .bold()
-                .padding()
+                .padding(.top, 50)
             
             Form {
                 TextField("Activity Name", text: $viewModel.activityName)
                     .textFieldStyle(DefaultTextFieldStyle())
 
                 ButtonView(title: "Create",
-                           background: Color.pink) {
+                           background: Color.orange) {
                     
                     
                     if viewModel.canCreate {
@@ -51,7 +51,7 @@ struct NewActivityView: View {
                     .textFieldStyle(DefaultTextFieldStyle())
                 
                 ButtonView(title: "Join Group",
-                           background: Color.pink,
+                           background: Color.orange,
                            action: {
                     
                     if viewModel.canJoin {

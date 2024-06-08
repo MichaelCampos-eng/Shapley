@@ -31,20 +31,29 @@ class NewActivityViewModel: ObservableObject {
         
         
         let newId = UUID().uuidString
-        let activity = Activity(id: newId,
-                                title: activityName,
-                                createdDate: Date().timeIntervalSince1970,
-                                isDone: false)
+        let groupId = UUID().uuidString
+        
+        
+        let activityUser = UserActivity(admin: true, id: newId, groupId: groupId)
+        let activityContent = ContentActivity(id: newId, title: activityName, createdDate: Date().timeIntervalSince1970)
         
         let db = Firestore.firestore()
+        
+        // Save user metadata for a particular activity
         db.collection("users")
             .document(uId)
-            .collection("todos")
+            .collection("activities")
             .document(newId)
-            .setData(activity.asDictionary())
+            .setData(activityUser.asDictionary())
+        
+        // Save content metadata about activity
+        db.collection("content")
+            .document(newId)
+            .setData(activityContent.asDictionary())
         
     }
     
+    // TODO: complete join feature
     public func join() -> Void {
         
     }

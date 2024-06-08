@@ -31,7 +31,7 @@ struct SplitBillView: View {
                 }
             }
             .sheet(isPresented: $viewModel.showingNewItemView) {
-                NewItemView()
+//                NewItemView()
             }
         }
     }

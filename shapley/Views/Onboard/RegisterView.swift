@@ -14,10 +14,9 @@ struct RegisterView: View {
         VStack {
             // Header
             HeaderView(title: "Register",
-                       subtitle: "Start planning",
-                       angle: -15,
-                       background: Color.orange)
-            .padding()
+                       subtitle: "Start planning trips",
+                       angle: -15)
+            Spacer()
             
             Form {
                 TextField("Full Name", text: $viewModel.name)
@@ -33,11 +32,12 @@ struct RegisterView: View {
                     .textInputAutocapitalization(.never)
                 
                 ButtonView(title: "Create Account",
-                           background: Color.green,
+                           background: Color.orange,
                             action: { viewModel.register()
                 })
                 
             }
+            .scrollContentBackground(.hidden)
             Spacer()
         }
         

@@ -13,7 +13,6 @@ class MainViewModel: ObservableObject {
     @Published var currentUserId: String = ""
     private var handler: AuthStateDidChangeListenerHandle?
     
-    
     init() {
         self.handler = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             DispatchQueue.main.async {
@@ -23,8 +22,6 @@ class MainViewModel: ObservableObject {
                 } else {
                     self?.currentUserId = ""
                 }
-                
-
                 //self?.currentUserId = user?.uid ?? ""
             }
             
@@ -39,7 +36,6 @@ class MainViewModel: ObservableObject {
             } else {
                 self?.signOutUser()
             }
-            
         }
     }
     
@@ -51,7 +47,6 @@ class MainViewModel: ObservableObject {
             print("Error signing out; %@", signOutError)
         }
     }
-    
     
     public var isSignedIn: Bool {
         return Auth.auth().currentUser != nil

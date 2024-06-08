@@ -33,6 +33,7 @@ class LoginViewModel: ObservableObject {
         }
         
         
+        // TODO: Check for invalid emails not just syntaxically
         guard email.contains("@") && email.contains(".") else {
             self.errorMessage = "Invalid email."
             return false
