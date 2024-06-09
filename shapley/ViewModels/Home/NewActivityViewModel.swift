@@ -29,26 +29,34 @@ class NewActivityViewModel: ObservableObject {
             return
         }
         
+        let activityId = UUID().uuidString
+        let groupId = self.generateAlphanumericID(length: 8)
         
-        let newId = UUID().uuidString
-        let groupId = UUID().uuidString
-        
-        
-        let userActivity = UserActivity(admin: true,
-                                        id: newId,
-                                        groupId: self.groupId)
-        
-        let content = ContentActivity(id: newId,
-                                              title: self.activityName,
-                                              createdDate: Date().timeIntervalSince1970)
-        
-        let db = Firestore.firestore()
+        let userActivity = UserActivity(admin: true, id: activityId)
+        let content = ContentActivity(id: activityId,
+                                      title: self.activityName,
+                                      createdDate: Date().timeIntervalSince1970,
+                                      groupId: groupId)
         
         // Save user metadata for a particular activity
+        self.saveUserActivity(userActivity: userActivity)
+        
+        // Save content metadata about activity
+        self.saveContentActivity(content: content)
+    }
+    
+    
+    private func saveUserActivity(userActivity: UserActivity) -> Void {
+        
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let db = Firestore.firestore()
         db.collection("users")
-            .document(uId)
+            .document(userId)
             .collection("activities")
-            .document(newId)
+            .document(userActivity.id)
             .setData(userActivity.asDictionary(), completion: {error in
                 if let error = error {
                     print("Error saving user activity: \(error.localizedDescription)")
@@ -56,10 +64,12 @@ class NewActivityViewModel: ObservableObject {
                     print("Sucessfully saved user activity!")
                 }
             })
-        
-        // Save content metadata about activity
+    }
+    
+    private func saveContentActivity(content: ContentActivity) -> Void {
+        let db = Firestore.firestore()
         db.collection("activities")
-            .document(newId)
+            .document(content.id)
             .setData(content.asDictionary(), completion: {error in
                 if let error = error {
                     print("Error saving content activty: \(error.localizedDescription)")
@@ -67,11 +77,48 @@ class NewActivityViewModel: ObservableObject {
                     print("Successfully saved content activity!")
                 }
             })
-        
     }
+    
+    private func generateAlphanumericID(length: Int) -> String {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var result = ""
+        for _ in 0..<length {
+            let randomIndex = Int(arc4random_uniform(UInt32(characters.count)))
+            let randomCharacter = characters.index(characters.startIndex, offsetBy: randomIndex)
+            result.append(characters[randomCharacter])
+            print(result)
+        }
+        return result
+    }
+    
     
     // TODO: complete join feature
     public func join() -> Void {
+        
+        let db = Firestore.firestore()
+        let activities = db.collection("activities")
+
+        activities.whereField("groupId", isEqualTo: groupId).getDocuments{ [weak self] snapshot, error in
+            if let error = error {
+                print("Error getting documents: \(error.localizedDescription)")
+            } else if let snapshot = snapshot {
+                
+                if snapshot.documents.isEmpty {
+                    self?.alertMessage = "Invalid Group Id"
+                }
+                
+                for document in snapshot.documents {
+                    do {
+                        let activityId = try document.data(as: ContentActivity.self).id
+                        let userActivity = UserActivity(admin: false, id: activityId)
+                        self?.saveUserActivity(userActivity: userActivity)
+                        
+                    } catch {
+                        print("Error decoding document: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
         
     }
     

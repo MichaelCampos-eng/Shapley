@@ -16,7 +16,10 @@ struct ActivityView: View {
     
     var body: some View {
         HStack {
-            NavigationLink(destination: TripExpensesView(userId: metadata.userId, activityId: metadata.id)) {
+            
+            // TripExpensesView(userId: metadata.userId, activityId: metadata.id)
+            
+            NavigationLink(destination: TripExpensesView()) {
                 VStack(alignment: .leading) {
                     Text(metadata.title)
                         .font(.body)

@@ -10,10 +10,9 @@ import Foundation
 struct UserActivity: Codable, Identifiable {
     let admin: Bool
     let id: String
-    var groupId: String
     
     // TODO: Use below as template for
-    mutating func changeGroupId(_ state: String) {
-        groupId = state
-    }
+//    mutating func changeAccess(_ state: Bool) {
+//        access = state
+//    }
 }
