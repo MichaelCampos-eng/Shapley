@@ -12,6 +12,7 @@
 		C78BB7092C0D2A69007D66E0 /* TripUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7082C0D2A69007D66E0 /* TripUser.swift */; };
 		C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */; };
 		C78BB70F2C13B412007D66E0 /* MetaActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB70E2C13B412007D66E0 /* MetaActivity.swift */; };
+		C78BB7112C178DAB007D66E0 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7102C178DAB007D66E0 /* ActivityViewModel.swift */; };
 		C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */; };
 		C7BFFF1F2BFEC25A00FEE015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */; };
 		C7BFFF222BFEC25A00FEE015 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF212BFEC25A00FEE015 /* Preview Assets.xcassets */; };
@@ -54,6 +55,7 @@
 		C78BB7082C0D2A69007D66E0 /* TripUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripUser.swift; sourceTree = "<group>"; };
 		C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentActivity.swift; sourceTree = "<group>"; };
 		C78BB70E2C13B412007D66E0 /* MetaActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaActivity.swift; sourceTree = "<group>"; };
+		C78BB7102C178DAB007D66E0 /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		C7BFFF172BFEC25800FEE015 /* shapley.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shapley.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shapleyApp.swift; sourceTree = "<group>"; };
 		C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			children = (
 				C7DC6B102C06AD970020C788 /* ActivitiesViewModel.swift */,
 				C7DC6B142C06B0330020C788 /* NewActivityViewModel.swift */,
+				C78BB7102C178DAB007D66E0 /* ActivityViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
 				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,
 				C7DC6B072C03AF7D0020C788 /* VendueView.swift in Sources */,
+				C78BB7112C178DAB007D66E0 /* ActivityViewModel.swift in Sources */,
 				C7BFFF512BFECB6C00FEE015 /* MainViewModel.swift in Sources */,
 				C7DC6B132C06AE190020C788 /* NewActivityView.swift in Sources */,
 				C7BFFF632C000A8F00FEE015 /* Encodable.swift in Sources */,

@@ -10,6 +10,5 @@ import Foundation
 struct MetaActivity: Codable, Identifiable {
     let userId: String
     let id: String
-    let title: String
     let createdDate: TimeInterval
 }

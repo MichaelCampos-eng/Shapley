@@ -5,39 +5,76 @@
 //  Created by Michael Campos on 5/22/24.
 //
 
+import FirebaseFirestore
 import SwiftUI
 
 struct ActivityView: View {
-    let metadata: MetaActivity
+    @StateObject var viewModel: ActivityViewModel
+    @State private var isEditing = false
+    @State private var editedTitle = ""
+    
+    @FirestoreQuery var userActivity: [UserActivity]
+    @FirestoreQuery var content: [ContentActivity]
     
     init(metadata: MetaActivity) {
-        self.metadata = metadata
+        
+        self._userActivity = FirestoreQuery(
+            collectionPath: "users/\(metadata.userId)/activities",
+            predicates: [.where("id", isEqualTo: metadata.id)])
+        
+        self._content = FirestoreQuery(
+            collectionPath: "activities",
+            predicates: [.where("id", isEqualTo: metadata.id)])
+        
+        self._viewModel = StateObject(
+            wrappedValue: ActivityViewModel(userId: metadata.userId))
     }
     
     var body: some View {
-        HStack {
-            
-            // TripExpensesView(userId: metadata.userId, activityId: metadata.id)
-            
-            NavigationLink(destination: TripExpensesView()) {
-                VStack(alignment: .leading) {
-                    Text(metadata.title)
-                        .font(.body)
-                        .bold()
-                    Text("\(Date(timeIntervalSince1970: metadata.createdDate).formatted(date: .abbreviated, time: .shortened))")
-                        .font(.footnote)
-                        .foregroundStyle(Color(.secondaryLabel))
+        
+        if viewModel.validate(user: userActivity, content: content) {
+            HStack {
+                if isEditing {
+                    TextField("Activity Title", text: $editedTitle, onCommit: {
+                        viewModel.updateTitle(name: editedTitle)
+                        isEditing = false
+                    })
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                } else {
+                    NavigationLink(destination: TripExpensesView(userId: viewModel.getUserId(),
+                                                                 activityId: content.first!.id)) {
+                        VStack(alignment: .leading) {
+                            Text(content.first!.title)
+                                .font(.body)
+                                .bold()
+                            Text("\(Date(timeIntervalSince1970: content.first!.createdDate).formatted(date: .abbreviated, time: .shortened))")
+                                .font(.footnote)
+                                .foregroundStyle(Color(.secondaryLabel))
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    Spacer()
                 }
             }
-            .buttonStyle(PlainButtonStyle())
-            Spacer()
+            .swipeActions {
+                if viewModel.isAdmin() {
+                    Button("Edit") {
+                        isEditing = true
+                    }
+                    .tint(Color.blue)
+                }
+                
+                Button("Delete") {
+                    viewModel.delete()
+                }
+                .tint(Color.red)
+            }
         }
     }
 }
 
 #Preview {
-    ActivityView(metadata: MetaActivity(userId: "example", 
+    ActivityView(metadata: MetaActivity(userId: "example",
                                         id: "123",
-                                        title: "testing",
                                         createdDate: Date().timeIntervalSince1970))
 }

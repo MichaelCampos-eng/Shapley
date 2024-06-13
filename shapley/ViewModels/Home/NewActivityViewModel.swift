@@ -25,32 +25,28 @@ class NewActivityViewModel: ObservableObject {
             return
         }
         
-        guard let uId = Auth.auth().currentUser?.uid else {
+        guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
         
         let activityId = UUID().uuidString
         let groupId = self.generateAlphanumericID(length: 8)
         
-        let userActivity = UserActivity(admin: true, id: activityId)
+        let userActivity = UserActivity(isAdmin: true, id: activityId)
         let content = ContentActivity(id: activityId,
-                                      title: self.activityName,
                                       createdDate: Date().timeIntervalSince1970,
+                                      title: self.activityName,
                                       groupId: groupId)
         
         // Save user metadata for a particular activity
-        self.saveUserActivity(userActivity: userActivity)
+        self.saveUserActivity(userId: userId, userActivity: userActivity)
         
         // Save content metadata about activity
         self.saveContentActivity(content: content)
     }
     
     
-    private func saveUserActivity(userActivity: UserActivity) -> Void {
-        
-        guard let userId = Auth.auth().currentUser?.uid else {
-            return
-        }
+    private func saveUserActivity(userId: String, userActivity: UserActivity) -> Void {
         
         let db = Firestore.firestore()
         db.collection("users")
@@ -86,7 +82,6 @@ class NewActivityViewModel: ObservableObject {
             let randomIndex = Int(arc4random_uniform(UInt32(characters.count)))
             let randomCharacter = characters.index(characters.startIndex, offsetBy: randomIndex)
             result.append(characters[randomCharacter])
-            print(result)
         }
         return result
     }
@@ -109,9 +104,13 @@ class NewActivityViewModel: ObservableObject {
                 
                 for document in snapshot.documents {
                     do {
+                        guard let userId = Auth.auth().currentUser?.uid else {
+                            return
+                        }
+                        
                         let activityId = try document.data(as: ContentActivity.self).id
-                        let userActivity = UserActivity(admin: false, id: activityId)
-                        self?.saveUserActivity(userActivity: userActivity)
+                        let userActivity = UserActivity(isAdmin: false, id: activityId)
+                        self?.saveUserActivity(userId: userId, userActivity: userActivity)
                         
                     } catch {
                         print("Error decoding document: \(error.localizedDescription)")

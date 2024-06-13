@@ -22,20 +22,7 @@ struct ActivitiesView: View {
         NavigationView {
             VStack {
                 List(viewModel.metadata) { item in
-                
-                    
-                    // TODO: With ActivityUser, use the activity id to access shared data
                     ActivityView(metadata: item)
-                        .swipeActions {
-                            Button("Edit") {
-                                // TODO: Add some function to edit
-                            }
-                            .tint(Color.blue)
-                            Button("Delete") {
-                                viewModel.delete(id: item.id)
-                            }
-                            .tint(Color.red)
-                        }
                 }
                 .listStyle(PlainListStyle())
             }

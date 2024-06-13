@@ -7,12 +7,7 @@
 
 import Foundation
 
-struct UserActivity: Codable, Identifiable {
-    let admin: Bool
+struct UserActivity: Codable, Identifiable, Equatable {
+    let isAdmin: Bool
     let id: String
-    
-    // TODO: Use below as template for
-//    mutating func changeAccess(_ state: Bool) {
-//        access = state
-//    }
 }
