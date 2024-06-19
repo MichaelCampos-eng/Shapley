@@ -44,5 +44,5 @@ struct ActivitiesView: View {
 }
 
 #Preview {
-    ActivitiesView(userId: "10b8fa78neXKKsaGdiZvbnzDCN62")
+    ActivitiesView(userId: "mKDySPyahSVrtLMjvALFxleBRm52")
 }

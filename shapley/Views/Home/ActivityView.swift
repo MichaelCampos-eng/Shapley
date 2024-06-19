@@ -42,12 +42,12 @@ struct ActivityView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 } else {
                     NavigationLink(destination: TripExpensesView(userId: viewModel.getUserId(),
-                                                                 activityId: content.first!.id)) {
+                                                                 activityId: viewModel.getContentId())) {
                         VStack(alignment: .leading) {
-                            Text(content.first!.title)
+                            Text(viewModel.getTitle())
                                 .font(.body)
                                 .bold()
-                            Text("\(Date(timeIntervalSince1970: content.first!.createdDate).formatted(date: .abbreviated, time: .shortened))")
+                            Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
                                 .font(.footnote)
                                 .foregroundStyle(Color(.secondaryLabel))
                         }

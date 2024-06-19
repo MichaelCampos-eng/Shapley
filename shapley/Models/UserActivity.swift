@@ -8,6 +8,12 @@
 import Foundation
 
 struct UserActivity: Codable, Identifiable, Equatable {
-    let isAdmin: Bool
     let id: String
+    let isAdmin: Bool
+    var tempName: String
+    
+    mutating func changeTempName(_ state: String) {
+        tempName = state
+    }
+    
 }

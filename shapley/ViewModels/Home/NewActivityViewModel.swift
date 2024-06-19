@@ -13,10 +13,12 @@ class NewActivityViewModel: ObservableObject {
     @Published var groupId = ""
     @Published var activityName = ""
     @Published var showAlert = false
+    
+    private var user: User?
     var alertMessage = ""
     
     init() {
-        
+        self.fetchUser()
     }
     
     public func create() -> Void {
@@ -25,24 +27,40 @@ class NewActivityViewModel: ObservableObject {
             return
         }
         
-        guard let userId = Auth.auth().currentUser?.uid else {
+        guard let currentUser = self.user else {
             return
         }
         
         let activityId = UUID().uuidString
         let groupId = self.generateAlphanumericID(length: 8)
         
-        let userActivity = UserActivity(isAdmin: true, id: activityId)
+        let userActivity = UserActivity(id: activityId, isAdmin: true, tempName: currentUser.name)
         let content = ContentActivity(id: activityId,
                                       createdDate: Date().timeIntervalSince1970,
                                       title: self.activityName,
-                                      groupId: groupId)
+                                      groupId: groupId,
+                                      validUsers: [currentUser.id])
         
         // Save user metadata for a particular activity
-        self.saveUserActivity(userId: userId, userActivity: userActivity)
+        self.saveUserActivity(userId: currentUser.id, userActivity: userActivity)
         
         // Save content metadata about activity
         self.saveContentActivity(content: content)
+    }
+    
+    private func fetchUser() {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let db = Firestore.firestore()
+        db.collection("users").document(userId).addSnapshotListener{ [weak self] snapshot, error in
+            guard let snapshot = snapshot else {
+                print("User does not exist.")
+                return
+            }
+            self?.user = try? snapshot.data(as: User.self)
+        }
     }
     
     
@@ -86,8 +104,6 @@ class NewActivityViewModel: ObservableObject {
         return result
     }
     
-    
-    // TODO: complete join feature
     public func join() -> Void {
         
         let db = Firestore.firestore()
@@ -104,13 +120,21 @@ class NewActivityViewModel: ObservableObject {
                 
                 for document in snapshot.documents {
                     do {
-                        guard let userId = Auth.auth().currentUser?.uid else {
+                        guard let currentUser = self?.user else {
                             return
                         }
                         
-                        let activityId = try document.data(as: ContentActivity.self).id
-                        let userActivity = UserActivity(isAdmin: false, id: activityId)
-                        self?.saveUserActivity(userId: userId, userActivity: userActivity)
+                        var activity = try document.data(as: ContentActivity.self)
+                        let validUsers = activity.validUsers
+                        
+                        if !validUsers.contains(currentUser.id) {
+                            activity.addUser(currentUser.id)
+                            document.reference.setData(activity.asDictionary())
+                        }
+                        
+                        let activityId = activity.id
+                        let userActivity = UserActivity(id: activityId, isAdmin: false, tempName: currentUser.name)
+                        self?.saveUserActivity(userId: currentUser.id, userActivity: userActivity)
                         
                     } catch {
                         print("Error decoding document: \(error.localizedDescription)")

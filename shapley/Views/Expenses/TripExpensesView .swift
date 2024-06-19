@@ -10,18 +10,44 @@ import SwiftUI
 
 struct TripExpensesView: View {
     @StateObject var viewModel: TripExpensesViewModel
-    @FirestoreQuery var items: [TripUser]
     
     init(userId: String, activityId: String) {
-        
-        self._items = FirestoreQuery(
-        collectionPath: "users/\(userId)/activities/\(activityId)/trips")
-        
-        self._viewModel = StateObject(wrappedValue: TripExpensesViewModel(activityId: activityId))
+        self._viewModel = StateObject(wrappedValue: TripExpensesViewModel(userId: userId, activityId: activityId))
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            VStack {
+                List(viewModel.trips) { item in
+                    TripView()
+                }
+                .listStyle(PlainListStyle())
+            }
+            .navigationTitle("Expenses")
+            .toolbar {
+                Button {
+                    // Action
+                    viewModel.showingManageGroup = true
+                } label: {
+                    Image(systemName: "person.3")
+                        .foregroundStyle(.orange)
+                }
+                Button {
+                    // Action
+                    viewModel.showingNewTrip = true
+                } label: {
+                    Image(systemName: "plus")
+                        .foregroundColor(.orange)
+                }
+                
+            }
+            .sheet(isPresented: $viewModel.showingNewTrip, content: {
+                NewTripView(newTripPresented: $viewModel.showingNewTrip)
+            })
+            .fullScreenCover(isPresented: $viewModel.showingManageGroup) {
+                ManageGroupView(presented: $viewModel.showingManageGroup, activityId: viewModel.getActivityId())
+            }
+        }
     }
 }
 

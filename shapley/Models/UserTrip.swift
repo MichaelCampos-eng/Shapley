@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TripUser: Codable {
+struct UserTrip: Codable, Identifiable {
     let id: String
     let owner: Bool
 }

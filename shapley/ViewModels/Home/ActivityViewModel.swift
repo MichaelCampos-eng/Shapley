@@ -22,14 +22,27 @@ class ActivityViewModel: ObservableObject {
         return self.userId
     }
     
+    func getContentId() -> String {
+        return self.content.first!.id
+    }
+    
     func isAdmin() -> Bool {
         return user.first!.isAdmin
+    }
+    
+    func getTitle() -> String {
+        return content.first!.title
+    }
+    
+    func getCreatedDate() -> TimeInterval {
+        return content.first!.createdDate
     }
  
     func validate(user: [UserActivity], content: [ContentActivity]) -> Bool {
         guard user.count == 1, content.count == 1 else {
             return false
         }
+        // Update user and content attribtutes
         self.user = user
         self.content = content 
         return true

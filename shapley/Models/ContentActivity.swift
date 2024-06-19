@@ -12,8 +12,16 @@ struct ContentActivity: Codable, Identifiable, Equatable {
     let createdDate: TimeInterval
     var title: String
     var groupId: String
+    var validUsers: [String]
     
-    // TODO: Use below as template for
+    mutating func addUser(_ state: String) {
+        validUsers.append(state)
+    }
+    
+    mutating func removeUser(_ state: String) {
+        validUsers =  validUsers.filter { $0 != state}
+    }
+
     mutating func changeGroupId(_ state: String) {
         groupId = state
     }
@@ -21,7 +29,5 @@ struct ContentActivity: Codable, Identifiable, Equatable {
     mutating func changeTitle(_ state: String) {
         title = state
     }
-    
-    // TODO: Add a a list of users who have list to this document
 }
 
