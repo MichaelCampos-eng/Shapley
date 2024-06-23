@@ -13,9 +13,10 @@ struct ManageUserView: View {
     @State private var isEditing = false
     @State private var editedName = ""
     
-    
-    init(userId: String, activityId: String) {
-        self._viewModel = StateObject(wrappedValue: ManageUserViewModel(user: userId, activity: activityId))
+    init(userId: String, activityId: String, completion: @escaping (String, String) -> Void) {
+        self._viewModel = StateObject(wrappedValue: ManageUserViewModel(user: userId,
+                                                                        activity: activityId,
+                                                                        update: completion))
     }
     
     var body: some View {
@@ -60,5 +61,7 @@ struct ManageUserView: View {
 
 #Preview {
     ManageUserView(userId: "mKDySPyahSVrtLMjvALFxleBRm52",
-             activityId: "6DE21F32-FBD8-4F26-94AC-5FA8B5EC1A5B")
+                   activityId: "6DE21F32-FBD8-4F26-94AC-5FA8B5EC1A5B") {a, b in
+        print(a)
+    }
 }

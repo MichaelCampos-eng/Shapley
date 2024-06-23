@@ -19,17 +19,21 @@ class ManageUserViewModel: ObservableObject {
     @Published private var userMeta: ManageUser?
     @Published private var userCurrent: UserActivity?
     
+    private var completion: (String, String) -> Void
     private let userId: String
     private let activityId: String
     private var cancellables = Set<AnyCancellable>()
     
-    init(user: String, activity: String) {
+    init(user: String, activity: String, update: @escaping (String, String) -> Void) {
         self.userId = user
         self.activityId = activity
+        self.completion = update
         
         self.fetchUserInfo()
         self.fetchUserActivity()
         self.fetchUserMeta()
+        
+        self.storeIdName()
         
         self.fetchCurrentAdmin()
         self.fetchIsRemovable()
@@ -136,6 +140,10 @@ class ManageUserViewModel: ObservableObject {
         }
     }
     
+    public func getId() -> String {
+        return self.userId
+    }
+    
     public func getName() -> String {
         if let meta = userMeta {
             if meta.isAdmin {
@@ -182,7 +190,20 @@ class ManageUserViewModel: ObservableObject {
             self?.userActivity = try? snapshot.data(as: UserActivity.self)
         }
     }
-        
+    
+    private func storeIdName() {
+        $userActivity
+            .sink { [weak self] activity in
+                guard let id = self?.userId else {
+                    return
+                }
+                guard let name = activity?.tempName else {
+                    return
+                }
+                self?.completion(id, name)
+            }
+            .store(in: &cancellables)
+    }
         
     private func fetchUserMeta() {
         Publishers.CombineLatest($userInfo, $userActivity)

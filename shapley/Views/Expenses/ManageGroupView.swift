@@ -8,27 +8,31 @@
 import SwiftUI
 
 struct ManageGroupView: View {
-    
-    @Binding var groupViewPresented: Bool
     @StateObject var viewModel: ManageGroupViewModel
-        
+    @Binding var groupViewPresented: Bool
+    
+    // May have to remove the following
+    @State var isSearching: Bool = false
+    
     init(presented: Binding<Bool>, activityId: String) {
         self._groupViewPresented = presented
         self._viewModel = StateObject(wrappedValue: ManageGroupViewModel(activityId: activityId))
     }
     
     var body: some View {
-            VStack {
-                List(viewModel.validUsers, id: \.self) { item in
-                    ManageUserView(userId: item, activityId: viewModel.getActivityId())
+        NavigationStack {
+            List(viewModel.results, id: \.self) { item in
+                ManageUserView(userId: item, activityId: viewModel.getActivityId()) {userName, uId in
+                    viewModel.users[userName] = uId
                 }
-                .listStyle(PlainListStyle())
-                Button("Dismiss") {
-                    groupViewPresented = false
-                }
-                Spacer()
+            }
+            .searchable(text: $viewModel.search, prompt: "Look for user")
+            .listStyle(PlainListStyle())
+            Button("Dismiss") {
+                groupViewPresented = false
             }
         }
+    }
 }
 
 #Preview {
