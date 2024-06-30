@@ -29,7 +29,7 @@ struct ListView: View {
                 }
                 
             
-                NavigationLink(destination: SplitBillView(userId: self.userId), label: {SelectView(title: "Split Bill", background: Color.indigo, angle: 10, width: 10000)})
+                NavigationLink(destination: SplitBillView(), label: {SelectView(title: "Split Bill", background: Color.indigo, angle: 10, width: 10000)})
                 
            
                 

@@ -9,11 +9,6 @@ import SwiftUI
 
 struct SplitBillView: View {
     @StateObject var viewModel = SplitBillModel()
-    private let userId: String
-    
-    init (userId: String) {
-        self.userId = userId
-    }
     
     
     var body: some View {
@@ -38,5 +33,5 @@ struct SplitBillView: View {
 }
 
 #Preview {
-    SplitBillView(userId: "Example")
+    SplitBillView()
 }

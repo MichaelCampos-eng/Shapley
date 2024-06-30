@@ -22,6 +22,18 @@
 		C78BB71F2C213DD9007D66E0 /* ManageUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB71E2C213DD8007D66E0 /* ManageUserView.swift */; };
 		C78BB7212C220152007D66E0 /* ManageUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7202C220152007D66E0 /* ManageUserViewModel.swift */; };
 		C78BB7232C22055B007D66E0 /* ManageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7222C22055B007D66E0 /* ManageUser.swift */; };
+		C78BB7252C29E87E007D66E0 /* SelectSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7242C29E87E007D66E0 /* SelectSliderView.swift */; };
+		C78BB7272C29FA66007D66E0 /* SplitBillSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */; };
+		C78BB7292C29FA80007D66E0 /* SplitGasSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7282C29FA80007D66E0 /* SplitGasSetupView.swift */; };
+		C78BB72B2C29FA90007D66E0 /* VendueSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72A2C29FA90007D66E0 /* VendueSetupView.swift */; };
+		C78BB72D2C29FCD1007D66E0 /* NewTripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72C2C29FCD1007D66E0 /* NewTripViewModel.swift */; };
+		C78BB7302C2A064D007D66E0 /* SplitBillSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */; };
+		C78BB7322C2A0CC3007D66E0 /* Sale.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7312C2A0CC3007D66E0 /* Sale.swift */; };
+		C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7332C2B282D007D66E0 /* SaleView.swift */; };
+		C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */; };
+		C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */; };
+		C78BB73B2C2D0E67007D66E0 /* SaleSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */; };
+		C78BB73D2C2D1C57007D66E0 /* SaleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB73C2C2D1C57007D66E0 /* SaleViewModel.swift */; };
 		C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */; };
 		C7BFFF1F2BFEC25A00FEE015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */; };
 		C7BFFF222BFEC25A00FEE015 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF212BFEC25A00FEE015 /* Preview Assets.xcassets */; };
@@ -74,6 +86,18 @@
 		C78BB71E2C213DD8007D66E0 /* ManageUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUserView.swift; sourceTree = "<group>"; };
 		C78BB7202C220152007D66E0 /* ManageUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUserViewModel.swift; sourceTree = "<group>"; };
 		C78BB7222C22055B007D66E0 /* ManageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUser.swift; sourceTree = "<group>"; };
+		C78BB7242C29E87E007D66E0 /* SelectSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSliderView.swift; sourceTree = "<group>"; };
+		C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillSetupView.swift; sourceTree = "<group>"; };
+		C78BB7282C29FA80007D66E0 /* SplitGasSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGasSetupView.swift; sourceTree = "<group>"; };
+		C78BB72A2C29FA90007D66E0 /* VendueSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendueSetupView.swift; sourceTree = "<group>"; };
+		C78BB72C2C29FCD1007D66E0 /* NewTripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripViewModel.swift; sourceTree = "<group>"; };
+		C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillSetupModel.swift; sourceTree = "<group>"; };
+		C78BB7312C2A0CC3007D66E0 /* Sale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sale.swift; sourceTree = "<group>"; };
+		C78BB7332C2B282D007D66E0 /* SaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleView.swift; sourceTree = "<group>"; };
+		C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
+		C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryView.swift; sourceTree = "<group>"; };
+		C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryViewModel.swift; sourceTree = "<group>"; };
+		C78BB73C2C2D1C57007D66E0 /* SaleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleViewModel.swift; sourceTree = "<group>"; };
 		C7BFFF172BFEC25800FEE015 /* shapley.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shapley.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shapleyApp.swift; sourceTree = "<group>"; };
 		C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -136,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				C7DC6B022C03AF680020C788 /* SplitGasView.swift */,
+				C78BB7282C29FA80007D66E0 /* SplitGasSetupView.swift */,
 			);
 			path = Gas;
 			sourceTree = "<group>";
@@ -167,6 +192,10 @@
 			isa = PBXGroup;
 			children = (
 				C7DC6B042C03AF6F0020C788 /* SplitBillView.swift */,
+				C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */,
+				C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */,
+				C78BB7332C2B282D007D66E0 /* SaleView.swift */,
+				C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */,
 			);
 			path = Bill;
 			sourceTree = "<group>";
@@ -175,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				C7DC6B062C03AF7C0020C788 /* VendueView.swift */,
+				C78BB72A2C29FA90007D66E0 /* VendueSetupView.swift */,
 			);
 			path = Vendue;
 			sourceTree = "<group>";
@@ -205,6 +235,7 @@
 				C7DC6B082C03B6D00020C788 /* SplitGasModel.swift */,
 				C7DC6B0A2C03B6D90020C788 /* SplitBillModel.swift */,
 				C7DC6B0C2C03B6E00020C788 /* VendueModel.swift */,
+				C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -215,6 +246,7 @@
 				C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */,
 				C78BB7162C1CCE0B007D66E0 /* TripView.swift */,
 				C78BB7182C1CD2F6007D66E0 /* NewTripView.swift */,
+				C78BB7242C29E87E007D66E0 /* SelectSliderView.swift */,
 				C78BB71A2C1D4762007D66E0 /* ManageGroupView.swift */,
 				C78BB71E2C213DD8007D66E0 /* ManageUserView.swift */,
 			);
@@ -227,8 +259,18 @@
 				C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */,
 				C78BB71C2C1E1C03007D66E0 /* ManageGroupViewModel.swift */,
 				C78BB7202C220152007D66E0 /* ManageUserViewModel.swift */,
+				C78BB72C2C29FCD1007D66E0 /* NewTripViewModel.swift */,
 			);
 			path = Expenses;
+			sourceTree = "<group>";
+		};
+		C78BB7392C2D0E54007D66E0 /* Bill */ = {
+			isa = PBXGroup;
+			children = (
+				C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */,
+				C78BB73C2C2D1C57007D66E0 /* SaleViewModel.swift */,
+			);
+			path = Bill;
 			sourceTree = "<group>";
 		};
 		C7BFFF0E2BFEC25800FEE015 = {
@@ -295,6 +337,7 @@
 		C7BFFF3A2BFEC78000FEE015 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				C78BB7392C2D0E54007D66E0 /* Bill */,
 				C78BB7052C0D2905007D66E0 /* Expenses */,
 				C710B03C2C0AA18D00816F48 /* Onboard */,
 				C710B0372C0A9E6C00816F48 /* Home */,
@@ -315,6 +358,7 @@
 				C78BB7142C1B71D9007D66E0 /* MetaTrip.swift */,
 				C78BB7122C1B6B8E007D66E0 /* ContentTrip.swift */,
 				C78BB7222C22055B007D66E0 /* ManageUser.swift */,
+				C78BB7312C2A0CC3007D66E0 /* Sale.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -400,22 +444,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DC6B052C03AF6F0020C788 /* SplitBillView.swift in Sources */,
+				C78BB7252C29E87E007D66E0 /* SelectSliderView.swift in Sources */,
+				C78BB7272C29FA66007D66E0 /* SplitBillSetupView.swift in Sources */,
 				C7BFFF4F2BFECB5300FEE015 /* UserActivity.swift in Sources */,
 				C78BB71D2C1E1C03007D66E0 /* ManageGroupViewModel.swift in Sources */,
+				C78BB7302C2A064D007D66E0 /* SplitBillSetupModel.swift in Sources */,
 				C7DC6B092C03B6D00020C788 /* SplitGasModel.swift in Sources */,
+				C78BB73B2C2D0E67007D66E0 /* SaleSummaryViewModel.swift in Sources */,
+				C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */,
 				C7BFFF5F2BFEDC3800FEE015 /* HeaderView.swift in Sources */,
 				C7DC6AFD2C02973E0020C788 /* SelectView.swift in Sources */,
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
 				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
+				C78BB7292C29FA80007D66E0 /* SplitGasSetupView.swift in Sources */,
 				C7BFFF5B2BFECBAD00FEE015 /* RegisterViewModel.swift in Sources */,
+				C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */,
 				C78BB7192C1CD2F6007D66E0 /* NewTripView.swift in Sources */,
 				C7BFFF3D2BFEC80400FEE015 /* MainView.swift in Sources */,
+				C78BB72D2C29FCD1007D66E0 /* NewTripViewModel.swift in Sources */,
 				C7BFFF4B2BFECB1000FEE015 /* ActivityView.swift in Sources */,
 				C7DC6B0D2C03B6E00020C788 /* VendueModel.swift in Sources */,
 				C78BB7132C1B6B8E007D66E0 /* ContentTrip.swift in Sources */,
 				C7BFFF492BFECABE00FEE015 /* RegisterView.swift in Sources */,
 				C78BB7232C22055B007D66E0 /* ManageUser.swift in Sources */,
 				C7BFFF532BFECB8400FEE015 /* ProfileViewModel.swift in Sources */,
+				C78BB73D2C2D1C57007D66E0 /* SaleViewModel.swift in Sources */,
 				C7DC6B0B2C03B6D90020C788 /* SplitBillModel.swift in Sources */,
 				C78BB7152C1B71D9007D66E0 /* MetaTrip.swift in Sources */,
 				C7BFFF592BFECBA600FEE015 /* LoginViewModel.swift in Sources */,
@@ -433,11 +486,14 @@
 				C7DC6B032C03AF680020C788 /* SplitGasView.swift in Sources */,
 				C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */,
 				C78BB7172C1CCE0B007D66E0 /* TripView.swift in Sources */,
+				C78BB7322C2A0CC3007D66E0 /* Sale.swift in Sources */,
 				C7BFFF612BFFA39000FEE015 /* ButtonView.swift in Sources */,
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
 				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,
 				C7DC6B072C03AF7D0020C788 /* VendueView.swift in Sources */,
+				C78BB72B2C29FA90007D66E0 /* VendueSetupView.swift in Sources */,
 				C78BB7112C178DAB007D66E0 /* ActivityViewModel.swift in Sources */,
+				C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */,
 				C7BFFF512BFECB6C00FEE015 /* MainViewModel.swift in Sources */,
 				C7DC6B132C06AE190020C788 /* NewActivityView.swift in Sources */,
 				C7BFFF632C000A8F00FEE015 /* Encodable.swift in Sources */,

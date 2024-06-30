@@ -42,7 +42,7 @@ struct TripExpensesView: View {
                 
             }
             .sheet(isPresented: $viewModel.showingNewTrip, content: {
-                NewTripView(newTripPresented: $viewModel.showingNewTrip)
+                NewTripView(activityId: viewModel.getActivityId(), newTripPresented: $viewModel.showingNewTrip)
             })
             .fullScreenCover(isPresented: $viewModel.showingManageGroup) {
                 ManageGroupView(presented: $viewModel.showingManageGroup, activityId: viewModel.getActivityId())

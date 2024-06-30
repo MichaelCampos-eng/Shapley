@@ -20,12 +20,12 @@ struct ActivitiesView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                List(viewModel.metadata) { item in
-                    ActivityView(metadata: item)
-                }
-                .listStyle(PlainListStyle())
+            
+            List(viewModel.metadata) { item in
+                ActivityView(metadata: item)
             }
+            .listStyle(PlainListStyle())
+        
             .navigationTitle("Activities")
             .toolbar {
                 Button {

@@ -74,7 +74,7 @@ struct ActivityView: View {
 }
 
 #Preview {
-    ActivityView(metadata: MetaActivity(userId: "example",
-                                        id: "123",
+    ActivityView(metadata: MetaActivity(userId: "mKDySPyahSVrtLMjvALFxleBRm52",
+                                        id: "6DE21F32-FBD8-4F26-94AC-5FA8B5EC1A5B",
                                         createdDate: Date().timeIntervalSince1970))
 }
