@@ -13,6 +13,7 @@ struct SaleSummaryView: View {
     @StateObject var viewModel: SaleSummaryViewModel
     
     @Binding var subtotal: Double
+    @State var subtotalToString: String = "0.00"
     @State var tax: String = ""
     @State var total: String = "0.00"
     
@@ -24,10 +25,9 @@ struct SaleSummaryView: View {
     
     var body: some View {
         VStack(alignment: .trailing) {
-            HStack{ Text("Subtotal: \(subtotal)")
+            HStack{ Text("Subtotal: \(subtotalToString)")
                     .onReceive(Just(subtotal), perform: { newValue in
-                        subtotal = atof(self.filterToDecimal(String(newValue)))
-                        print(subtotal)
+                        subtotalToString = self.filterToDecimal(String(newValue)) 
                     })
             }
             HStack{
@@ -48,22 +48,21 @@ struct SaleSummaryView: View {
     private func filterToDecimal(_ value: String) -> String {
      
             var filtered = value.filter { "0123456789".contains($0) }
-            filtered = filtered.trimmingCharacters(in: CharacterSet(charactersIn: "0"))
-            if filtered.count > 5 {
-                filtered = String(filtered.prefix(5))
+            
+            while filtered.hasPrefix("0") {
+                filtered.removeFirst()
             }
-            if filtered.count >= 3 {
-                let index = filtered.index(filtered.endIndex, offsetBy: -2)
-                filtered.insert(".", at: index)
-            } else if filtered.count == 2 {
-                filtered = String(repeating: "0", count: 1) + "." +  filtered
-            } else if filtered.count == 1 {
-                filtered = String(repeating: "0", count: 2) + "." +  filtered
+            let num = filtered.count
+            let nec = 3 - num
+            if nec > 0 {
+                filtered = String(repeating: "0", count: nec) + filtered
             }
+            let index = filtered.index(filtered.endIndex, offsetBy: -2)
+            filtered.insert(".", at: index)
             return filtered
         }
 }
 
 #Preview {
-    SaleSummaryView(amount: Binding<Double> (get: {0.0}, set: {_ in }))
+    SaleSummaryView(amount: Binding<Double> (get: {0.00}, set: {_ in }))
 }

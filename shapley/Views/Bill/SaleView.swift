@@ -9,65 +9,80 @@ import SwiftUI
 import Combine
 
 struct SaleView: View {
+    @ObservedObject var viewModel: SplitBillSetupModel
+    @State private var name: String = ""
+    @State private var quantity: String = ""
+    @State private var price: String = ""
     
-    @StateObject var viewModel: SaleViewModel
-    private var deleteAction: (String) -> Void
+    private let saleId: String
     
-    init(saleId: String,
-         delete: @escaping (String) -> Void,
-         update: @escaping (String, Sale) -> Void,
-         fetch: @escaping (String) -> Sale) {
-        
-        self._viewModel = StateObject(wrappedValue: SaleViewModel(saleId: saleId,
-                                                                  fetch: fetch,
-                                                                  update: update))
-        self.deleteAction = delete
+    init(entry: Sale, givenModel: SplitBillSetupModel) {
+        self.viewModel = givenModel
+        self.saleId = entry.id
     }
-    
-    
+
     var body: some View {
-        
-        HStack {
-            TextField("Item Name", text: $viewModel.name)
-                .fixedSize(horizontal: true, vertical: false)
-            
-            Picker("Quantity", selection: $viewModel.quantity) {
-                ForEach(0...100, id: \.self) { number in
-                    Text("\(number)")
+                HStack {
+                    TextField("Item Name", text: $name, onEditingChanged: { _ in
+                        viewModel.updateEntry(sale: Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                    })
+                    .onReceive(Just(name), perform: { _ in
+                        name = self.limitText(name, 15)
+                    })
+                    TextField("Quantity", text: $quantity, onEditingChanged: { _ in
+                        viewModel.updateEntry(sale: Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                    })
+                        .keyboardType(.numberPad)
+                    TextField("Price", text: $price, onEditingChanged: { _ in
+                        viewModel.updateEntry(sale: Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                    })
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                        .onReceive(Just(price), perform: { _ in
+                            price = self.filterToDecimal(price)
+                            price = self.limitText(price, 8)
+                        })
                 }
-            }
-            .tint(.orange)
-            .labelsHidden()
-            .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-            
-            Rectangle()
-                .fill(.orange.opacity(0.00001))
-                .fixedSize(horizontal: false, vertical: true)
-                .onTapGesture {}
-            
-            Spacer()
-            
-            TextField("Price", text: $viewModel.price)
-                .fixedSize(horizontal: true, vertical: false)
-                .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                .swipeActions {
+                    Button {
+                        viewModel.deleteEntry(saleId: self.saleId)
+                    } label: {
+                        Label("Delete", systemImage: "minus")
+                    }
+                    .tint(.red)
+                }
         }
-        .swipeActions {
-            Button {
-                deleteAction(viewModel.getId())
-            } label: {
-                Label("Delete", systemImage: "minus")
+    
+    private func filterToDecimal(_ value: String) -> String {
+     
+            var filtered = value.filter { "0123456789".contains($0) }
+            
+            while filtered.hasPrefix("0") {
+                filtered.removeFirst()
             }
-            .tint(.red)
+            let num = filtered.count
+            let nec = 3 - num
+            if nec > 0 {
+                filtered = String(repeating: "0", count: nec) + filtered
+            }
+            let index = filtered.index(filtered.endIndex, offsetBy: -2)
+            filtered.insert(".", at: index)
+            return filtered
         }
+    
+    private func limitText(_ value: String, _ upper: Int) -> String {
+        var filtered = value
+        if filtered.count > upper {
+            filtered = String(filtered.prefix(upper))
+        }
+        return filtered
     }
 }
 
 #Preview {
-    SaleView(saleId: "",
-             delete: ({_ in}),
-             update: ({_, _ in}),
-             fetch: ({_ in return Sale(id: "",
-                                       name: "", 
-                                       quantity: 0,
-                                       price: 0.0)}))
+    SaleView(entry: Sale(id: "", 
+                         name: "",
+                         quantity: 0,
+                         price: 0.0),
+             givenModel: SplitBillSetupModel(id: ""))
 }

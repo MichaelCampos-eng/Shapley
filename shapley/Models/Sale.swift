@@ -12,4 +12,8 @@ struct Sale: Codable, Identifiable {
     var name:  String
     var quantity: Int
     var price: Double
+    
+    func isValid() -> Bool {
+        return !name.isEmpty && quantity > 0 && price > 0.0
+    }
 }

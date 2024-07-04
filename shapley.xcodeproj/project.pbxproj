@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C73670012C3617FF00661184 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670002C3617FF00661184 /* Model.swift */; };
+		C73670032C36194800661184 /* UserBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670022C36194800661184 /* UserBill.swift */; };
 		C78BB7042C0D1C55007D66E0 /* TripExpensesView .swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */; };
 		C78BB7072C0D2919007D66E0 /* TripExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */; };
 		C78BB7092C0D2A69007D66E0 /* UserTrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7082C0D2A69007D66E0 /* UserTrip.swift */; };
@@ -71,6 +73,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C73670002C3617FF00661184 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		C73670022C36194800661184 /* UserBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBill.swift; sourceTree = "<group>"; };
 		C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripExpensesView .swift"; sourceTree = "<group>"; };
 		C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripExpensesViewModel.swift; sourceTree = "<group>"; };
 		C78BB7082C0D2A69007D66E0 /* UserTrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTrip.swift; sourceTree = "<group>"; };
@@ -193,8 +197,8 @@
 			children = (
 				C7DC6B042C03AF6F0020C788 /* SplitBillView.swift */,
 				C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */,
-				C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */,
 				C78BB7332C2B282D007D66E0 /* SaleView.swift */,
+				C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */,
 				C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */,
 			);
 			path = Bill;
@@ -350,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				C7BFFF4C2BFECB4B00FEE015 /* User.swift */,
+				C73670002C3617FF00661184 /* Model.swift */,
 				C7BFFF4E2BFECB5300FEE015 /* UserActivity.swift */,
 				C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */,
 				C7BFFF622C000A8F00FEE015 /* Encodable.swift */,
@@ -359,6 +364,7 @@
 				C78BB7122C1B6B8E007D66E0 /* ContentTrip.swift */,
 				C78BB7222C22055B007D66E0 /* ManageUser.swift */,
 				C78BB7312C2A0CC3007D66E0 /* Sale.swift */,
+				C73670022C36194800661184 /* UserBill.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -473,6 +479,7 @@
 				C78BB7152C1B71D9007D66E0 /* MetaTrip.swift in Sources */,
 				C7BFFF592BFECBA600FEE015 /* LoginViewModel.swift in Sources */,
 				C7BFFF4D2BFECB4B00FEE015 /* User.swift in Sources */,
+				C73670012C3617FF00661184 /* Model.swift in Sources */,
 				C7DC6B0F2C06AC0A0020C788 /* ActivitiesView.swift in Sources */,
 				C78BB7042C0D1C55007D66E0 /* TripExpensesView .swift in Sources */,
 				C78BB7072C0D2919007D66E0 /* TripExpensesViewModel.swift in Sources */,
@@ -485,6 +492,7 @@
 				C78BB70F2C13B412007D66E0 /* MetaActivity.swift in Sources */,
 				C7DC6B032C03AF680020C788 /* SplitGasView.swift in Sources */,
 				C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */,
+				C73670032C36194800661184 /* UserBill.swift in Sources */,
 				C78BB7172C1CCE0B007D66E0 /* TripView.swift in Sources */,
 				C78BB7322C2A0CC3007D66E0 /* Sale.swift in Sources */,
 				C7BFFF612BFFA39000FEE015 /* ButtonView.swift in Sources */,

@@ -11,11 +11,10 @@ import Combine
 struct SplitBillSetupView: View {
     
     @StateObject var viewModel: SplitBillSetupModel
-    
     @State var titleName: String = ""
     
     init(activityId: String) {
-        self._viewModel = StateObject(wrappedValue: SplitBillSetupModel(activityId: activityId))
+        self._viewModel = StateObject(wrappedValue: SplitBillSetupModel(id: activityId))
     }
     
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -58,16 +57,8 @@ struct SplitBillSetupView: View {
             }
             .padding(.horizontal, 10)
             
-            List(viewModel.items) { item in
-                
-                let delete = ({value in self.viewModel.delete(id: value)})
-                let update = ({id, value in self.viewModel.update(id: id, sale: value)})
-                let fetch = ({id in return self.viewModel.get(id: id)})
-                
-                SaleView(saleId: item.id,
-                         delete: delete,
-                         update: update,
-                         fetch: fetch)
+            List(viewModel.sales) { item in
+                SaleView(entry: item, givenModel: viewModel)
             }
             .listStyle(PlainListStyle())
             
@@ -78,6 +69,9 @@ struct SplitBillSetupView: View {
             HStack(alignment: .center) {
                 Spacer()
                 Button {
+                    if viewModel.sharable {
+                        viewModel.shareReceipt(titleName: titleName)
+                    }
                     
                 } label: {
                     Text("Publish")
