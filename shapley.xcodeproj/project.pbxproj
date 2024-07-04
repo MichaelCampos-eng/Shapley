@@ -35,7 +35,6 @@
 		C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */; };
 		C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */; };
 		C78BB73B2C2D0E67007D66E0 /* SaleSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */; };
-		C78BB73D2C2D1C57007D66E0 /* SaleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB73C2C2D1C57007D66E0 /* SaleViewModel.swift */; };
 		C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */; };
 		C7BFFF1F2BFEC25A00FEE015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */; };
 		C7BFFF222BFEC25A00FEE015 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF212BFEC25A00FEE015 /* Preview Assets.xcassets */; };
@@ -101,7 +100,6 @@
 		C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
 		C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryView.swift; sourceTree = "<group>"; };
 		C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryViewModel.swift; sourceTree = "<group>"; };
-		C78BB73C2C2D1C57007D66E0 /* SaleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleViewModel.swift; sourceTree = "<group>"; };
 		C7BFFF172BFEC25800FEE015 /* shapley.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shapley.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shapleyApp.swift; sourceTree = "<group>"; };
 		C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -272,7 +270,6 @@
 			isa = PBXGroup;
 			children = (
 				C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */,
-				C78BB73C2C2D1C57007D66E0 /* SaleViewModel.swift */,
 			);
 			path = Bill;
 			sourceTree = "<group>";
@@ -474,7 +471,6 @@
 				C7BFFF492BFECABE00FEE015 /* RegisterView.swift in Sources */,
 				C78BB7232C22055B007D66E0 /* ManageUser.swift in Sources */,
 				C7BFFF532BFECB8400FEE015 /* ProfileViewModel.swift in Sources */,
-				C78BB73D2C2D1C57007D66E0 /* SaleViewModel.swift in Sources */,
 				C7DC6B0B2C03B6D90020C788 /* SplitBillModel.swift in Sources */,
 				C78BB7152C1B71D9007D66E0 /* MetaTrip.swift in Sources */,
 				C7BFFF592BFECBA600FEE015 /* LoginViewModel.swift in Sources */,

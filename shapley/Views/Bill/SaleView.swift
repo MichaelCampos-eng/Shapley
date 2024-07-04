@@ -23,24 +23,23 @@ struct SaleView: View {
 
     var body: some View {
                 HStack {
-                    TextField("Item Name", text: $name, onEditingChanged: { _ in
-                        viewModel.updateEntry(sale: Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
-                    })
+                    TextField("Item Name", text: $name)
                     .onReceive(Just(name), perform: { _ in
                         name = self.limitText(name, 15)
+                        viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
                     })
-                    TextField("Quantity", text: $quantity, onEditingChanged: { _ in
-                        viewModel.updateEntry(sale: Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
-                    })
+                    TextField("Quantity", text: $quantity)
                         .keyboardType(.numberPad)
-                    TextField("Price", text: $price, onEditingChanged: { _ in
-                        viewModel.updateEntry(sale: Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
-                    })
+                        .onReceive(Just(quantity), perform: { _ in
+                            viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                        })
+                    TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
                         .onReceive(Just(price), perform: { _ in
                             price = self.filterToDecimal(price)
                             price = self.limitText(price, 8)
+                            viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
                         })
                 }
                 .swipeActions {
@@ -80,7 +79,7 @@ struct SaleView: View {
 }
 
 #Preview {
-    SaleView(entry: Sale(id: "", 
+    SaleView(entry: Sale(id: "",
                          name: "",
                          quantity: 0,
                          price: 0.0),

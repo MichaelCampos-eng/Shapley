@@ -16,11 +16,22 @@ class SplitBillSetupModel: ObservableObject {
     @Published var sales: [Sale] = []
     private let activityId: String
     private var cancellables = Set<AnyCancellable>()
+    private let entrySubject = PassthroughSubject<Sale, Never>()
     
     init(id: String) {
         self.activityId = id
         self.fetchSubtotal()
         self.fetchSharable()
+        self.setupEntryListener()
+    }
+    
+    private func setupEntryListener() {
+        entrySubject
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink { [weak self] sale in
+                self?.updateEntry(sale: sale)
+            }
+            .store(in: &cancellables)
     }
     
     public func fetchSubtotal() {
@@ -39,6 +50,10 @@ class SplitBillSetupModel: ObservableObject {
             }
             .assign(to: \.sharable, on: self)
             .store(in: &cancellables)
+    }
+    
+    public func submitEntry(_ sale: Sale) {
+        entrySubject.send(sale)
     }
     
     public func updateEntry(sale: Sale) {
