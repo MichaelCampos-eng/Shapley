@@ -37,7 +37,7 @@ struct SaleView: View {
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
                         .onReceive(Just(price), perform: { _ in
-                            price = self.filterToDecimal(price)
+                            price = self.formatPrice(price)
                             price = self.limitText(price, 8)
                             viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
                         })
@@ -52,8 +52,7 @@ struct SaleView: View {
                 }
         }
     
-    private func filterToDecimal(_ value: String) -> String {
-     
+    private func formatPrice(_ value: String) -> String {
             var filtered = value.filter { "0123456789".contains($0) }
             
             while filtered.hasPrefix("0") {

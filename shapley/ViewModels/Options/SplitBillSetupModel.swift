@@ -37,7 +37,8 @@ class SplitBillSetupModel: ObservableObject {
     public func fetchSubtotal() {
         $sales
             .map { values in
-                return values.reduce(0) { $0 + $1.price }
+                let total =  values.reduce(0) { $0 + $1.price }
+                return (total * 100.0).rounded() / 100.0
             }
             .assign(to: \.subtotal, on: self)
             .store(in: &cancellables)

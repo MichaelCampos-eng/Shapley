@@ -17,8 +17,6 @@ struct SplitBillSetupView: View {
         self._viewModel = StateObject(wrappedValue: SplitBillSetupModel(id: activityId))
     }
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
-    
     var body: some View {
         
         VStack(alignment: .leading) {
