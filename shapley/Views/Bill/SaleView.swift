@@ -17,6 +17,7 @@ struct SaleView: View {
     private let saleId: String
     
     init(entry: Sale, givenModel: SplitBillSetupModel) {
+        print("Instatiating view")
         self.viewModel = givenModel
         self.saleId = entry.id
     }
@@ -26,20 +27,33 @@ struct SaleView: View {
                     TextField("Item Name", text: $name)
                     .onReceive(Just(name), perform: { _ in
                         name = self.limitText(name, 15)
-                        viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                        let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
+                        if viewModel.isValidEntry(newSale) {
+                            print("Sale View: \(newSale)")
+                            viewModel.submitEntry(newSale)
+                            
+                        }
                     })
                     TextField("Quantity", text: $quantity)
                         .keyboardType(.numberPad)
                         .onReceive(Just(quantity), perform: { _ in
-                            viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                            let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
+                            if viewModel.isValidEntry(newSale) {
+                                print("Sale View: \(newSale)")
+                                viewModel.submitEntry(newSale)
+                            }
                         })
                     TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
                         .onReceive(Just(price), perform: { _ in
-                            price = self.formatPrice(price)
+                            price = self.formatMoney(price)
                             price = self.limitText(price, 8)
-                            viewModel.submitEntry(Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.00))
+                            let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
+                            if viewModel.isValidEntry(newSale) {
+                                print("Sale View: \(newSale)")
+                                viewModel.submitEntry(newSale)
+                            }
                         })
                 }
                 .swipeActions {
@@ -52,12 +66,15 @@ struct SaleView: View {
                 }
         }
     
-    private func formatPrice(_ value: String) -> String {
+    private func formatMoney(_ value: String) -> String {
+            if value == "" {
+                return value
+            }
             var filtered = value.filter { "0123456789".contains($0) }
-            
             while filtered.hasPrefix("0") {
                 filtered.removeFirst()
             }
+            
             let num = filtered.count
             let nec = 3 - num
             if nec > 0 {

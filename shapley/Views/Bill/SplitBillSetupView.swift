@@ -9,12 +9,15 @@ import SwiftUI
 import Combine
 
 struct SplitBillSetupView: View {
-    
     @StateObject var viewModel: SplitBillSetupModel
+    @Binding var presented: Bool
     @State var titleName: String = ""
+    @State private var error: Bool = false
     
-    init(activityId: String) {
+    init(activityId: String, presented: Binding<Bool>) {
+        print("Starting SPLIT BILL VIEW")
         self._viewModel = StateObject(wrappedValue: SplitBillSetupModel(id: activityId))
+        self._presented = presented
     }
     
     var body: some View {
@@ -60,15 +63,31 @@ struct SplitBillSetupView: View {
             }
             .listStyle(PlainListStyle())
             
-            SaleSummaryView(amount: $viewModel.subtotal)
+    
+            
+            SaleSummaryView(model: viewModel)
             
             Spacer()
+            
+            if error {
+                HStack {
+                    Spacer()
+                    Text("Fill in all entries appropriately before publishing.")
+                        .foregroundStyle(.red)
+                        .padding()
+                    Spacer()
+                }
+            }
             
             HStack(alignment: .center) {
                 Spacer()
                 Button {
-                    if viewModel.sharable {
+                    if viewModel.isSharable(titleName: titleName) {
                         viewModel.shareReceipt(titleName: titleName)
+                        presented = false
+                        self.error = false
+                    } else {
+                        self.error = true
                     }
                     
                 } label: {
@@ -82,6 +101,7 @@ struct SplitBillSetupView: View {
                 Spacer()
             }
             
+            
         }
     }
 
@@ -94,5 +114,5 @@ struct SplitBillSetupView: View {
 }
 
 #Preview {
-    SplitBillSetupView(activityId: "caca")
+    SplitBillSetupView(activityId: "caca", presented: Binding(get: {true}, set: {_ in }))
 }

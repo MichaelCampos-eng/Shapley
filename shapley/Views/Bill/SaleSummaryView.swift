@@ -9,26 +9,20 @@ import SwiftUI
 import Combine
 
 struct SaleSummaryView: View {
+    @State var subtotal: String = ""
+    @State var total: String = ""
+    @State var tax: String = ""
+    @ObservedObject var viewModel: SplitBillSetupModel
     
-    @StateObject var viewModel: SaleSummaryViewModel
-    
-    @Binding var subtotal: Double
-    @State var subtotalToString: String = "0.00"
-    @State var tax: String = "0.00"
-    @State var total: String = "0.00"
-    
-    
-    init(amount: Binding<Double>) {
-        self._subtotal = amount
-        self._viewModel = StateObject(wrappedValue: SaleSummaryViewModel())
+    init(model: SplitBillSetupModel) {
+        self.viewModel = model
     }
     
     var body: some View {
         VStack(alignment: .trailing) {
-            HStack{ Text("Subtotal: \(subtotalToString)")
-                    .onReceive(Just(subtotal), perform: { newValue in
-                        print("Before calling subtotal: \(subtotal)")
-                        subtotalToString = self.formatSubtotal(String(newValue))
+            HStack{ Text("Subtotal: \(subtotal)")
+                    .onReceive(viewModel.$receipt, perform: { newValue in
+                        subtotal = String(format: "%.2f", newValue.subtotal)
                     })
             }
             HStack{
@@ -39,21 +33,29 @@ struct SaleSummaryView: View {
                     .fixedSize(horizontal: true, vertical: false)
                     .keyboardType(.numberPad)
                     .onReceive(Just(tax), perform: { newValue in
-                        tax = self.formatTax(tax)
+                        tax = self.formatMoney(newValue)
                         tax = self.limitText(tax, 10)
+                        var newReceipt = self.viewModel.receipt
+                        newReceipt.changeTax(Double(tax) ?? 0.0)
+                        if viewModel.isValidReceipt(newReceipt) {
+                            viewModel.submitReceipt(newReceipt)
+                        }
                     })
             }
-            HStack{Text("Total: \(total)")}
+            HStack{Text("Total: \( String(format: "%.2f", viewModel.receipt.total))")}
         }
     }
     
     
-    private func formatTax(_ value: String) -> String {
+    private func formatMoney(_ value: String) -> String {
+            if value == "" {
+                return value
+            }
             var filtered = value.filter { "0123456789".contains($0) }
-            
             while filtered.hasPrefix("0") {
                 filtered.removeFirst()
             }
+            
             let num = filtered.count
             let nec = 3 - num
             if nec > 0 {
@@ -64,25 +66,7 @@ struct SaleSummaryView: View {
             return filtered
         }
     
-    private func formatSubtotal(_ value: String) -> String {
-        var filtered = value
-        if filtered.count > 2 {
-            let components = filtered.split(separator: ".", maxSplits: 1, omittingEmptySubsequences: false)
-            guard components.count == 2 else {
-                return filtered
-            }
-            let integerPart = String(components[0])
-            var decimalPart = String(components[1])
-            if decimalPart.count < 2 {
-                decimalPart = decimalPart + "0"
-            } else {
-                decimalPart = String(decimalPart.prefix(2))
-            }
-            filtered = integerPart + "." + decimalPart
-        }
-        return filtered
-    }
-    
+
     private func limitText(_ value: String, _ upper: Int) -> String {
         var filtered = value
         if filtered.count > upper {
@@ -94,5 +78,5 @@ struct SaleSummaryView: View {
 }
 
 #Preview {
-    SaleSummaryView(amount: Binding<Double> (get: {0.00}, set: {_ in }))
+    SaleSummaryView(model: SplitBillSetupModel(id: ""))
 }

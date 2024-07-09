@@ -33,7 +33,7 @@ struct NewTripView: View {
             
             ZStack {
                 if receipt {
-                    SplitBillSetupView(activityId: self.activityId)
+                    SplitBillSetupView(activityId: self.activityId, presented: $newTripPresented)
                         .matchedGeometryEffect(id: "content", in: animationNamespace)
                         .padding(.top, 10)
                 } else if gas {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C73670012C3617FF00661184 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670002C3617FF00661184 /* Model.swift */; };
 		C73670032C36194800661184 /* UserBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670022C36194800661184 /* UserBill.swift */; };
+		C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670042C389F8B00661184 /* GeneralReceipt.swift */; };
 		C78BB7042C0D1C55007D66E0 /* TripExpensesView .swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */; };
 		C78BB7072C0D2919007D66E0 /* TripExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */; };
 		C78BB7092C0D2A69007D66E0 /* UserTrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7082C0D2A69007D66E0 /* UserTrip.swift */; };
@@ -34,7 +35,6 @@
 		C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7332C2B282D007D66E0 /* SaleView.swift */; };
 		C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */; };
 		C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */; };
-		C78BB73B2C2D0E67007D66E0 /* SaleSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */; };
 		C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */; };
 		C7BFFF1F2BFEC25A00FEE015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */; };
 		C7BFFF222BFEC25A00FEE015 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF212BFEC25A00FEE015 /* Preview Assets.xcassets */; };
@@ -74,6 +74,7 @@
 /* Begin PBXFileReference section */
 		C73670002C3617FF00661184 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		C73670022C36194800661184 /* UserBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBill.swift; sourceTree = "<group>"; };
+		C73670042C389F8B00661184 /* GeneralReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralReceipt.swift; sourceTree = "<group>"; };
 		C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripExpensesView .swift"; sourceTree = "<group>"; };
 		C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripExpensesViewModel.swift; sourceTree = "<group>"; };
 		C78BB7082C0D2A69007D66E0 /* UserTrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTrip.swift; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		C78BB7332C2B282D007D66E0 /* SaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleView.swift; sourceTree = "<group>"; };
 		C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
 		C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryView.swift; sourceTree = "<group>"; };
-		C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryViewModel.swift; sourceTree = "<group>"; };
 		C7BFFF172BFEC25800FEE015 /* shapley.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shapley.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shapleyApp.swift; sourceTree = "<group>"; };
 		C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -269,7 +269,6 @@
 		C78BB7392C2D0E54007D66E0 /* Bill */ = {
 			isa = PBXGroup;
 			children = (
-				C78BB73A2C2D0E67007D66E0 /* SaleSummaryViewModel.swift */,
 			);
 			path = Bill;
 			sourceTree = "<group>";
@@ -351,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				C7BFFF4C2BFECB4B00FEE015 /* User.swift */,
+				C73670042C389F8B00661184 /* GeneralReceipt.swift */,
 				C73670002C3617FF00661184 /* Model.swift */,
 				C7BFFF4E2BFECB5300FEE015 /* UserActivity.swift */,
 				C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */,
@@ -453,11 +453,11 @@
 				C78BB71D2C1E1C03007D66E0 /* ManageGroupViewModel.swift in Sources */,
 				C78BB7302C2A064D007D66E0 /* SplitBillSetupModel.swift in Sources */,
 				C7DC6B092C03B6D00020C788 /* SplitGasModel.swift in Sources */,
-				C78BB73B2C2D0E67007D66E0 /* SaleSummaryViewModel.swift in Sources */,
 				C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */,
 				C7BFFF5F2BFEDC3800FEE015 /* HeaderView.swift in Sources */,
 				C7DC6AFD2C02973E0020C788 /* SelectView.swift in Sources */,
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
+				C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */,
 				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
 				C78BB7292C29FA80007D66E0 /* SplitGasSetupView.swift in Sources */,
 				C7BFFF5B2BFECBAD00FEE015 /* RegisterViewModel.swift in Sources */,
