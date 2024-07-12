@@ -15,104 +15,82 @@ struct SplitBillSetupView: View {
     @State private var error: Bool = false
     
     init(activityId: String, presented: Binding<Bool>) {
-        print("Starting SPLIT BILL VIEW")
         self._viewModel = StateObject(wrappedValue: SplitBillSetupModel(id: activityId))
         self._presented = presented
     }
     
     var body: some View {
         
-        VStack(alignment: .leading) {
-            
-            HStack {
-                TextField("Title Name", text: $titleName)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                    .bold()
-                    .background(.clear)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .fixedSize(horizontal: true, vertical: false)
-                    .multilineTextAlignment(.leading)
-                    .onReceive(Just(titleName), perform: { _ in
-                        limitText(15)
-                    })
+            VStack(alignment: .leading) {
                 
-                Image(systemName: "pencil")
-                    .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                
-                Spacer()
-                
-                Button {
-                    viewModel.createNewEntry()
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(.orange)
-                }
-            }
-            .padding(.trailing, 20)
-            
-            HStack {
-                Text("Receipt")
-                    .font(.title2)
-                    .bold()
-                Spacer()
-            }
-            .padding(.horizontal, 10)
-            
-            List(viewModel.sales) { item in
-                SaleView(entry: item, givenModel: viewModel)
-            }
-            .listStyle(PlainListStyle())
-            
-    
-            
-            SaleSummaryView(model: viewModel)
-            
-            Spacer()
-            
-            if error {
                 HStack {
+                    TextField("Title Name", text: $titleName)
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        .bold()
+                        .fixedSize(horizontal: true, vertical: false)
+                        .multilineTextAlignment(.leading)
+                        .onReceive(Just(titleName), perform: { _ in
+                            titleName = TextUtil.limitText(titleName, 15)
+                        })
+                    Image(systemName: "pencil")
+                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                     Spacer()
-                    Text("Fill in all entries appropriately before publishing.")
-                        .foregroundStyle(.red)
-                        .padding()
-                    Spacer()
-                }
-            }
-            
-            HStack(alignment: .center) {
-                Spacer()
-                Button {
-                    if viewModel.isSharable(titleName: titleName) {
-                        viewModel.shareReceipt(titleName: titleName)
-                        presented = false
-                        self.error = false
-                    } else {
-                        self.error = true
-                    }
                     
-                } label: {
-                    Text("Publish")
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 8)
-                        .foregroundColor(.white)
-                        .background(.orange.opacity(0.7))
-                        .cornerRadius(8)
+                    Button {
+                        viewModel.createNewEntry()
+                    } label: {
+                        Image(systemName: "plus")
+                            .foregroundColor(.orange)
+                    }
                 }
+                .padding(.horizontal, 35)
+                
+                
+                
+                List {
+                    Section(header: Text("Receipt")
+                        .font(.title2)
+                        .bold()) {
+                            ForEach(viewModel.sales) { item in
+                                SaleView(entry: item, givenModel: viewModel)
+                            }
+                        }
+                }
+                
+                SaleSummaryView(model: viewModel)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 10)
+                
                 Spacer()
+                
+                HStack(alignment: .center) {
+                    Spacer()
+                    Button {
+                        if viewModel.isSharable(titleName: titleName) {
+                            viewModel.shareReceipt(titleName: titleName)
+                            presented = false
+                            self.error = false
+                        } else {
+                            self.error = true
+                        }
+                        
+                    } label: {
+                        Text("Publish")
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(.orange.opacity(0.7))
+                            .cornerRadius(8)
+                    }
+                    Spacer()
+                }
             }
-            
-            
+            .alert(isPresented: $error, content: {
+                Alert(title: Text("Error"), message: Text("Fill in all entries."))
+            })
         }
-    }
-
-    func limitText(_ upper: Int) {
-        if titleName.count > upper {
-            titleName = String(titleName.prefix(upper))
-        }
-    }
-    
 }
 
 #Preview {
-    SplitBillSetupView(activityId: "caca", presented: Binding(get: {true}, set: {_ in }))
+    SplitBillSetupView(activityId: "", presented: Binding(get: {true}, set: {_ in }))
 }

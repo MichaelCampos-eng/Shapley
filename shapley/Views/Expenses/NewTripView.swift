@@ -28,7 +28,8 @@ struct NewTripView: View {
             
         VStack {
             SelectSliderView(receipt: $receipt, gas: $gas, vendue: $vendue)
-                .padding(.top, 20)
+                .padding(.vertical, 20)
+            Divider()
             Spacer()
             
             ZStack {
@@ -46,9 +47,9 @@ struct NewTripView: View {
                         .padding(.top, 10)
                 }
             }
-            .animation(.smooth, value: receipt)
-            .animation(.smooth, value: gas)
-            .animation(.smooth, value: vendue)
+            .animation(.bouncy, value: receipt)
+            .animation(.bouncy, value: gas)
+            .animation(.bouncy, value: vendue)
         }
         Spacer()
     }

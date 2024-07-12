@@ -16,38 +16,50 @@ struct TripExpensesView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                List(viewModel.trips) { item in
-                    TripView()
-                }
-                .listStyle(PlainListStyle())
+        ZStack {
+            List(viewModel.trips) { item in
+                TripView(metadata: item)
             }
+            .listStyle(PlainListStyle())
             .navigationTitle("Expenses")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button {
-                    // Action
                     viewModel.showingManageGroup = true
                 } label: {
                     Image(systemName: "person.3")
                         .foregroundStyle(.orange)
                 }
-                Button {
-                    // Action
-                    viewModel.showingNewTrip = true
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(.orange)
-                }
                 
+                Button {
+                        viewModel.showingNewTrip.toggle()
+                } label: {
+                    Image(systemName: viewModel.showingNewTrip ? "minus" : "plus")
+                        .foregroundColor( viewModel.showingNewTrip ? .red : .orange)
+                        .rotationEffect(.degrees(viewModel.showingNewTrip ? 0 : 360))
+                        .scaleEffect(viewModel.showingNewTrip ? 1.25 : 1.0)
+                }
             }
-            .sheet(isPresented: $viewModel.showingNewTrip, content: {
-                NewTripView(activityId: viewModel.getActivityId(), newTripPresented: $viewModel.showingNewTrip)
-            })
-            .fullScreenCover(isPresented: $viewModel.showingManageGroup) {
+            .blur(radius: viewModel.showingNewTrip ? 2 : 0)
+            .sheet(isPresented: $viewModel.showingManageGroup) {
                 ManageGroupView(presented: $viewModel.showingManageGroup, activityId: viewModel.getActivityId())
             }
+            
+            if viewModel.showingNewTrip {
+                
+                Color.black.opacity(0.7)
+                    .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                
+                NewTripView(activityId: viewModel.getActivityId(), newTripPresented: $viewModel.showingNewTrip)
+                    .transition(AnyTransition
+                        .asymmetric(insertion: .move(edge: .bottom),
+                                    removal: .move(edge: .bottom))
+                            .combined(with: .opacity))
+                
+            }
+            
         }
+        .animation(.default.speed(1.25), value: viewModel.showingNewTrip)
     }
 }
 

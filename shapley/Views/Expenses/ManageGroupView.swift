@@ -19,7 +19,6 @@ struct ManageGroupView: View {
     var body: some View {
 
         NavigationStack {
-            
             List(viewModel.results, id: \.self) { item in
                 ManageUserView(userId: item, activityId: viewModel.getActivityId()) {userName, uId in
                     viewModel.users[userName] = uId
@@ -29,11 +28,7 @@ struct ManageGroupView: View {
             .navigationTitle("Code: \(viewModel.getGroupCode())")
             .navigationBarTitleDisplayMode(.inline)
         }
-        
         .searchable(text: $viewModel.search, prompt: "Look for user")
-        Button("Dismiss") {
-            groupViewPresented = false
-        }
         .tint(.orange)
     }
 }

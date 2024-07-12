@@ -30,7 +30,7 @@ struct ActivityView: View {
             wrappedValue: ActivityViewModel(userId: metadata.userId))
     }
     
-    var body: some View {
+    var body: some View { 
         
         if viewModel.validate(user: userActivity, content: content) {
             HStack {

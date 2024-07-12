@@ -29,4 +29,5 @@ struct GeneralReceipt: Identifiable, Encodable, Equatable {
                    lhs.subtotal == rhs.subtotal &&
                    lhs.tax == rhs.tax
         }
+    
 }

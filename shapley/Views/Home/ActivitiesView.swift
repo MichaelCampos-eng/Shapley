@@ -12,34 +12,52 @@ import SwiftUI
 struct ActivitiesView: View {
     @StateObject var viewModel: ActivitiesViewModel
     
-    // TODO: Incorporate group session join
     init(userId: String) {
         self._viewModel = StateObject(
             wrappedValue: ActivitiesViewModel(userId: userId))
     }
     
     var body: some View {
-        NavigationView {
-            
-            List(viewModel.metadata) { item in
-                ActivityView(metadata: item)
-            }
-            .listStyle(PlainListStyle())
         
-            .navigationTitle("Activities")
-            .toolbar {
-                Button {
-                    // Action
-                    viewModel.showingNewActivity = true
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(.orange)
+        ZStack {
+                NavigationView {
+                    List(viewModel.metadata) { item in
+                        ActivityView(metadata: item)
+                    }
+                    .listStyle(PlainListStyle())
+                    .navigationTitle("Activities")
+                    .toolbar {
+                        Button {
+                            viewModel.showingNewActivity = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .foregroundColor(.orange)
+                        }
+                    }
+                    .blur(radius: viewModel.showingNewActivity ? 2 : 0)
                 }
-            }
-            .sheet(isPresented: $viewModel.showingNewActivity) {
-                NewActivityView(newItemPresented: $viewModel.showingNewActivity)
-            }
+                if viewModel.showingNewActivity {
+   
+                    Color.black.opacity(0.7)
+                            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                            .onTapGesture {
+                                withAnimation {
+                                    viewModel.showingNewActivity = false
+                                }
+                                
+                            }
+                            .zIndex(1)
+                        
+                        NewActivityView(newItemPresented: $viewModel.showingNewActivity)
+                            .zIndex(2)
+                            .transition(AnyTransition
+                                .asymmetric(insertion: .move(edge: .bottom),
+                                            removal: .move(edge: .bottom))
+                                    .combined(with: .opacity))
+                    
+                }
         }
+        .animation(.default.speed(1.25), value: viewModel.showingNewActivity)
     }
 }
 

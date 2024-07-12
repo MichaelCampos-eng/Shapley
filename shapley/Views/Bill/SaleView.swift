@@ -17,7 +17,6 @@ struct SaleView: View {
     private let saleId: String
     
     init(entry: Sale, givenModel: SplitBillSetupModel) {
-        print("Instatiating view")
         self.viewModel = givenModel
         self.saleId = entry.id
     }
@@ -26,35 +25,34 @@ struct SaleView: View {
                 HStack {
                     TextField("Item Name", text: $name)
                     .onReceive(Just(name), perform: { _ in
-                        name = self.limitText(name, 15)
+                        name = TextUtil.limitText(name, 15)
                         let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
                         if viewModel.isValidEntry(newSale) {
-                            print("Sale View: \(newSale)")
-                            viewModel.submitEntry(newSale)
-                            
+                            viewModel.updateEntry(sale: newSale)
                         }
                     })
+                    .foregroundColor(.white)
                     TextField("Quantity", text: $quantity)
                         .keyboardType(.numberPad)
                         .onReceive(Just(quantity), perform: { _ in
                             let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
                             if viewModel.isValidEntry(newSale) {
-                                print("Sale View: \(newSale)")
-                                viewModel.submitEntry(newSale)
+                                viewModel.updateEntry(sale: newSale)
                             }
                         })
+                        .foregroundColor(.white)
                     TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
                         .onReceive(Just(price), perform: { _ in
-                            price = self.formatMoney(price)
-                            price = self.limitText(price, 8)
+                            price = TextUtil.formatDecimal(price)
+                            price = TextUtil.limitText(price, 8)
                             let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
                             if viewModel.isValidEntry(newSale) {
-                                print("Sale View: \(newSale)")
-                                viewModel.submitEntry(newSale)
+                                viewModel.updateEntry(sale: newSale)
                             }
                         })
+                        .foregroundColor(.white)
                 }
                 .swipeActions {
                     Button {
@@ -65,33 +63,6 @@ struct SaleView: View {
                     .tint(.red)
                 }
         }
-    
-    private func formatMoney(_ value: String) -> String {
-            if value == "" {
-                return value
-            }
-            var filtered = value.filter { "0123456789".contains($0) }
-            while filtered.hasPrefix("0") {
-                filtered.removeFirst()
-            }
-            
-            let num = filtered.count
-            let nec = 3 - num
-            if nec > 0 {
-                filtered = String(repeating: "0", count: nec) + filtered
-            }
-            let index = filtered.index(filtered.endIndex, offsetBy: -2)
-            filtered.insert(".", at: index)
-            return filtered
-        }
-    
-    private func limitText(_ value: String, _ upper: Int) -> String {
-        var filtered = value
-        if filtered.count > upper {
-            filtered = String(filtered.prefix(upper))
-        }
-        return filtered
-    }
 }
 
 #Preview {

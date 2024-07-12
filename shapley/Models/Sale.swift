@@ -4,7 +4,6 @@
 //
 //  Created by Michael Campos on 6/24/24.
 //
-
 import Foundation
 
 struct Sale: Codable, Identifiable, Equatable {

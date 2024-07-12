@@ -8,13 +8,13 @@
 import FirebaseFirestore
 import Foundation
 import Combine 
-
+  
 class TripExpensesViewModel: ObservableObject {
     @Published var showingNewTrip: Bool = false
     @Published var showingManageGroup: Bool = false
     
-    @Published var userTrips: [UserTrip] = []
-    @Published var contentTrips: [ContentTrip] = []
+    @Published var userTrips: [UserBill] = []
+    @Published var models: [Model] = []
     @Published var trips: [MetaTrip] = []
     
     private var cancellables = Set<AnyCancellable>()
@@ -26,9 +26,9 @@ class TripExpensesViewModel: ObservableObject {
     init(userId: String, activityId: String) {
         self.activityId = activityId
         self.userId = userId
-        self.fetchUserTrip()
-        self.fetchContentTrip()
-        self.fetchTrip()
+        self.fetchUserBills()
+        self.fetchModels()
+        self.fetchExpense()
     }
     
     private func fetchUserData() {
@@ -41,7 +41,7 @@ class TripExpensesViewModel: ObservableObject {
                 self?.userData = userActivity
                 
             case .failure(let error):
-                print("Error fetchng document \(error.localizedDescription)")
+                print("Error fetching document \(error.localizedDescription)")
             }
         }
     }
@@ -55,39 +55,39 @@ class TripExpensesViewModel: ObservableObject {
     }
         
     
-    private func fetchUserTrip() {
+    private func fetchUserBills() {
         let db = Firestore.firestore()
-        db.collection("users/\(self.userId)/activities/\(self.activityId)/trips").addSnapshotListener { [weak self] snapshot, error in
+        db.collection("users/\(self.userId)/activities/\(self.activityId)/models").addSnapshotListener { [weak self] snapshot, error in
             
             guard let documents = snapshot?.documents else {
                 print("No trips")
                 return
             }
             
-            self?.userTrips = documents.compactMap{queryDocumentSnapshot -> UserTrip? in
-                return try? queryDocumentSnapshot.data(as: UserTrip.self)
+            self?.userTrips = documents.compactMap{queryDocumentSnapshot -> UserBill? in
+                return try? queryDocumentSnapshot.data(as: UserBill.self)
             }
         }
     }
     
-    private func fetchContentTrip() {
+    private func fetchModels() {
         let db = Firestore.firestore()
         
-        db.collection("activities/\(self.activityId)/trips").addSnapshotListener { [weak self] snapshot, error in
+        db.collection("activities/\(self.activityId)/models").addSnapshotListener { [weak self] snapshot, error in
             
             guard let documents = snapshot?.documents else {
                 print("No trips")
                 return
             }
             
-            self?.contentTrips = documents.compactMap{ queryDocumentSnapshot -> ContentTrip? in
-                return try? queryDocumentSnapshot.data(as: ContentTrip.self)
+            self?.models = documents.compactMap{ queryDocumentSnapshot -> Model? in
+                return try? queryDocumentSnapshot.data(as: Model.self)
             }
         }
     }
     
-    private func fetchTrip() {
-        Publishers.CombineLatest($userTrips, $contentTrips)
+    private func fetchExpense() {
+        Publishers.CombineLatest($userTrips, $models)
             .map { [weak self] user, contents in
                 return self?.generateMetaTrips(user: user, contents: contents) ?? []
             }
@@ -96,10 +96,12 @@ class TripExpensesViewModel: ObservableObject {
         
     }
     
-    private func generateMetaTrips(user: [UserTrip], contents: [ContentTrip]) -> [MetaTrip] {
-        let meta = user.flatMap{ userTrip in
-            contents.compactMap { contentTrip in
-                userTrip.id == contentTrip.id ? MetaTrip(id: contentTrip.id) : nil
+    private func generateMetaTrips(user: [UserBill], contents: [Model]) -> [MetaTrip] {
+        let meta = user.flatMap{ bill in
+            contents.compactMap { model in
+                bill.id == model.id ? MetaTrip(id: model.id,
+                                               userId: self.userId,
+                                               activityId: self.activityId) : nil
             }
         }
         return meta

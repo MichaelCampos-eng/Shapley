@@ -9,4 +9,6 @@ import Foundation
 
 struct MetaTrip: Identifiable{
     let id: String
+    let userId: String
+    let activityId: String
 }

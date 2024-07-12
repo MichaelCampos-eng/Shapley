@@ -10,63 +10,78 @@ import SwiftUI
 struct NewActivityView: View {
     @StateObject var viewModel = NewActivityViewModel()
     @Binding var newItemPresented: Bool
+    @State var createActivity: Bool = true
+    @State var joinActivity: Bool = false
+    @Namespace private var animationSpacespace
     
     var body: some View {
+        
         VStack {
-            Text("New Activity")
-                .font(.system(size: 32))
-                .bold()
-                .padding(.top, 50)
+            Spacer()
+            SliderActivityView(createActivity: $createActivity, joinActivity: $joinActivity)
+                .padding(.vertical, 20)
+            Divider()
             
-            Form {
-                TextField("Activity Name", text: $viewModel.activityName)
-                    .textFieldStyle(DefaultTextFieldStyle())
-
-                ButtonView(title: "Create",
-                           background: Color.orange) {
-                    
-                    
-                    if viewModel.canCreate {
-                        viewModel.create()
-                        newItemPresented = false
-                    } else {
-                        viewModel.showAlert = true
+            ZStack {
+                if createActivity {
+                    VStack {
+                        
+                        Form {
+                            Section(header: Text("New Activity").font(.headline)) {
+                                TextField("Activity Name", text: $viewModel.activityName)
+                                    .textFieldStyle(DefaultTextFieldStyle())
+                                
+                                ButtonView(title: "Create",
+                                           background: Color.orange) {
+                                    
+                                    
+                                    if viewModel.canCreate {
+                                        viewModel.create()
+                                        newItemPresented = false
+                                    } else {
+                                        viewModel.showAlert = true
+                                    }
+                                }
+                            }
+                        }
+                        
                     }
+                    .matchedGeometryEffect(id: "content", in: animationSpacespace)
+                    .frame(height: 200)
+                    Spacer()
+                    
+                } else {
+                    VStack {
+                        Form {
+                            Section(header: Text("Join Group!").font(.headline)) {
+                                
+                                TextField("Group ID", text: $viewModel.groupId)
+                                    .textFieldStyle(DefaultTextFieldStyle())
+                                
+                                ButtonView(title: "Join Group",
+                                           background: Color.orange,
+                                           action: {
+                                    
+                                    if viewModel.canJoin {
+                                        viewModel.join()
+                                        newItemPresented = false
+                                    } else {
+                                        viewModel.showAlert = true
+                                    }
+                                })
+                            }
+                        }
+                    }
+                    .frame(height: 200)
+                    .matchedGeometryEffect(id: "content", in: animationSpacespace)
+                    Spacer()
                 }
             }
-            .frame(maxHeight: 200)
-            
-            
-            
-            Label(
-                title: { Text("Or join a friend group!")},
-                icon: { Image(systemName: "person.3.fill") }
-            )
-            .font(.system(size: 18))
-            .bold()
-    
-            
-            Form {
-                TextField("Group ID", text: $viewModel.groupId)
-                    .textFieldStyle(DefaultTextFieldStyle())
-                
-                ButtonView(title: "Join Group",
-                           background: Color.orange,
-                           action: {
-                    
-                    if viewModel.canJoin {
-                        viewModel.join()
-                        newItemPresented = false
-                    } else {
-                        viewModel.showAlert = true
-                    }
-                })
-            }
-            .frame(maxHeight: 200)
             .alert(isPresented: $viewModel.showAlert, content: {
                 Alert(title: Text("Error"), message: Text(viewModel.alertMessage))
             })
-            
+            .animation(.smooth, value: createActivity)
+            .animation(.spring, value: joinActivity)
             Spacer()
         }
     }
