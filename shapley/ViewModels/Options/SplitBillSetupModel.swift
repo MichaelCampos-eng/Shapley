@@ -105,7 +105,7 @@ class SplitBillSetupModel: ObservableObject {
         }
         
         let saveId = UUID().uuidString
-        let model = Model(id: saveId, type: "Bill", title: titleName, createdDate: Date().timeIntervalSince1970)
+        let model = Model(id: saveId, type: .Bill, title: titleName, createdDate: Date().timeIntervalSince1970)
         let user = UserBill(id: saveId, owner: true, claims: [])
         
         let db = Firestore.firestore()

@@ -51,8 +51,8 @@ struct ActivitiesView: View {
                         NewActivityView(newItemPresented: $viewModel.showingNewActivity)
                             .zIndex(2)
                             .transition(AnyTransition
-                                .asymmetric(insertion: .move(edge: .bottom),
-                                            removal: .move(edge: .bottom))
+                                .asymmetric(insertion: .move(edge: .top),
+                                            removal: .move(edge: .top))
                                     .combined(with: .opacity))
                     
                 }

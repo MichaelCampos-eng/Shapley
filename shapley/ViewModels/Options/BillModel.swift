@@ -7,10 +7,12 @@
 
 import Foundation
 
-class SplitBillModel: ObservableObject {
+class BillModel: ObservableObject {
     @Published var showingNewItemView = false
+    private let meta: MetaTrip
     
-    init() {
+    init(meta: MetaTrip) {
+        self.meta = meta
     }
     
     

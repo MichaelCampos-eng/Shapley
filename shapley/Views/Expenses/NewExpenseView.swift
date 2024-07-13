@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewTripView: View {
+struct NewExpenseView: View {
     
     @Binding var newTripPresented: Bool
     
@@ -59,7 +59,7 @@ struct NewTripView: View {
 
 
 #Preview {
-    NewTripView(activityId: "caca", newTripPresented: Binding(get: {
+    NewExpenseView(activityId: "caca", newTripPresented: Binding(get: {
         return true
     }, set: { _ in
         return

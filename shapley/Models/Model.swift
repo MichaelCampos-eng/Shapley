@@ -9,7 +9,7 @@ import Foundation
 
 struct Model: Codable, Identifiable {
     let id: String
-    let type: String 
+    let type: ExpenseType
     let title: String
     let createdDate: TimeInterval
 }

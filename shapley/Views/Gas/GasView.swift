@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct SplitGasView: View {
-    @StateObject var viewModel = SplitGasModel()
-    private let userId: String
+struct GasView: View {
+    @StateObject var viewModel = GasModel()
+    private let meta: MetaTrip
     
-    init (userId: String) {
-        self.userId = userId
+    init (meta: MetaTrip) {
+        self.meta = meta
     }
     
     var body: some View {
@@ -21,5 +21,5 @@ struct SplitGasView: View {
 }
 
 #Preview {
-    SplitGasView(userId: "Example")
+    GasView(meta: MetaTrip(id: "", userId: "", activityId: ""))
 }

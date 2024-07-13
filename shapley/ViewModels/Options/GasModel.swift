@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SplitGasModel: ObservableObject {
+class GasModel: ObservableObject {
     init() {
     }
 }

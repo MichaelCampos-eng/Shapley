@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct VendueView: View {
-    @StateObject var viewModel = VendueModel()
-    private let userId: String
+    @StateObject var viewModel: VendueModel
     
-    init (userId: String) {
-        self.userId = userId
+    init (meta: MetaTrip) {
+        self._viewModel = StateObject(wrappedValue: VendueModel(meta: meta))
     }
     
     var body: some View {
@@ -21,5 +20,5 @@ struct VendueView: View {
 }
 
 #Preview {
-    VendueView(userId: "Example")
+    VendueView(meta: MetaTrip(id: "", userId: "", activityId: ""))
 }

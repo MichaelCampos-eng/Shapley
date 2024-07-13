@@ -24,7 +24,7 @@ struct SplitBillSetupView: View {
             VStack(alignment: .leading) {
                 
                 HStack {
-                    TextField("Title Name", text: $titleName)
+                    TextField("Receipt Name", text: $titleName)
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         .bold()
                         .fixedSize(horizontal: true, vertical: false)
@@ -46,16 +46,12 @@ struct SplitBillSetupView: View {
                 .padding(.horizontal, 35)
                 
                 
-                
                 List {
-                    Section(header: Text("Receipt")
-                        .font(.title2)
-                        .bold()) {
-                            ForEach(viewModel.sales) { item in
-                                SaleView(entry: item, givenModel: viewModel)
-                            }
-                        }
+                    ForEach(viewModel.sales) { item in
+                        SaleView(entry: item, givenModel: viewModel)
+                    }
                 }
+                .scrollContentBackground(.hidden)
                 
                 SaleSummaryView(model: viewModel)
                     .padding(.horizontal, 40)

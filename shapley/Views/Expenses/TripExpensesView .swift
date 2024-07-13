@@ -12,16 +12,19 @@ struct TripExpensesView: View {
     @StateObject var viewModel: TripExpensesViewModel
     
     init(userId: String, activityId: String) {
-        self._viewModel = StateObject(wrappedValue: TripExpensesViewModel(userId: userId, activityId: activityId))
+        self._viewModel = StateObject(wrappedValue: TripExpensesViewModel(userId: userId, 
+                                                                          activityId: activityId))
     }
     
     var body: some View {
         ZStack {
             List(viewModel.trips) { item in
-                TripView(metadata: item)
+                ExpenseView(metadata: item)
             }
+            .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
             .listStyle(PlainListStyle())
             .navigationTitle("Expenses")
+            .toolbarBackground(Color.black, for: .tabBar)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button {
@@ -30,14 +33,14 @@ struct TripExpensesView: View {
                     Image(systemName: "person.3")
                         .foregroundStyle(.orange)
                 }
-                
                 Button {
+                    withAnimation {
                         viewModel.showingNewTrip.toggle()
+                    }
                 } label: {
-                    Image(systemName: viewModel.showingNewTrip ? "minus" : "plus")
+                    Image(systemName: viewModel.showingNewTrip ? "arrow.turn.right.up" : "plus")
                         .foregroundColor( viewModel.showingNewTrip ? .red : .orange)
                         .rotationEffect(.degrees(viewModel.showingNewTrip ? 0 : 360))
-                        .scaleEffect(viewModel.showingNewTrip ? 1.25 : 1.0)
                 }
             }
             .blur(radius: viewModel.showingNewTrip ? 2 : 0)
@@ -49,17 +52,20 @@ struct TripExpensesView: View {
                 
                 Color.black.opacity(0.7)
                     .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .zIndex(2.0)
                 
-                NewTripView(activityId: viewModel.getActivityId(), newTripPresented: $viewModel.showingNewTrip)
-                    .transition(AnyTransition
-                        .asymmetric(insertion: .move(edge: .bottom),
-                                    removal: .move(edge: .bottom))
-                            .combined(with: .opacity))
-                
+                NewExpenseView(activityId: viewModel.getActivityId(), 
+                               newTripPresented: $viewModel.showingNewTrip)
+                    .transition(
+                        AnyTransition
+                        .asymmetric(insertion: .move(edge: .top),
+                                    removal: .move(edge: .top))
+                        .combined(with: .opacity))
+                    .zIndex(3.0)
             }
             
         }
-        .animation(.default.speed(1.25), value: viewModel.showingNewTrip)
+        .animation(.default.speed(1.0), value: viewModel.showingNewTrip)
     }
 }
 

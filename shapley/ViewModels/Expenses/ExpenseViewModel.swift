@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class TripViewModel: ObservableObject {
+class ExpenseViewModel: ObservableObject {
     @Published var errorMessage = ""
     private var bill: [UserBill] = []
     private var model: [Model] = []
@@ -27,8 +27,16 @@ class TripViewModel: ObservableObject {
         return true
     }
     
+    public func getMeta() -> MetaTrip {
+        return meta
+    }
+    
     public func isOwner() -> Bool {
         return bill.first!.owner
+    }
+    
+    public func getType() -> ExpenseType {
+        return model.first!.type
     }
     
     public func getTitle() -> String {
