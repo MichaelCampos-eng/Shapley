@@ -20,5 +20,5 @@ struct VendueView: View {
 }
 
 #Preview {
-    VendueView(meta: MetaTrip(id: "", userId: "", activityId: ""))
+    VendueView(meta: MetaTrip(id: "", userId: "", activityId: "", dateCreated: TimeInterval()))
 }

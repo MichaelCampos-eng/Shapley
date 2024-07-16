@@ -14,7 +14,7 @@
 		C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670042C389F8B00661184 /* GeneralReceipt.swift */; };
 		C73670082C3DB6FD00661184 /* TextUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670072C3DB6FD00661184 /* TextUtil.swift */; };
 		C78BB7042C0D1C55007D66E0 /* TripExpensesView .swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */; };
-		C78BB7072C0D2919007D66E0 /* TripExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */; };
+		C78BB7072C0D2919007D66E0 /* ExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7062C0D2919007D66E0 /* ExpensesViewModel.swift */; };
 		C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */; };
 		C78BB70F2C13B412007D66E0 /* MetaActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB70E2C13B412007D66E0 /* MetaActivity.swift */; };
 		C78BB7112C178DAB007D66E0 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7102C178DAB007D66E0 /* ActivityViewModel.swift */; };
@@ -71,6 +71,7 @@
 		C7DC6B192C07BBD80020C788 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7DC6B182C07BBD80020C788 /* Launch Screen.storyboard */; };
 		C7DD0A9A2C4312DA00C9AC1E /* ExpenseContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0A992C4312DA00C9AC1E /* ExpenseContentModel.swift */; };
 		C7DD0A9C2C43160E00C9AC1E /* ExpenseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0A9B2C43160E00C9AC1E /* ExpenseType.swift */; };
+		C7DD0A9E2C45EBE900C9AC1E /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0A9D2C45EBE900C9AC1E /* Receipt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +82,7 @@
 		C73670042C389F8B00661184 /* GeneralReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralReceipt.swift; sourceTree = "<group>"; };
 		C73670072C3DB6FD00661184 /* TextUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextUtil.swift; sourceTree = "<group>"; };
 		C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripExpensesView .swift"; sourceTree = "<group>"; };
-		C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripExpensesViewModel.swift; sourceTree = "<group>"; };
+		C78BB7062C0D2919007D66E0 /* ExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewModel.swift; sourceTree = "<group>"; };
 		C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentActivity.swift; sourceTree = "<group>"; };
 		C78BB70E2C13B412007D66E0 /* MetaActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaActivity.swift; sourceTree = "<group>"; };
 		C78BB7102C178DAB007D66E0 /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 		C7DC6B182C07BBD80020C788 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C7DD0A992C4312DA00C9AC1E /* ExpenseContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseContentModel.swift; sourceTree = "<group>"; };
 		C7DD0A9B2C43160E00C9AC1E /* ExpenseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseType.swift; sourceTree = "<group>"; };
+		C7DD0A9D2C45EBE900C9AC1E /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,7 +273,7 @@
 		C78BB7052C0D2905007D66E0 /* Expenses */ = {
 			isa = PBXGroup;
 			children = (
-				C78BB7062C0D2919007D66E0 /* TripExpensesViewModel.swift */,
+				C78BB7062C0D2919007D66E0 /* ExpensesViewModel.swift */,
 				C78BB71C2C1E1C03007D66E0 /* ManageGroupViewModel.swift */,
 				C78BB7202C220152007D66E0 /* ManageUserViewModel.swift */,
 				C78BB72C2C29FCD1007D66E0 /* NewTripViewModel.swift */,
@@ -359,6 +361,7 @@
 			children = (
 				C7BFFF4C2BFECB4B00FEE015 /* User.swift */,
 				C73670042C389F8B00661184 /* GeneralReceipt.swift */,
+				C7DD0A9D2C45EBE900C9AC1E /* Receipt.swift */,
 				C73670002C3617FF00661184 /* Model.swift */,
 				C7BFFF4E2BFECB5300FEE015 /* UserActivity.swift */,
 				C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */,
@@ -485,7 +488,7 @@
 				C73670012C3617FF00661184 /* Model.swift in Sources */,
 				C7DC6B0F2C06AC0A0020C788 /* ActivitiesView.swift in Sources */,
 				C78BB7042C0D1C55007D66E0 /* TripExpensesView .swift in Sources */,
-				C78BB7072C0D2919007D66E0 /* TripExpensesViewModel.swift in Sources */,
+				C78BB7072C0D2919007D66E0 /* ExpensesViewModel.swift in Sources */,
 				C78BB71B2C1D4762007D66E0 /* ManageGroupView.swift in Sources */,
 				C78BB7212C220152007D66E0 /* ManageUserViewModel.swift in Sources */,
 				C7BFFF412BFECA7F00FEE015 /* ProfileView.swift in Sources */,
@@ -498,6 +501,7 @@
 				C73670082C3DB6FD00661184 /* TextUtil.swift in Sources */,
 				C78BB7322C2A0CC3007D66E0 /* Sale.swift in Sources */,
 				C7BFFF612BFFA39000FEE015 /* ButtonView.swift in Sources */,
+				C7DD0A9E2C45EBE900C9AC1E /* Receipt.swift in Sources */,
 				C7343F212C3F15D800D81939 /* SliderActivityView.swift in Sources */,
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
 				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,

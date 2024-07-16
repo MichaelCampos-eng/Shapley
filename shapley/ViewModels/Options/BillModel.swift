@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class BillModel: ObservableObject {
     @Published var showingNewItemView = false
@@ -15,5 +16,10 @@ class BillModel: ObservableObject {
         self.meta = meta
     }
     
+//    private func fetchUserBills() {
+//        let db = Firestore.firestore()
+//        db.collection("users")
+//    }
+//    
     
 }

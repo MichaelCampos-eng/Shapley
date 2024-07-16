@@ -9,16 +9,16 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 struct TripExpensesView: View {
-    @StateObject var viewModel: TripExpensesViewModel
+    @StateObject var viewModel: ExpensesViewModel
     
     init(userId: String, activityId: String) {
-        self._viewModel = StateObject(wrappedValue: TripExpensesViewModel(userId: userId, 
+        self._viewModel = StateObject(wrappedValue: ExpensesViewModel(userId: userId,
                                                                           activityId: activityId))
     }
     
     var body: some View {
         ZStack {
-            List(viewModel.trips) { item in
+            List(viewModel.expensesMeta) { item in
                 ExpenseView(metadata: item)
             }
             .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)

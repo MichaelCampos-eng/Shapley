@@ -12,9 +12,7 @@ import Combine
 
 class SplitBillSetupModel: ObservableObject {
     @Published var salesValid: Bool = false
-    @Published var receipt: GeneralReceipt = GeneralReceipt(id: UUID().uuidString,
-                                                            subtotal: 0.0,
-                                                            tax: 0.0)
+    @Published var receipt: GeneralReceipt = GeneralReceipt(subtotal: 0.0, tax: 0.0)
     @Published var sales: [Sale] = []
     private let activityId: String
     private var cancellables = Set<AnyCancellable>()
@@ -103,45 +101,38 @@ class SplitBillSetupModel: ObservableObject {
             self.salesValid = false
             return
         }
-        
-        let saveId = UUID().uuidString
-        let model = Model(id: saveId, type: .Bill, title: titleName, createdDate: Date().timeIntervalSince1970)
-        let user = UserBill(id: saveId, owner: true, claims: [])
-        
         let db = Firestore.firestore()
-        db.collection("activities")
-            .document(self.getId())
-            .collection("models")
-            .document(saveId)
-            .setData(model.asDictionary())
+        let model = Model(
+                          title: titleName,
+                          createdDate: Date().timeIntervalSince1970,
+                          type: .Bill(receipt: Receipt(summary: receipt,
+                                                       items: sales)))
+        let user = UserBill(owner: true,
+                            claims: [],
+                            createdDate: Date().timeIntervalSince1970)
         
-        db.collection("activities")
-            .document(self.getId())
-            .collection("models")
-            .document(saveId)
-            .collection("meta")
-            .document("general")
-            .setData(self.receipt.asDictionary())
-            
-        
-        db.collection("users")
-            .document(userId)
-            .collection("activities")
-            .document(self.getId())
-            .collection("models")
-            .document(saveId)
-            .setData(user.asDictionary())
-        
-        for item in self.sales {
-            db.collection("activities")
+        var documentId: String? = nil
+        do {
+            let docRef = try db.collection("activities")
                 .document(self.getId())
                 .collection("models")
-                .document(saveId)
-                .collection("meta")
-                .document("general")
-                .collection("items")
-                .document(item.id)
-                .setData(item.asDictionary())
+                .addDocument(from: model)
+            documentId = docRef.documentID
+        } catch {
+           print(error)
+        }
+        
+        do {
+            try db.collection("users")
+                .document(userId)
+                .collection("activities")
+                .document(self.getId())
+                .collection("models")
+                .document(documentId!)
+                .setData(from: user)
+        }
+        catch {
+            print(error)
         }
     }
 }

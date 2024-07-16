@@ -20,5 +20,5 @@ struct BillView: View {
 }
 
 #Preview {
-    BillView(meta: MetaTrip(id: "", userId: "", activityId: ""))
+    BillView(meta: MetaTrip(id: "", userId: "", activityId: "", dateCreated: TimeInterval()))
 }

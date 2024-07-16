@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct MetaTrip: Identifiable{
+struct MetaTrip: Identifiable, Codable {
     let id: String
     let userId: String
     let activityId: String
+    let dateCreated: TimeInterval
 }

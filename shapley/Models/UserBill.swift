@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct UserBill: Identifiable, Codable {
-    let id: String
+struct UserBill: Codable {
     let owner: Bool
     let claims: [String]
+    let createdDate: TimeInterval
 }

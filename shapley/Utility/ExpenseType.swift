@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum ExpenseType: String, Codable {
-    case Bill
+enum ExpenseType: Codable {
+    case Bill(receipt: Receipt)
     case Gas
     case Vendue
 }

@@ -10,21 +10,36 @@ import FirebaseFirestore
 
 class ExpenseViewModel: ObservableObject {
     @Published var errorMessage = ""
-    private var bill: [UserBill] = []
-    private var model: [Model] = []
+    @Published var bill: UserBill = UserBill(owner: false, claims: [], createdDate: TimeInterval())
+    @Published var model: Model = Model(title: "Loading", createdDate: TimeInterval(), type: .Vendue)
     private var meta: MetaTrip
     
     init(meta: MetaTrip) {
         self.meta = meta
+        self.fetchModel()
+        self.fetchUserModel()
     }
     
-    public func validate(bill: [UserBill], model: [Model]) -> Bool{
-        guard bill.count == 1, model.count == 1 else {
-            return false
+    private func fetchUserModel() {
+        let db = Firestore.firestore()
+        db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let userModel = try? snapshot?.data(as: UserBill.self) else {
+                print("Document does not exist or was not able to be decoded.")
+                return
+            }
+            self?.bill = userModel
         }
-        self.bill = bill
-        self.model = model
-        return true
+    }
+    
+    private func fetchModel() {
+        let db = Firestore.firestore()
+        db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let model = try? snapshot?.data(as: Model.self) else {
+                print("Document does not exist or was not able to be decoded")
+                return
+            }
+            self?.model = model
+        }
     }
     
     public func getMeta() -> MetaTrip {
@@ -32,19 +47,19 @@ class ExpenseViewModel: ObservableObject {
     }
     
     public func isOwner() -> Bool {
-        return bill.first!.owner
+        return bill.owner
     }
     
     public func getType() -> ExpenseType {
-        return model.first!.type
+        return model.type
     }
     
     public func getTitle() -> String {
-        return model.first!.title
+        return model.title
     }
     
     public func getCreatedDate() -> TimeInterval {
-        return model.first!.createdDate
+        return model.createdDate
     }
     
     private func getUserId() -> String {

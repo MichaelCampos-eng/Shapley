@@ -17,7 +17,6 @@ struct ActivityView: View {
     @FirestoreQuery var content: [ContentActivity]
     
     init(metadata: MetaActivity) {
-        
         self._userActivity = FirestoreQuery(
             collectionPath: "users/\(metadata.userId)/activities",
             predicates: [.where("id", isEqualTo: metadata.id)])
@@ -63,7 +62,6 @@ struct ActivityView: View {
                     }
                     .tint(Color.blue)
                 }
-                
                 Button("Delete") {
                     viewModel.delete()
                 }

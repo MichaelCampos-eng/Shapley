@@ -21,5 +21,5 @@ struct GasView: View {
 }
 
 #Preview {
-    GasView(meta: MetaTrip(id: "", userId: "", activityId: ""))
+    GasView(meta: MetaTrip(id: "", userId: "", activityId: "", dateCreated: TimeInterval()))
 }

@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct GeneralReceipt: Identifiable, Encodable, Equatable {
-    let id: String
+struct GeneralReceipt: Codable, Equatable {
     var subtotal: Double
     var tax: Double
     
@@ -25,8 +24,7 @@ struct GeneralReceipt: Identifiable, Encodable, Equatable {
     }
     
     static func == (lhs: GeneralReceipt, rhs: GeneralReceipt) -> Bool {
-            return lhs.id == rhs.id &&
-                   lhs.subtotal == rhs.subtotal &&
+            return lhs.subtotal == rhs.subtotal &&
                    lhs.tax == rhs.tax
         }
     
