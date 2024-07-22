@@ -10,6 +10,6 @@ import FirebaseFirestore
 
 struct UserBill: Codable {
     let owner: Bool
-    let claims: [String]
+    var claims: [String: Int]
     let createdDate: TimeInterval
 }

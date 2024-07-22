@@ -12,7 +12,7 @@ struct Model: Codable, Identifiable {
     @DocumentID var id: String?
     let title: String
     let createdDate: TimeInterval
-    let type: ExpenseType
+    var type: ExpenseType
     
     enum ModelKeys: String, CodingKey {
         case id

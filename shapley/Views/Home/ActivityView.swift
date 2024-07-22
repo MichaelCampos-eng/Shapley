@@ -62,6 +62,7 @@ struct ActivityView: View {
                     }
                     .tint(Color.blue)
                 }
+                
                 Button("Delete") {
                     viewModel.delete()
                 }

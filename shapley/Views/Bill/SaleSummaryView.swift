@@ -16,7 +16,7 @@ struct SaleSummaryView: View {
     
     init(model: SplitBillSetupModel) {
         self.viewModel = model
-    }
+    } 
     
     var body: some View {
         VStack(alignment: .trailing) {

@@ -28,7 +28,6 @@
 		C78BB7232C22055B007D66E0 /* ManageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7222C22055B007D66E0 /* ManageUser.swift */; };
 		C78BB7252C29E87E007D66E0 /* SelectSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7242C29E87E007D66E0 /* SelectSliderView.swift */; };
 		C78BB7272C29FA66007D66E0 /* SplitBillSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */; };
-		C78BB7292C29FA80007D66E0 /* SplitGasSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7282C29FA80007D66E0 /* SplitGasSetupView.swift */; };
 		C78BB72B2C29FA90007D66E0 /* VendueSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72A2C29FA90007D66E0 /* VendueSetupView.swift */; };
 		C78BB72D2C29FCD1007D66E0 /* NewTripViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72C2C29FCD1007D66E0 /* NewTripViewModel.swift */; };
 		C78BB7302C2A064D007D66E0 /* SplitBillSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */; };
@@ -72,6 +71,10 @@
 		C7DD0A9A2C4312DA00C9AC1E /* ExpenseContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0A992C4312DA00C9AC1E /* ExpenseContentModel.swift */; };
 		C7DD0A9C2C43160E00C9AC1E /* ExpenseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0A9B2C43160E00C9AC1E /* ExpenseType.swift */; };
 		C7DD0A9E2C45EBE900C9AC1E /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0A9D2C45EBE900C9AC1E /* Receipt.swift */; };
+		C7DD0AA62C47952700C9AC1E /* SplitGasSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AA52C47952700C9AC1E /* SplitGasSetupView.swift */; };
+		C7DD0AA82C47956200C9AC1E /* ItemBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AA72C47956200C9AC1E /* ItemBillView.swift */; };
+		C7DD0AAA2C49B18B00C9AC1E /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AA92C49B18B00C9AC1E /* Clip.swift */; };
+		C7DD0AAC2C4AF4D100C9AC1E /* DoubleSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AAB2C4AF4D100C9AC1E /* DoubleSwipe.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,7 +99,6 @@
 		C78BB7222C22055B007D66E0 /* ManageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUser.swift; sourceTree = "<group>"; };
 		C78BB7242C29E87E007D66E0 /* SelectSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSliderView.swift; sourceTree = "<group>"; };
 		C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillSetupView.swift; sourceTree = "<group>"; };
-		C78BB7282C29FA80007D66E0 /* SplitGasSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGasSetupView.swift; sourceTree = "<group>"; };
 		C78BB72A2C29FA90007D66E0 /* VendueSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendueSetupView.swift; sourceTree = "<group>"; };
 		C78BB72C2C29FCD1007D66E0 /* NewTripViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripViewModel.swift; sourceTree = "<group>"; };
 		C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillSetupModel.swift; sourceTree = "<group>"; };
@@ -138,6 +140,10 @@
 		C7DD0A992C4312DA00C9AC1E /* ExpenseContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseContentModel.swift; sourceTree = "<group>"; };
 		C7DD0A9B2C43160E00C9AC1E /* ExpenseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseType.swift; sourceTree = "<group>"; };
 		C7DD0A9D2C45EBE900C9AC1E /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		C7DD0AA52C47952700C9AC1E /* SplitGasSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGasSetupView.swift; sourceTree = "<group>"; };
+		C7DD0AA72C47956200C9AC1E /* ItemBillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBillView.swift; sourceTree = "<group>"; };
+		C7DD0AA92C49B18B00C9AC1E /* Clip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clip.swift; sourceTree = "<group>"; };
+		C7DD0AAB2C4AF4D100C9AC1E /* DoubleSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleSwipe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,7 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				C7DC6B022C03AF680020C788 /* GasView.swift */,
-				C78BB7282C29FA80007D66E0 /* SplitGasSetupView.swift */,
+				C7DD0AA52C47952700C9AC1E /* SplitGasSetupView.swift */,
 			);
 			path = Gas;
 			sourceTree = "<group>";
@@ -205,6 +211,7 @@
 				C78BB7332C2B282D007D66E0 /* SaleView.swift */,
 				C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */,
 				C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */,
+				C7DD0AA72C47956200C9AC1E /* ItemBillView.swift */,
 			);
 			path = Bill;
 			sourceTree = "<group>";
@@ -221,6 +228,7 @@
 		C710B03B2C0AA17B00816F48 /* Interim */ = {
 			isa = PBXGroup;
 			children = (
+				C7DD0AAB2C4AF4D100C9AC1E /* DoubleSwipe.swift */,
 				C7DC6AFC2C02973E0020C788 /* SelectView.swift */,
 			);
 			path = Interim;
@@ -253,6 +261,7 @@
 			children = (
 				C73670072C3DB6FD00661184 /* TextUtil.swift */,
 				C7DD0A9B2C43160E00C9AC1E /* ExpenseType.swift */,
+				C7DD0AA92C49B18B00C9AC1E /* Clip.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -455,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7DD0AA62C47952700C9AC1E /* SplitGasSetupView.swift in Sources */,
 				C7DC6B052C03AF6F0020C788 /* BillView.swift in Sources */,
 				C78BB7252C29E87E007D66E0 /* SelectSliderView.swift in Sources */,
 				C78BB7272C29FA66007D66E0 /* SplitBillSetupView.swift in Sources */,
@@ -469,7 +479,6 @@
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
 				C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */,
 				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
-				C78BB7292C29FA80007D66E0 /* SplitGasSetupView.swift in Sources */,
 				C7BFFF5B2BFECBAD00FEE015 /* RegisterViewModel.swift in Sources */,
 				C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */,
 				C78BB7192C1CD2F6007D66E0 /* NewExpenseView.swift in Sources */,
@@ -492,7 +501,9 @@
 				C78BB71B2C1D4762007D66E0 /* ManageGroupView.swift in Sources */,
 				C78BB7212C220152007D66E0 /* ManageUserViewModel.swift in Sources */,
 				C7BFFF412BFECA7F00FEE015 /* ProfileView.swift in Sources */,
+				C7DD0AAA2C49B18B00C9AC1E /* Clip.swift in Sources */,
 				C78BB71F2C213DD9007D66E0 /* ManageUserView.swift in Sources */,
+				C7DD0AAC2C4AF4D100C9AC1E /* DoubleSwipe.swift in Sources */,
 				C78BB70F2C13B412007D66E0 /* MetaActivity.swift in Sources */,
 				C7DC6B032C03AF680020C788 /* GasView.swift in Sources */,
 				C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */,
@@ -505,6 +516,7 @@
 				C7343F212C3F15D800D81939 /* SliderActivityView.swift in Sources */,
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
 				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,
+				C7DD0AA82C47956200C9AC1E /* ItemBillView.swift in Sources */,
 				C7DC6B072C03AF7D0020C788 /* VendueView.swift in Sources */,
 				C7343F232C40741500D81939 /* ExpenseViewModel.swift in Sources */,
 				C78BB72B2C29FA90007D66E0 /* VendueSetupView.swift in Sources */,

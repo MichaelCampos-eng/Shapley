@@ -10,8 +10,8 @@ import FirebaseFirestore
 
 class ExpenseViewModel: ObservableObject {
     @Published var errorMessage = ""
-    @Published var bill: UserBill = UserBill(owner: false, claims: [], createdDate: TimeInterval())
-    @Published var model: Model = Model(title: "Loading", createdDate: TimeInterval(), type: .Vendue)
+    @Published var bill: UserBill? = nil
+    @Published var model: Model? = nil
     private var meta: MetaTrip
     
     init(meta: MetaTrip) {
@@ -42,24 +42,31 @@ class ExpenseViewModel: ObservableObject {
         }
     }
     
-    public func getMeta() -> MetaTrip {
+    func valid() -> Bool {
+        if bill != nil && model != nil {
+            return true
+        }
+        return false
+    }
+    
+    func getMeta() -> MetaTrip {
         return meta
     }
     
-    public func isOwner() -> Bool {
-        return bill.owner
+    func isOwner() -> Bool {
+        return bill!.owner
     }
     
-    public func getType() -> ExpenseType {
-        return model.type
+    func getType() -> ExpenseType {
+        return model!.type
     }
     
-    public func getTitle() -> String {
-        return model.title
+    func getTitle() -> String {
+        return model!.title
     }
     
-    public func getCreatedDate() -> TimeInterval {
-        return model.createdDate
+    func getCreatedDate() -> TimeInterval {
+        return model!.createdDate
     }
     
     private func getUserId() -> String {
@@ -74,7 +81,7 @@ class ExpenseViewModel: ObservableObject {
         return self.meta.id
     }
     
-    public func delete() {
+    func delete() {
         self.errorMessage = ""
         let db = Firestore.firestore()
         db.collection("users")

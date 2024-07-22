@@ -1,8 +1,8 @@
 //
-//  SplitGasSetupView.swift
+//  SplitGasSetupVIew.swift
 //  shapley
 //
-//  Created by Michael Campos on 6/24/24.
+//  Created by Michael Campos on 7/16/24.
 //
 
 import SwiftUI

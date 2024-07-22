@@ -12,7 +12,7 @@ class NewTripViewModel: ObservableObject {
     
     init(activityId: String) {
         self.activityId = activityId
-    }
+    } 
     
     
     

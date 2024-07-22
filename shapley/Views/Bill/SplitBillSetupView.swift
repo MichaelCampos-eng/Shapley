@@ -45,7 +45,6 @@ struct SplitBillSetupView: View {
                 }
                 .padding(.horizontal, 35)
                 
-                
                 List {
                     ForEach(viewModel.sales) { item in
                         SaleView(entry: item, givenModel: viewModel)

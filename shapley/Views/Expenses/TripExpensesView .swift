@@ -70,5 +70,5 @@ struct TripExpensesView: View {
 }
 
 #Preview {
-        TripExpensesView(userId: "example", activityId: "Example")
+        TripExpensesView(userId: "mKDySPyahSVrtLMjvALFxleBRm52", activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316")
 }

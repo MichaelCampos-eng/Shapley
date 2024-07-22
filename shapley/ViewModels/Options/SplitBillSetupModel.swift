@@ -108,7 +108,7 @@ class SplitBillSetupModel: ObservableObject {
                           type: .Bill(receipt: Receipt(summary: receipt,
                                                        items: sales)))
         let user = UserBill(owner: true,
-                            claims: [],
+                            claims: [:],
                             createdDate: Date().timeIntervalSince1970)
         
         var documentId: String? = nil
