@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct Receipt: Codable {
+struct Receipt: Codable, Hashable {
     var summary: GeneralReceipt
     var items: [Sale]
 }

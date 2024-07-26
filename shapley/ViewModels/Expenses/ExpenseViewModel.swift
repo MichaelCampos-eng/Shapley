@@ -10,11 +10,11 @@ import FirebaseFirestore
 
 class ExpenseViewModel: ObservableObject {
     @Published var errorMessage = ""
-    @Published var bill: UserBill? = nil
+    @Published var user: UserBill? = nil
     @Published var model: Model? = nil
-    private var meta: MetaTrip
+    private var meta: MetaExpense
     
-    init(meta: MetaTrip) {
+    init(meta: MetaExpense) {
         self.meta = meta
         self.fetchModel()
         self.fetchUserModel()
@@ -27,7 +27,7 @@ class ExpenseViewModel: ObservableObject {
                 print("Document does not exist or was not able to be decoded.")
                 return
             }
-            self?.bill = userModel
+            self?.user = userModel
         }
     }
     
@@ -40,45 +40,6 @@ class ExpenseViewModel: ObservableObject {
             }
             self?.model = model
         }
-    }
-    
-    func valid() -> Bool {
-        if bill != nil && model != nil {
-            return true
-        }
-        return false
-    }
-    
-    func getMeta() -> MetaTrip {
-        return meta
-    }
-    
-    func isOwner() -> Bool {
-        return bill!.owner
-    }
-    
-    func getType() -> ExpenseType {
-        return model!.type
-    }
-    
-    func getTitle() -> String {
-        return model!.title
-    }
-    
-    func getCreatedDate() -> TimeInterval {
-        return model!.createdDate
-    }
-    
-    private func getUserId() -> String {
-        return self.meta.userId
-    }
-    
-    private func getActivityId() -> String {
-        return self.meta.activityId
-    }
-    
-    private func getModelId() -> String {
-        return self.meta.id
     }
     
     func delete() {
@@ -97,5 +58,40 @@ class ExpenseViewModel: ObservableObject {
             .collection("models")
             .document(self.getModelId())
             .delete()
+    }
+    
+    func isAvailable() -> Bool {
+        if user != nil && model != nil {
+            return true
+        }
+        return false
+    }
+    
+    func isOwner() -> Bool {
+        return user!.owner
+    }
+    
+    func getTitle() -> String {
+        return model!.title
+    }
+    
+    func getCreatedDate() -> TimeInterval {
+        return model!.createdDate
+    }
+    
+    func getType() -> ExpenseType {
+        return meta.type
+    }
+    
+    private func getUserId() -> String {
+        return self.meta.userId
+    }
+    
+    private func getActivityId() -> String {
+        return self.meta.activityId
+    }
+    
+    private func getModelId() -> String {
+        return self.meta.id
     }
 }

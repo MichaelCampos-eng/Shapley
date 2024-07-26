@@ -19,7 +19,12 @@ struct TripExpensesView: View {
     var body: some View {
         ZStack {
             List(viewModel.expensesMeta) { item in
-                ExpenseView(metadata: item)
+                NavigationLink(value: item) {
+                    ExpenseView(metadata: item)
+                }
+            }
+            .navigationDestination(for: MetaExpense.self) { item in
+                expenseView(meta: item)
             }
             .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
             .listStyle(PlainListStyle())
@@ -53,8 +58,8 @@ struct TripExpensesView: View {
                 Color.black.opacity(0.7)
                     .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .zIndex(2.0)
-                
-                NewExpenseView(activityId: viewModel.getActivityId(), 
+                 
+                NewExpenseView(activityId: viewModel.getActivityId(),
                                newTripPresented: $viewModel.showingNewTrip)
                     .transition(
                         AnyTransition
@@ -66,6 +71,18 @@ struct TripExpensesView: View {
             
         }
         .animation(.default.speed(1.0), value: viewModel.showingNewTrip)
+    }
+    
+    @ViewBuilder
+    private func expenseView(meta: MetaExpense) -> some View {
+        switch meta.type {
+        case .Bill:
+            BillView(meta: meta)
+        case .Gas:
+            GasView(meta: meta)
+        case .Vendue:
+            VendueView(meta: meta)
+        }
     }
 }
 

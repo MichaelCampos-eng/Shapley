@@ -10,63 +10,54 @@ import SwiftUI
 
 struct ActivityView: View {
     @StateObject var viewModel: ActivityViewModel
-    @State private var isEditing = false
-    @State private var editedTitle = ""
-    
-    @FirestoreQuery var userActivity: [UserActivity]
-    @FirestoreQuery var content: [ContentActivity]
-    
+    @State private var isEditing: Bool = false
+    @State private var editedTitle: String = ""
+
     init(metadata: MetaActivity) {
-        self._userActivity = FirestoreQuery(
-            collectionPath: "users/\(metadata.userId)/activities",
-            predicates: [.where("id", isEqualTo: metadata.id)])
-        
-        self._content = FirestoreQuery(
-            collectionPath: "activities",
-            predicates: [.where("id", isEqualTo: metadata.id)])
-        
         self._viewModel = StateObject(
-            wrappedValue: ActivityViewModel(userId: metadata.userId))
+            wrappedValue: ActivityViewModel(meta: metadata))
     }
     
     var body: some View { 
-        
-        if viewModel.validate(user: userActivity, content: content) {
+        if viewModel.isAvailable() {
             HStack {
                 if isEditing {
-                    TextField("Activity Title", text: $editedTitle, onCommit: {
+                    TextField(editedTitle, text: $editedTitle, onCommit: {
                         viewModel.updateTitle(name: editedTitle)
                         isEditing = false
                     })
+                    .foregroundStyle(Color(.secondaryLabel))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 } else {
-                    NavigationLink(destination: TripExpensesView(userId: viewModel.getUserId(),
-                                                                 activityId: viewModel.getContentId())) {
-                        VStack(alignment: .leading) {
-                            Text(viewModel.getTitle())
-                                .font(.body)
-                                .bold()
-                            Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
-                                .font(.footnote)
-                                .foregroundStyle(Color(.secondaryLabel))
-                        }
+                    VStack(alignment: .leading) {
+                        Text(viewModel.getTitle())
+                            .font(.body)
+                            .bold()
+                        Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
+                            .font(.footnote)
+                            .foregroundStyle(Color(.secondaryLabel))
                     }
                     .buttonStyle(PlainButtonStyle())
                     Spacer()
                 }
             }
+            .onAppear {
+                editedTitle = viewModel.getTitle()
+            }
             .swipeActions {
-                if viewModel.isAdmin() {
+                if viewModel.isAdmin() && !isEditing {
                     Button("Edit") {
                         isEditing = true
                     }
                     .tint(Color.blue)
                 }
                 
-                Button("Delete") {
-                    viewModel.delete()
+                if !isEditing {
+                    Button("Delete") {
+                        viewModel.delete()
+                    }
+                    .tint(Color.red)
                 }
-                .tint(Color.red)
             }
         }
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MetaActivity: Codable, Identifiable {
+struct MetaActivity: Codable, Identifiable, Hashable {
     let userId: String
     let id: String
     let createdDate: TimeInterval

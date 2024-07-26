@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Sale: Codable, Identifiable, Equatable {
+struct Sale: Codable, Identifiable, Equatable, Hashable {
     let id: String
     var name:  String
     var quantity: Int

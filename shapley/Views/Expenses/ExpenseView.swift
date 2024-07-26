@@ -14,42 +14,37 @@ struct ExpenseView: View {
     @State private var editedTitle = ""
     
         
-    init(metadata: MetaTrip) {
+    init(metadata: MetaExpense) {
         self._viewModel = StateObject(wrappedValue: ExpenseViewModel(meta: metadata))
     }
     
     var body: some View {
         
-        if viewModel.valid() {
+        if viewModel.isAvailable() {
             HStack {
                 if isEditing {
                     // TODO:  Add an editing feature, perhaps, not necessary, allow title changes
                 } else {
-                    NavigationLink(destination: expenseView(type: viewModel.getType(),
-                                                            meta: viewModel.getMeta())) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(viewModel.getTitle())
-                                    .font(.body)
-                                    .bold()
-                                Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
-                                    .font(.footnote)
-                                    .foregroundStyle(Color(.secondaryLabel))
-                            }
-                            Spacer()
-                            
-                            switch viewModel.getType() {
-                            case .Bill:
-                                Image(systemName: "newspaper.circle")
-                            case .Gas:
-                                Image(systemName: "car.circle")
-                            case .Vendue:
-                                Image(systemName: "bed.double.circle")
-                            }
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(viewModel.getTitle())
+                                .font(.body)
+                                .bold()
+                            Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
+                                .font(.footnote)
+                                .foregroundStyle(Color(.secondaryLabel))
                         }
-                        
+                        Spacer()
+                        switch viewModel.getType() {
+                        case .Bill:
+                            Image(systemName: "newspaper.circle")
+                        case .Gas:
+                            Image(systemName: "car.circle")
+                        case .Vendue:
+                            Image(systemName: "bed.double.circle")
+                        }
                     }
-                                                            .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                     Spacer()
                 }
             }
@@ -67,20 +62,8 @@ struct ExpenseView: View {
             }
         }
     }
-    
-    @ViewBuilder
-    private func expenseView(type: ExpenseType, meta: MetaTrip) -> some View {
-        switch type {
-        case .Bill:
-            BillView(meta: meta)
-        case .Gas:
-            GasView(meta: meta)
-        case .Vendue:
-            VendueView(meta: meta)
-        }
-    }
 }
 
 #Preview {
-    ExpenseView(metadata: MetaTrip(id: "", userId: "", activityId: "", dateCreated: TimeInterval()))
+    ExpenseView(metadata: MetaExpense(id: "", userId: "", activityId: "", type: .Vendue, dateCreated: TimeInterval()))
 }

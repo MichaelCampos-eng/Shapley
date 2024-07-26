@@ -12,9 +12,9 @@ class BillModel: ObservableObject {
     @Published var model: Model?
     @Published var userModel: UserBill?
     
-    private let meta: MetaTrip
+    private let meta: MetaExpense
     
-    init(meta: MetaTrip) {
+    init(meta: MetaExpense) {
         self.meta = meta
         self.fetchModel()
         self.fetchUserModel()
@@ -25,7 +25,6 @@ class BillModel: ObservableObject {
         db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let model = try? snapshot?.data(as: Model.self) else {
                 print("Failed to decode model or document with that id does not exist.")
-                self?.model = nil
                 return
             }
             self?.model = model
@@ -37,7 +36,6 @@ class BillModel: ObservableObject {
         db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let userModel = try? snapshot?.data(as: UserBill.self) else {
                 print("Failed to decode user mode or document with that id does not exist.")
-                self?.userModel = nil
                 return
             }
             self?.userModel = userModel
@@ -50,12 +48,12 @@ class BillModel: ObservableObject {
         }
         return false
     }
-
+    
     func getTotal() -> Double {
         switch self.model!.type {
-            case .Bill(let receipt):
-                return receipt.summary.total
-            default:
+        case .Bill(let receipt):
+            return receipt.summary.total
+        default:
             return 0.0
         }
     }
@@ -79,48 +77,16 @@ class BillModel: ObservableObject {
             return
         }
         var user = userModel!
-        let potential = min(item.available, quantity)
+        
+        let userAmount = user.claims[itemId] ?? 0
+        let potential = min(item.available + userAmount, quantity)
         if potential == 0 {
             user.claims.removeValue(forKey: itemId)
         } else {
             user.claims[itemId] = potential
         }
-        item.addAvailble(-potential)
-        updateBill(bill: user, sale: item)
-    }
-    
-    func addItem(_ itemId: String) {
-        guard var item = getItem(itemId: itemId) else {
-            print("Item with that id does not exist.")
-            return
-        }
-        var user = userModel!
-        if item.available > 0 {
-            if let value = user.claims[itemId] {user.claims[itemId] = value + 1}
-            else { user.claims[itemId] = 1 }
-            item.addAvailble(-1)
-            print(item)
-            updateBill(bill: user, sale: item)
-        }
-    }
-    
-    func removeItem(_ itemId: String) {
-        guard var item = getItem(itemId: itemId) else {
-            print("Item with that id does not exist.")
-            return
-        }
-        var user = userModel!
-        if let value = user.claims[itemId] {
-            if value > 0 {
-                let newValue = value - 1
-                if newValue == 0 {
-                    user.claims.removeValue(forKey: itemId)
-                } else {
-                    user.claims[itemId] = newValue
-                }
-            }
-        } else { return }
-        item.addAvailble(1)
+        item.addAvailble(userAmount - potential)
+        print(item.available)
         updateBill(bill: user, sale: item)
     }
     
@@ -133,27 +99,27 @@ class BillModel: ObservableObject {
             print("Failed to store user model")
         }
         switch self.model!.type {
-            case .Bill(let receipt):
-                if let index = receipt.items.firstIndex(where: {$0.id == sale.id}) {
-                    var newReceipt = receipt
-                    var newModel = self.model!
-                    
-                    newReceipt.items[index] = sale
-                    newModel.type = .Bill(receipt: newReceipt)
-                    
-                    let modelRef = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId())
-                    do {
-                        try modelRef.setData(from: newModel)
-                    } catch {
-                        print("Failed to store model.")
-                    }
+        case .Bill(let receipt):
+            if let index = receipt.items.firstIndex(where: {$0.id == sale.id}) {
+                var newReceipt = receipt
+                var newModel = self.model!
+                
+                newReceipt.items[index] = sale
+                newModel.type = .Bill(receipt: newReceipt)
+                
+                let modelRef = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId())
+                do {
+                    try modelRef.setData(from: newModel)
+                } catch {
+                    print("Failed to store model.")
                 }
-            default:
-                return
+            }
+        default:
+            return
         }
     }
     
-    internal func getItem(itemId: String) -> Sale? {
+    func getItem(itemId: String) -> Sale? {
         return self.getSales().first{ $0.id == itemId}
     }
     
@@ -161,23 +127,50 @@ class BillModel: ObservableObject {
         return meta.id
     }
     
-    internal func getActivityId() -> String {
+    func getActivityId() -> String {
         return meta.activityId
     }
     
-    internal func getUserId() -> String {
+    func getUserId() -> String {
         return meta.userId
     }
     
-    internal func isOwner() -> Bool {
+    func isOwner() -> Bool {
         return userModel!.owner
     }
     
-    internal func getTitle() -> String {
+    func getTitle() -> String {
         return model!.title
     }
     
-    internal func getSales() -> [Sale] {
+    func getUserTax() -> Double {
+        return getTax() * getUserAmount() / getSubtotal()
+    }
+    
+    func getUserGrandTotal() -> Double {
+        return getUserTax() + getUserAmount()
+    }
+    
+    private func getSubtotal() -> Double {
+        switch self.model!.type {
+            case .Bill(let receipt):
+                return receipt.summary.subtotal
+            default:
+                return 0.0
+        }
+    }
+    
+    
+    private func getTax() -> Double {
+        switch self.model!.type {
+            case .Bill(let receipt):
+                return receipt.summary.tax
+            default:
+                return 0.0
+        }
+    }
+    
+    func getSales() -> [Sale] {
         switch self.model!.type {
             case .Bill(let receipt):
             return receipt.items

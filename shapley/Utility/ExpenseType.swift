@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ExpenseType: Codable {
+enum ExpenseType: Codable, Equatable {
     case Bill(receipt: Receipt)
     case Gas
     case Vendue

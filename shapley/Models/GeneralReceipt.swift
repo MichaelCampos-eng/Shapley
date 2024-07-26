@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GeneralReceipt: Codable, Equatable {
+struct GeneralReceipt: Codable, Equatable, Hashable {
     var subtotal: Double
     var tax: Double
     

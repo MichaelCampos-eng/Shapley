@@ -8,8 +8,8 @@
 import Foundation
 
 class VendueModel: ObservableObject {
-    private let meta: MetaTrip
-    init(meta: MetaTrip) {
+    private let meta: MetaExpense
+    init(meta: MetaExpense) {
         self.meta = meta
     }
 }

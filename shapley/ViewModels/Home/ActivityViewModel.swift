@@ -6,51 +6,49 @@
 //
 
 import FirebaseFirestore
+import Combine
 import Foundation
 
 class ActivityViewModel: ObservableObject {
-    @Published var errorMessage = ""
-    private var user: [UserActivity] = []
-    private var content: [ContentActivity] = []
-    private var userId: String
+    @Published private var user: UserActivity?
+    @Published private var content: ContentActivity?
     
-    init(userId: String) {
-        self.userId = userId
+    private var userReg: ListenerRegistration?
+    private var contentsReg: ListenerRegistration?
+    private var cancellables = Set<AnyCancellable>()
+    
+    private var activityData: MetaActivity
+    
+    init(meta: MetaActivity) {
+        self.activityData = meta
+        self.beginListening()
     }
     
-    func getUserId() -> String {
-        return self.userId
-    }
-    
-    func getContentId() -> String {
-        return self.content.first!.id
-    }
-    
-    func isAdmin() -> Bool {
-        return user.first!.isAdmin
-    }
-    
-    func getTitle() -> String {
-        return content.first!.title
-    }
-    
-    func getCreatedDate() -> TimeInterval {
-        return content.first!.createdDate
-    }
- 
-    func validate(user: [UserActivity], content: [ContentActivity]) -> Bool {
-        guard user.count == 1, content.count == 1 else {
-            return false
+    private func fetchUser() {
+        let db = Firestore.firestore()
+        userReg = db.collection("users/\(getUserId())/activities/").document(getContentId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let document = try? snapshot?.data(as: UserActivity.self) else {
+                print("User does not exist.")
+                return
+            }
+            self?.user = document
         }
-        // Update user and content attribtutes
-        self.user = user
-        self.content = content 
-        return true
+    }
+    
+    private func fetchContent() {
+        let db = Firestore.firestore()
+        contentsReg = db.collection("activities").document(getContentId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let document = try? snapshot?.data(as: ContentActivity.self) else {
+                print("Activity does not exist.")
+                return
+            }
+            self?.content = document
+        }
     }
     
     func updateTitle(name: String) {
         let db = Firestore.firestore()
-        let document = db.collection("activities").document(content.first!.id)
+        let document = db.collection("activities").document(getContentId())
      
         document.getDocument(as: ContentActivity.self) { result in
             switch result {
@@ -71,24 +69,58 @@ class ActivityViewModel: ObservableObject {
         }
     }
     
-    
-    // TODO: Make sure the right user deletes the activity from contents
-    /// Delete activity
-    /// - Parameter id: activity id to delete
     func delete() {
-        self.errorMessage = ""
         let db = Firestore.firestore()
         let document = db.collection("users")
-            .document(self.userId)
+            .document(getUserId())
             .collection("activities")
-            .document(content.first!.id)
+            .document(getContentId())
         document.delete()
         
         if self.isAdmin() {
             db.collection("activities")
-                .document(content.first!.id)
+                .document(getContentId())
                 .delete()
         }
+    }
+    
+    func beginListening() {
+        self.fetchUser()
+        self.fetchContent()
+    }
+    
+    func endListening() {
+        userReg?.remove()
+        contentsReg?.remove()
+        userReg = nil
+        contentsReg = nil
+    }
+    
+    func isAvailable() -> Bool {
+        if user != nil, content != nil {
+            return true
+        }
+        return false
+    }
+    
+    func getUserId() -> String {
+        return self.activityData.userId
+    }
+    
+    func getContentId() -> String {
+        return self.activityData.id
+    }
+    
+    func isAdmin() -> Bool {
+        return user!.isAdmin
+    }
+    
+    func getTitle() -> String {
+        return content!.title
+    }
+    
+    func getCreatedDate() -> TimeInterval {
+        return content!.createdDate
     }
 }
     

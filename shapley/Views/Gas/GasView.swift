@@ -9,9 +9,9 @@ import SwiftUI
 
 struct GasView: View {
     @StateObject var viewModel = GasModel()
-    private let meta: MetaTrip
+    private let meta: MetaExpense
     
-    init (meta: MetaTrip) {
+    init (meta: MetaExpense) {
         self.meta = meta
     }
     
@@ -21,5 +21,9 @@ struct GasView: View {
 }
 
 #Preview {
-    GasView(meta: MetaTrip(id: "", userId: "", activityId: "", dateCreated: TimeInterval()))
+    GasView(meta: MetaExpense(id: "", 
+                              userId: "",
+                              activityId: "",
+                              type: .Gas,
+                              dateCreated: TimeInterval()))
 }

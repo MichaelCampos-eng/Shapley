@@ -9,9 +9,9 @@ import Foundation
 
 class ExpenseContentModel: ObservableObject {
     
-    private let meta: MetaTrip
+    private let meta: MetaExpense
     
-    init(meta: MetaTrip) {
+    init(meta: MetaExpense) {
         self.meta = meta
     }
     

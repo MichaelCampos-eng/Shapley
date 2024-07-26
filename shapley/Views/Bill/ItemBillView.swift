@@ -6,49 +6,42 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ItemBillView: View {
-    
+    @StateObject private var viewModel: ItemBillViewModel
+  
     private let saleItem: Sale
     private let unitPrice: Double
-    private var selected: Double
-    private let rightSwipe: Action
-    private let leftSwipe: Action
+    
+    private let rightSymbols: [ActionSymbol] = [ActionSymbol(color: .clear,
+                                                             name: "Remove",
+                                                             systemIcon: "arrow.left"),
+                                                ActionSymbol(color: .red,
+                                                             name: "Remove from cart",
+                                                             systemIcon: "cart.badge.minus")]
+    private let leftSymbols: [ActionSymbol] = [ActionSymbol(color: .clear,
+                                                            name: "Add",
+                                                            systemIcon: "arrow.right"),
+                                               ActionSymbol(color: .orange,
+                                                            name: "Add to cart",
+                                                            systemIcon: "cart.badge.plus")]
     
     init(sale: Sale,
          user: UserBill,
-         addAction: @escaping (String) -> Void,
-         removeAction:  @escaping (String) -> Void) {
-        
+         updateAction: @escaping (String, Int) -> Void) {
         self.saleItem = sale
         self.unitPrice = Double(String(format: "%.2f", sale.price / Double(sale.quantity))) ?? 0.0
-        if let val = user.claims[sale.id] {
-            self.selected = Double(val)
-        } else {
-            self.selected = 0.0
-        }
-        rightSwipe = Action(
-                            meta: [
-                                ActionSymbol(color: .clear,
-                                             name: "Remove",
-                                             systemIcon: "arrow.left"),
-                                ActionSymbol(color: .red,
-                                             name: "Remove from cart",
-                                             systemIcon: "cart.badge.minus")],
-                            execute: removeAction)
-        leftSwipe = Action(
-                            meta: [
-                                ActionSymbol(color: .clear,
-                                             name: "Add",
-                                             systemIcon: "arrow.right"),
-                                ActionSymbol(color: .orange,
-                                             name: "Add to cart",
-                                             systemIcon: "cart.badge.plus")],
-                            execute: addAction)
+        self._viewModel = StateObject(wrappedValue: ItemBillViewModel(selectedQuantity: user.claims[sale.id],
+                                                                      saleItem: sale,
+                                                                      action: updateAction))
     }
     
     var body: some View {
-        SwipeActionsView(right: rightSwipe, left: leftSwipe, parameterAction: saleItem.id) {
+        SwipeActionsView(right: SwipeAction(meta: rightSymbols, 
+                                            execute: viewModel.subtract),
+                         left: SwipeAction(meta: leftSymbols, 
+                                           execute: viewModel.add)) {
             HStack {
                 VStack(alignment: .leading) {
                     Text("\(saleItem.name)")
@@ -60,9 +53,15 @@ struct ItemBillView: View {
                         .foregroundStyle(Color(.secondaryLabel))
                 }
                 Spacer()
-                Text("\(Int(selected))/\(saleItem.quantity)")
+                
+                HStack{
+                    Text("\(viewModel.selected)")
+                        .foregroundStyle(.orange)
+                    Text("/  \(saleItem.quantity)")
+                }
+                
                 Spacer()
-                Text("\(String(format: "%.2f", self.selected * self.unitPrice))")
+                Text("\(String(format: "%.2f", Double(viewModel.selected) * unitPrice))")
             }
         }
     }
@@ -76,6 +75,5 @@ struct ItemBillView: View {
                  user: UserBill(owner: false,
                                 claims: ["":3],
                                 createdDate: TimeInterval()),
-                 addAction: {_ in},
-                 removeAction: {_ in})
+                 updateAction: {_, _ in})
 }

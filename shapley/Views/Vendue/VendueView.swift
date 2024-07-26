@@ -10,7 +10,7 @@ import SwiftUI
 struct VendueView: View {
     @StateObject var viewModel: VendueModel
     
-    init (meta: MetaTrip) {
+    init (meta: MetaExpense) {
         self._viewModel = StateObject(wrappedValue: VendueModel(meta: meta))
     }
     
@@ -20,5 +20,9 @@ struct VendueView: View {
 }
 
 #Preview {
-    VendueView(meta: MetaTrip(id: "", userId: "", activityId: "", dateCreated: TimeInterval()))
+    VendueView(meta: MetaExpense(id: "", 
+                                 userId: "",
+                                 activityId: "",
+                                 type: .Vendue,
+                                 dateCreated: TimeInterval()))
 }
