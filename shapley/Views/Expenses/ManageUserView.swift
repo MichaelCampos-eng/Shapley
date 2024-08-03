@@ -20,6 +20,10 @@ struct ManageUserView: View {
     }
     
     var body: some View {
+        
+        let screenSize = UIScreen.main.bounds.size
+        let diameter = min(screenSize.width, screenSize.height) / 3
+        
         if viewModel.validate() {
             HStack {
                 if isEditing {
@@ -29,33 +33,56 @@ struct ManageUserView: View {
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 } else {
-                    VStack(alignment: .leading) {
-                        Text(viewModel.getName())
-                            .font(.body)
-                            .bold()
-                        Text(viewModel.getContact())
-                            .font(.footnote)
-                            .foregroundStyle(Color(.secondaryLabel))
+                    ZStack{
+                        Image(systemName: "person")
+                            .tint(.orange)
+                        Rectangle()
+                            .fill(Material.ultraThin)
+                            .frame(width: diameter, height: diameter)
+                            .cornerRadius(20)
+                            .overlay {
+                                VStack(alignment: .center) {
+                                    Text(viewModel.getName())
+                                        .font(.body)
+                                        .bold()
+                                    if viewModel.isAdmin() {
+                                        Text("Admin")
+                                            .font(.footnote)
+                                            .foregroundStyle(Color(.secondaryLabel))
+                                    }
+                                    Text(viewModel.getContact())
+                                        .font(.footnote)
+                                        .foregroundStyle(Color(.secondaryLabel))
+                                }
+                            }
                     }
+                    
                 }
             }
-            .swipeActions {
-                if viewModel.isRemovable {
-                    Button("Remove") {
-                        viewModel.removeUser()
-                    }
-                    .tint(Color.red)
-                }
-                
-                if viewModel.isEditible {
-                    Button("Edit") {
-                        isEditing = true
-                    }
-                    .tint(Color.blue)
-                }
-                
-            }
+//            .swipeActions {
+//                if viewModel.isRemovable {
+//                    Button("Remove") {
+//                        viewModel.removeUser()
+//                    }
+//                    .tint(Color.red)
+//                }
+//                
+//                if viewModel.isEditible {
+//                    Button("Edit") {
+//                        isEditing = true
+//                    }
+//                    .tint(Color.blue)
+//                }
+//                
+//            }
         }
+//            .scrollTransition(.interactive,
+//                              axis: .horizontal) { view, phase in
+//                view.opacity(phase.value > 0 ? 0 : 1.0)
+//                    .offset(x: phase.value > 0 ? 500 : 0)
+//                    .blur(radius: phase.value > 0 ? 15 : 0)
+//                    .rotationEffect(.degrees(phase.value > 0 ? -90 : 0))
+//            }
     }
 }
 

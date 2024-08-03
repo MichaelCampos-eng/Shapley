@@ -52,7 +52,7 @@ struct ItemBillView: View {
                         .font(.footnote)
                         .foregroundStyle(Color(.secondaryLabel))
                 }
-                Spacer()
+                Spacer() 
                 
                 HStack{
                     Text("\(viewModel.selected)")

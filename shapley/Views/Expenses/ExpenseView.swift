@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExpenseView: View {
      
-    @StateObject var viewModel: ExpenseViewModel
+    @StateObject var viewModel: ExpenseViewModel 
     @State private var isEditing = false
     @State private var editedTitle = ""
     

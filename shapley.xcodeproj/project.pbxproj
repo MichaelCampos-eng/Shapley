@@ -35,6 +35,17 @@
 		C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7332C2B282D007D66E0 /* SaleView.swift */; };
 		C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */; };
 		C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */; };
+		C7AF5A6D2C543CCB00906E12 /* ManageBillGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A6C2C543CCB00906E12 /* ManageBillGroupView.swift */; };
+		C7AF5A6F2C543D3600906E12 /* ManageBillGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A6E2C543D3600906E12 /* ManageBillGroupModel.swift */; };
+		C7AF5A712C54670700906E12 /* ManageBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A702C54670700906E12 /* ManageBill.swift */; };
+		C7AF5A732C57E10E00906E12 /* BillGroupUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A722C57E10E00906E12 /* BillGroupUserView.swift */; };
+		C7AF5A752C57E17800906E12 /* ManageBillUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A742C57E17800906E12 /* ManageBillUserModel.swift */; };
+		C7AF5A772C5B065300906E12 /* UnclaimedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A762C5B065300906E12 /* UnclaimedItemsView.swift */; };
+		C7AF5A792C5B164B00906E12 /* PublicUserClaimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A782C5B164B00906E12 /* PublicUserClaimView.swift */; };
+		C7AF5A7B2C5B186800906E12 /* PieChartBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A7A2C5B186800906E12 /* PieChartBillView.swift */; };
+		C7AF5A7D2C5B86D400906E12 /* DebtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A7C2C5B86D400906E12 /* DebtView.swift */; };
+		C7AF5A832C5C5F7A00906E12 /* GroupSaleEntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A822C5C5F7A00906E12 /* GroupSaleEntriesView.swift */; };
+		C7AF5A872C5D9C4B00906E12 /* TESTING.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A862C5D9C4B00906E12 /* TESTING.swift */; };
 		C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */; };
 		C7BFFF1F2BFEC25A00FEE015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */; };
 		C7BFFF222BFEC25A00FEE015 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7BFFF212BFEC25A00FEE015 /* Preview Assets.xcassets */; };
@@ -107,6 +118,17 @@
 		C78BB7332C2B282D007D66E0 /* SaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleView.swift; sourceTree = "<group>"; };
 		C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
 		C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryView.swift; sourceTree = "<group>"; };
+		C7AF5A6C2C543CCB00906E12 /* ManageBillGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBillGroupView.swift; sourceTree = "<group>"; };
+		C7AF5A6E2C543D3600906E12 /* ManageBillGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBillGroupModel.swift; sourceTree = "<group>"; };
+		C7AF5A702C54670700906E12 /* ManageBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBill.swift; sourceTree = "<group>"; };
+		C7AF5A722C57E10E00906E12 /* BillGroupUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillGroupUserView.swift; sourceTree = "<group>"; };
+		C7AF5A742C57E17800906E12 /* ManageBillUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBillUserModel.swift; sourceTree = "<group>"; };
+		C7AF5A762C5B065300906E12 /* UnclaimedItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnclaimedItemsView.swift; sourceTree = "<group>"; };
+		C7AF5A782C5B164B00906E12 /* PublicUserClaimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicUserClaimView.swift; sourceTree = "<group>"; };
+		C7AF5A7A2C5B186800906E12 /* PieChartBillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartBillView.swift; sourceTree = "<group>"; };
+		C7AF5A7C2C5B86D400906E12 /* DebtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtView.swift; sourceTree = "<group>"; };
+		C7AF5A822C5C5F7A00906E12 /* GroupSaleEntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSaleEntriesView.swift; sourceTree = "<group>"; };
+		C7AF5A862C5D9C4B00906E12 /* TESTING.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTING.swift; sourceTree = "<group>"; };
 		C7BFFF172BFEC25800FEE015 /* shapley.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shapley.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BFFF1A2BFEC25800FEE015 /* shapleyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shapleyApp.swift; sourceTree = "<group>"; };
 		C7BFFF1E2BFEC25A00FEE015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -178,6 +200,7 @@
 			children = (
 				C7DC6B022C03AF680020C788 /* GasView.swift */,
 				C7DD0AA52C47952700C9AC1E /* SplitGasSetupView.swift */,
+				C7AF5A722C57E10E00906E12 /* BillGroupUserView.swift */,
 			);
 			path = Gas;
 			sourceTree = "<group>";
@@ -209,11 +232,18 @@
 			isa = PBXGroup;
 			children = (
 				C7DC6B042C03AF6F0020C788 /* BillView.swift */,
+				C7AF5A6C2C543CCB00906E12 /* ManageBillGroupView.swift */,
 				C78BB7262C29FA66007D66E0 /* SplitBillSetupView.swift */,
 				C78BB7332C2B282D007D66E0 /* SaleView.swift */,
 				C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */,
 				C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */,
 				C7DD0AA72C47956200C9AC1E /* ItemBillView.swift */,
+				C7AF5A762C5B065300906E12 /* UnclaimedItemsView.swift */,
+				C7AF5A782C5B164B00906E12 /* PublicUserClaimView.swift */,
+				C7AF5A822C5C5F7A00906E12 /* GroupSaleEntriesView.swift */,
+				C7AF5A862C5D9C4B00906E12 /* TESTING.swift */,
+				C7AF5A7A2C5B186800906E12 /* PieChartBillView.swift */,
+				C7AF5A7C2C5B86D400906E12 /* DebtView.swift */,
 			);
 			path = Bill;
 			sourceTree = "<group>";
@@ -255,6 +285,8 @@
 				C7DC6B0C2C03B6E00020C788 /* VendueModel.swift */,
 				C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */,
 				C7DD0AAD2C4F1F5200C9AC1E /* ItemBillViewModel.swift */,
+				C7AF5A6E2C543D3600906E12 /* ManageBillGroupModel.swift */,
+				C7AF5A742C57E17800906E12 /* ManageBillUserModel.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -383,6 +415,7 @@
 				C78BB7222C22055B007D66E0 /* ManageUser.swift */,
 				C78BB7312C2A0CC3007D66E0 /* Sale.swift */,
 				C73670022C36194800661184 /* UserBill.swift */,
+				C7AF5A702C54670700906E12 /* ManageBill.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -467,6 +500,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7AF5A752C57E17800906E12 /* ManageBillUserModel.swift in Sources */,
 				C7DD0AA62C47952700C9AC1E /* SplitGasSetupView.swift in Sources */,
 				C7DC6B052C03AF6F0020C788 /* BillView.swift in Sources */,
 				C7DD0AAE2C4F1F5200C9AC1E /* ItemBillViewModel.swift in Sources */,
@@ -480,8 +514,10 @@
 				C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */,
 				C7BFFF5F2BFEDC3800FEE015 /* HeaderView.swift in Sources */,
 				C7DC6AFD2C02973E0020C788 /* SelectView.swift in Sources */,
+				C7AF5A872C5D9C4B00906E12 /* TESTING.swift in Sources */,
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
 				C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */,
+				C7AF5A792C5B164B00906E12 /* PublicUserClaimView.swift in Sources */,
 				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
 				C7BFFF5B2BFECBAD00FEE015 /* RegisterViewModel.swift in Sources */,
 				C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */,
@@ -492,9 +528,12 @@
 				C7DC6B0D2C03B6E00020C788 /* VendueModel.swift in Sources */,
 				C7BFFF492BFECABE00FEE015 /* RegisterView.swift in Sources */,
 				C78BB7232C22055B007D66E0 /* ManageUser.swift in Sources */,
+				C7AF5A772C5B065300906E12 /* UnclaimedItemsView.swift in Sources */,
 				C7BFFF532BFECB8400FEE015 /* ProfileViewModel.swift in Sources */,
 				C7DC6B0B2C03B6D90020C788 /* BillModel.swift in Sources */,
+				C7AF5A6D2C543CCB00906E12 /* ManageBillGroupView.swift in Sources */,
 				C78BB7152C1B71D9007D66E0 /* MetaExpense.swift in Sources */,
+				C7AF5A7B2C5B186800906E12 /* PieChartBillView.swift in Sources */,
 				C7BFFF592BFECBA600FEE015 /* LoginViewModel.swift in Sources */,
 				C7DD0A9A2C4312DA00C9AC1E /* ExpenseContentModel.swift in Sources */,
 				C7BFFF4D2BFECB4B00FEE015 /* User.swift in Sources */,
@@ -507,9 +546,12 @@
 				C7BFFF412BFECA7F00FEE015 /* ProfileView.swift in Sources */,
 				C7DD0AAA2C49B18B00C9AC1E /* Clip.swift in Sources */,
 				C78BB71F2C213DD9007D66E0 /* ManageUserView.swift in Sources */,
+				C7AF5A832C5C5F7A00906E12 /* GroupSaleEntriesView.swift in Sources */,
 				C7DD0AAC2C4AF4D100C9AC1E /* DoubleSwipe.swift in Sources */,
 				C78BB70F2C13B412007D66E0 /* MetaActivity.swift in Sources */,
 				C7DC6B032C03AF680020C788 /* GasView.swift in Sources */,
+				C7AF5A7D2C5B86D400906E12 /* DebtView.swift in Sources */,
+				C7AF5A712C54670700906E12 /* ManageBill.swift in Sources */,
 				C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */,
 				C73670032C36194800661184 /* UserBill.swift in Sources */,
 				C78BB7172C1CCE0B007D66E0 /* ExpenseView.swift in Sources */,
@@ -529,6 +571,8 @@
 				C7BFFF512BFECB6C00FEE015 /* MainViewModel.swift in Sources */,
 				C7DC6B132C06AE190020C788 /* NewActivityView.swift in Sources */,
 				C7BFFF632C000A8F00FEE015 /* Encodable.swift in Sources */,
+				C7AF5A732C57E10E00906E12 /* BillGroupUserView.swift in Sources */,
+				C7AF5A6F2C543D3600906E12 /* ManageBillGroupModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

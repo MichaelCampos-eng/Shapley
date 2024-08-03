@@ -51,7 +51,6 @@ struct ActivityView: View {
                     }
                     .tint(Color.blue)
                 }
-                
                 if !isEditing {
                     Button("Delete") {
                         viewModel.delete()

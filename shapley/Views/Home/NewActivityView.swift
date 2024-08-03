@@ -15,75 +15,71 @@ struct NewActivityView: View {
     @Namespace private var animationSpacespace
     
     var body: some View {
-        
-        VStack {
-            Spacer()
-            SliderActivityView(createActivity: $createActivity, joinActivity: $joinActivity)
-                .padding(.vertical, 20)
-            Divider()
-            
-            ZStack {
-                if createActivity {
-                    VStack {
-                        
-                        Form {
-                            Section(header: Text("New Activity").font(.headline)) {
-                                TextField("Activity Name", text: $viewModel.activityName)
-                                    .textFieldStyle(DefaultTextFieldStyle())
-                                
-                                ButtonView(title: "Create",
-                                           background: Color.orange) {
+        Spacer()
+        ZStack {
+            VStack {
+                SliderActivityView(createActivity: $createActivity, joinActivity: $joinActivity)
+                    .padding(.vertical, 20)
+                Divider()
+                ZStack {
+                    if createActivity {
+                        VStack {
+                            Form {
+                                Section(header: Text("New Activity").font(.headline)) {
+                                    TextField("Activity Name", text: $viewModel.activityName)
+                                        .textFieldStyle(DefaultTextFieldStyle())
                                     
-                                    
-                                    if viewModel.canCreate {
-                                        viewModel.create()
-                                        newItemPresented = false
-                                    } else {
-                                        viewModel.showAlert = true
+                                    ButtonView(title: "Create",
+                                               background: Color.orange) {
+                                        if viewModel.canCreate {
+                                            viewModel.create()
+                                            newItemPresented = false
+                                        } else {
+                                            viewModel.showAlert = true
+                                        }
                                     }
                                 }
                             }
+                            .scrollContentBackground(.hidden)
                         }
-                        
-                    }
-                    .matchedGeometryEffect(id: "content", in: animationSpacespace)
-                    .frame(height: 200)
-                    Spacer()
-                    
-                } else {
-                    VStack {
-                        Form {
-                            Section(header: Text("Join Group!").font(.headline)) {
-                                
-                                TextField("Group ID", text: $viewModel.groupId)
-                                    .textFieldStyle(DefaultTextFieldStyle())
-                                
-                                ButtonView(title: "Join Group",
-                                           background: Color.orange,
-                                           action: {
+                        .matchedGeometryEffect(id: "content", in: animationSpacespace)
+                        .frame(height: 200)
+                        Spacer()
+                    } else {
+                        VStack {
+                            Form {
+                                Section(header: Text("Join Group!").font(.headline)) {
                                     
-                                    if viewModel.canJoin {
-                                        viewModel.join()
-                                        newItemPresented = false
-                                    } else {
-                                        viewModel.showAlert = true
-                                    }
-                                })
+                                    TextField("Group ID", text: $viewModel.groupId)
+                                        .textFieldStyle(DefaultTextFieldStyle())
+                                    
+                                    ButtonView(title: "Join Group",
+                                               background: Color.orange,
+                                               action: {
+                                        if viewModel.canJoin {
+                                            viewModel.join()
+                                            newItemPresented = false
+                                        } else {
+                                            viewModel.showAlert = true
+                                        }
+                                    })
+                                }
                             }
+                            .scrollContentBackground(.hidden)
                         }
+                        .frame(height: 200)
+                        .matchedGeometryEffect(id: "content", in: animationSpacespace)
+                        Spacer()
                     }
-                    .frame(height: 200)
-                    .matchedGeometryEffect(id: "content", in: animationSpacespace)
-                    Spacer()
                 }
+                .alert(isPresented: $viewModel.showAlert, content: {
+                    Alert(title: Text("Error"), message: Text(viewModel.alertMessage))
+                })
+                .animation(.smooth, value: createActivity)
+                .animation(.spring, value: joinActivity)
             }
-            .alert(isPresented: $viewModel.showAlert, content: {
-                Alert(title: Text("Error"), message: Text(viewModel.alertMessage))
-            })
-            .animation(.smooth, value: createActivity)
-            .animation(.spring, value: joinActivity)
-            Spacer()
         }
+        Spacer()
     }
 }
 
@@ -93,6 +89,4 @@ struct NewActivityView: View {
     }, set: { _ in
         return
     }))
-    
-         
 }

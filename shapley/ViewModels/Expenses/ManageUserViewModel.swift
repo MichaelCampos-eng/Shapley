@@ -146,12 +146,16 @@ class ManageUserViewModel: ObservableObject {
     
     public func getName() -> String {
         if let meta = userMeta {
-            if meta.isAdmin {
-                return "\(meta.userName) (Admin)"
-            }
             return meta.userName
         }
         return "User"
+    }
+    
+    public func isAdmin() -> Bool {
+        if let meta = userMeta {
+            return meta.isAdmin
+        }
+        return false
     }
     
     public func getContact() -> String {

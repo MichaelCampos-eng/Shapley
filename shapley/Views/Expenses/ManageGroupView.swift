@@ -17,20 +17,41 @@ struct ManageGroupView: View {
     }
     
     var body: some View {
-
         NavigationStack {
-            List(viewModel.results, id: \.self) { item in
-                ManageUserView(userId: item, activityId: viewModel.getActivityId()) {userName, uId in
-                    viewModel.users[userName] = uId
+            ScrollView(.horizontal, showsIndicators: true) {
+                HStack {
+                    ForEach(viewModel.results, id:\.self) { item in
+                        ManageUserView(userId: item, activityId: viewModel.getActivityId()) { userName, uId in
+                            viewModel.users[userName] = uId
+                        }
+                    }
                 }
+                .scrollTargetLayout()
             }
-            .listStyle(PlainListStyle())
+            .padding()
+            .scrollTargetBehavior(.viewAligned)
+            .searchable(text: $viewModel.search, prompt: "Look for user")
             .navigationTitle("Code: \(viewModel.getGroupCode())")
             .navigationBarTitleDisplayMode(.inline)
+            .tint(.orange)
+//            .searchable(text: $viewModel.search, placement: .navigationBarDrawer(displayMode: .always), prompt: "Look for user")
         }
-        .searchable(text: $viewModel.search, prompt: "Look for user")
-        .tint(.orange)
     }
+        
+//        NavigationStack {
+//            List(viewModel.results, id: \.self) { item in
+//                ManageUserView(userId: item, activityId: viewModel.getActivityId()) {userName, uId in
+//                    viewModel.users[userName] = uId
+//                }
+//            }
+//            .listStyle(PlainListStyle())
+//            .searchable(text: $viewModel.search, prompt: "Look for user")
+//            .navigationTitle("Code: \(viewModel.getGroupCode())")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .tint(.orange)
+//            .scrollContentBackground(.hidden)
+//        }
+//    }
 }
 
 #Preview {

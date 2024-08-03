@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TripExpensesView: View {
     @StateObject var viewModel: ExpensesViewModel
+    @EnvironmentObject private var navigation: NavigationPathStore
     
     init(userId: String, activityId: String) {
         self._viewModel = StateObject(wrappedValue: ExpensesViewModel(userId: userId,
@@ -51,8 +52,16 @@ struct TripExpensesView: View {
             .blur(radius: viewModel.showingNewTrip ? 2 : 0)
             .sheet(isPresented: $viewModel.showingManageGroup) {
                 ManageGroupView(presented: $viewModel.showingManageGroup, activityId: viewModel.getActivityId())
+                    .presentationDetents([.fraction(0.30)])
             }
-            
+            .onChange(of: navigation.path) {
+                if navigation.path.count == 1 {
+                    viewModel.beginListening()
+                }
+                else {
+                    viewModel.endListening()
+                }
+            }
             if viewModel.showingNewTrip {
                 
                 Color.black.opacity(0.7)
@@ -70,7 +79,7 @@ struct TripExpensesView: View {
             }
             
         }
-        .animation(.default.speed(1.0), value: viewModel.showingNewTrip)
+        .animation(.default, value: viewModel.showingNewTrip)
     }
     
     @ViewBuilder

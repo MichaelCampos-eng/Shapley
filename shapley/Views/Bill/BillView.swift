@@ -10,12 +10,13 @@ import SwiftUI
 struct BillView: View {
     @StateObject var viewModel: BillModel
     @State private var isShifted: Bool = false
+    @State private var isGroupPresented: Bool = false
     
     init(meta: MetaExpense) {
         self._viewModel = StateObject(wrappedValue: BillModel(meta: meta))
     }
     
-        
+         
     var body: some View {
         VStack {
             if viewModel.isValid() {
@@ -54,7 +55,6 @@ struct BillView: View {
                         }
                     }
                 }
-                
                 HStack{
                     Spacer()
                     if viewModel.isOwner() {
@@ -87,7 +87,7 @@ struct BillView: View {
         .navigationTitle("Receipt")
         .toolbar {
             Button {
-                print("ok")
+                isGroupPresented.toggle()
             } label: {
                 Image(systemName: "person.3")
                     .foregroundColor(.orange)
@@ -98,7 +98,19 @@ struct BillView: View {
                 Image(systemName: "pencil")
                     .foregroundColor(.orange)
             }
+            
         }
+//        .sheet(isPresented: $isGroupPresented, content: {
+//            ManageBillGroupView(meta: viewModel.getMeta())
+////                .presentationContentInteraction(.scrolls)
+//        })
+        
+        if isGroupPresented {
+            ManageBillGroupView(meta: viewModel.getMeta())
+        }
+        
+        // TODO: Incorporate manage group view and add animations
+        
     }
 }
 

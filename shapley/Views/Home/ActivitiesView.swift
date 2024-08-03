@@ -5,13 +5,16 @@
 //  Created by Michael Campos on 5/28/24.
 //
 
-
 import FirebaseFirestoreSwift
 import SwiftUI
 
+class NavigationPathStore: ObservableObject {
+    @Published var path = NavigationPath()
+}
+
 struct ActivitiesView: View {
-    @StateObject var viewModel: ActivitiesViewModel
-    @State private var navPath: NavigationPath = NavigationPath()
+    @StateObject private var viewModel: ActivitiesViewModel
+    @StateObject private var navigation: NavigationPathStore = NavigationPathStore()
     
     init(userId: String) {
         self._viewModel = StateObject(
@@ -21,7 +24,7 @@ struct ActivitiesView: View {
     var body: some View {
         
         ZStack {
-            NavigationStack(path: $navPath) {
+            NavigationStack(path: $navigation.path) {
                 List(viewModel.metadata) { item in
                     NavigationLink(value: item) {
                         ActivityView(metadata: item)
@@ -31,6 +34,7 @@ struct ActivitiesView: View {
                 .navigationTitle("Activities")
                 .navigationDestination(for: MetaActivity.self) { item in
                     TripExpensesView(userId: item.userId, activityId: item.id)
+                        .environmentObject(navigation)
                 }
                 .toolbar {
                     Button {
@@ -41,6 +45,14 @@ struct ActivitiesView: View {
                     }
                 }
                 .blur(radius: viewModel.showingNewActivity ? 2 : 0)
+            }
+            .onChange(of: navigation.path) {
+                if navigation.path.count == 0 {
+                    viewModel.beginListening()
+                }
+                else {
+                    viewModel.endListening()
+                }
             }
             
             if viewModel.showingNewActivity {

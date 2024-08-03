@@ -24,18 +24,37 @@ class ExpenseViewModel: ObservableObject {
         let db = Firestore.firestore()
         db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let userModel = try? snapshot?.data(as: UserBill.self) else {
-                print("Document does not exist or was not able to be decoded.")
+                self?.create()
                 return
             }
             self?.user = userModel
         }
     }
     
+    
+    private func create() {
+        let db = Firestore.firestore()
+        do {
+            try db.collection("users")
+                .document(getUserId())
+                .collection("activities")
+                .document(getActivityId())
+                .collection("models")
+                .document(getModelId())
+                .setData(from: UserBill(owner: false,
+                                  claims: [:],
+                                  createdDate: Date().timeIntervalSince1970))
+        } catch {
+            print(error)
+        }
+        
+    }
+    
     private func fetchModel() {
         let db = Firestore.firestore()
         db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let model = try? snapshot?.data(as: Model.self) else {
-                print("Document does not exist or was not able to be decoded")
+                print("Model does not exist or was not able to be decoded. - ExpenseViewModel")
                 return
             }
             self?.model = model

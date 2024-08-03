@@ -86,7 +86,6 @@ class BillModel: ObservableObject {
             user.claims[itemId] = potential
         }
         item.addAvailble(userAmount - potential)
-        print(item.available)
         updateBill(bill: user, sale: item)
     }
     
@@ -160,7 +159,6 @@ class BillModel: ObservableObject {
         }
     }
     
-    
     private func getTax() -> Double {
         switch self.model!.type {
             case .Bill(let receipt):
@@ -177,5 +175,9 @@ class BillModel: ObservableObject {
         default:
             return []
         }
+    }
+    
+    func getMeta() -> MetaExpense {
+        return self.meta
     }
 }
