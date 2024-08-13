@@ -12,7 +12,7 @@ struct BillView: View {
     @State private var isShifted: Bool = false
     @State private var isGroupPresented: Bool = false
     
-    init(meta: MetaExpense) {
+    init(meta: ModelPaths) {
         self._viewModel = StateObject(wrappedValue: BillModel(meta: meta))
     }
     
@@ -55,32 +55,7 @@ struct BillView: View {
                         }
                     }
                 }
-                HStack{
-                    Spacer()
-                    if viewModel.isOwner() {
-                        VStack(alignment: .trailing) {
-                            HStack{
-                                Text( "Total: \(String(format:"%.2f", viewModel.getTotal() ))")
-                            }
-                            HStack {
-                                Text( "Your Subtotal: \(String(format: "%.2f", viewModel.getUserAmount()))" )
-                            }
-                            HStack {
-                                Text("Your Tax: \(String(format: "%.2f", viewModel.getUserTax()))")
-                            }
-                            HStack {
-                                Text("Your Total:  \(String(format: "%.2f", viewModel.getUserGrandTotal()))")
-                                    .foregroundStyle(.orange)
-                            }
-                            HStack {
-                                Text( "Missing: \(String(format: "%.2f", viewModel.getTotal() - viewModel.getUserGrandTotal()))")
-                                    .foregroundStyle(.red)
-                            }
-                        }
-                    } else {
-                        Text("Subject POV")
-                    }
-                }
+                BillSummaryView(viewModel: viewModel)
                 .navigationTitle(viewModel.getTitle())
             }
         }
@@ -100,16 +75,10 @@ struct BillView: View {
             }
             
         }
-//        .sheet(isPresented: $isGroupPresented, content: {
-//            ManageBillGroupView(meta: viewModel.getMeta())
-////                .presentationContentInteraction(.scrolls)
-//        })
-        
+        // TODO: Implement ManageBillGroupView
         if isGroupPresented {
             ManageBillGroupView(meta: viewModel.getMeta())
         }
-        
-        // TODO: Incorporate manage group view and add animations
         
     }
 }
@@ -137,9 +106,7 @@ struct Demonstration: View {
 }
 
 #Preview {
-    BillView(meta: MetaExpense(id: "DkUXKLdl3wDRyl5iPdrs",
+    BillView(meta: ModelPaths(id: "DkUXKLdl3wDRyl5iPdrs",
                             userId: "mKDySPyahSVrtLMjvALFxleBRm52",
-                            activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316",
-                            type: .Vendue,
-                            dateCreated: TimeInterval()))
+                            activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316"))
 }

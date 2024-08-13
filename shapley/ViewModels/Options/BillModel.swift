@@ -12,9 +12,9 @@ class BillModel: ObservableObject {
     @Published var model: Model?
     @Published var userModel: UserBill?
     
-    private let meta: MetaExpense
+    private let meta: ModelPaths
     
-    init(meta: MetaExpense) {
+    init(meta: ModelPaths) {
         self.meta = meta
         self.fetchModel()
         self.fetchUserModel()
@@ -177,7 +177,7 @@ class BillModel: ObservableObject {
         }
     }
     
-    func getMeta() -> MetaExpense {
-        return self.meta
+    func getMeta() -> ModelPaths {
+        return meta
     }
 }

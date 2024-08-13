@@ -27,5 +27,4 @@ struct GeneralReceipt: Codable, Equatable, Hashable {
             return lhs.subtotal == rhs.subtotal &&
                    lhs.tax == rhs.tax
         }
-    
 }

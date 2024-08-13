@@ -77,16 +77,19 @@ struct TripExpensesView: View {
                         .combined(with: .opacity))
                     .zIndex(3.0)
             }
-            
+             
         }
         .animation(.default, value: viewModel.showingNewTrip)
     }
     
+    // TODO: change parameter for each view type
     @ViewBuilder
     private func expenseView(meta: MetaExpense) -> some View {
         switch meta.type {
         case .Bill:
-            BillView(meta: meta)
+            BillView(meta: ModelPaths(id: meta.id,
+                                      userId: meta.userId,
+                                      activityId: meta.userId))
         case .Gas:
             GasView(meta: meta)
         case .Vendue:

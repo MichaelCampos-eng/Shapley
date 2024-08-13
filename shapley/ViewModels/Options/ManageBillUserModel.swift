@@ -10,154 +10,126 @@ import Foundation
 import Combine
 
 class ManageBillUserModel: ObservableObject {
-    @Published private var model: Model?
-    @Published private var userActivity: UserActivity?
-    @Published private var userModel: UserBill?
-    private var userClaims: GroupBill?
+    @Published private var itemsClaimed: [Claim] = []
+    @Published private var userNickName: String?
+    private var userDetails: UserClaims?
     
-    private var modelReg: ListenerRegistration?
-    private var userActReg: ListenerRegistration?
-    private var userModelReg: ListenerRegistration?
+    private var claimsReg: ListenerRegistration?
+    private var nickNameReg: ListenerRegistration?
     private var cancellables = Set<AnyCancellable>()
     
-    private let meta: BillGroup
+    private let receipt: Receipt
+    private let pathIds: ModelPaths
     
-    init(meta: BillGroup) {
-        self.meta = meta
+    init(receipt: Receipt, refPaths: ModelPaths) {
+        self.pathIds = refPaths
+        self.receipt = receipt
         self.beginListening()
     }
     
     func beginListening() {
-        self.fetchModel()
-        self.fetchUserAct()
-        self.fetchUserModel()
-        self.fetchUserClaims()
+        self.fetchClaims()
+        self.fetchNickName()
+        
+        self.fetchUserDetails()
     }
     
     func endListening() {
-        modelReg?.remove()
-        userActReg?.remove()
-        userModelReg?.remove()
-        modelReg = nil
-        userActReg = nil
-        userModelReg = nil
+        claimsReg?.remove()
+        nickNameReg?.remove()
+        claimsReg = nil
+        nickNameReg = nil
     }
     
-    private func fetchModel() {
+    private func fetchNickName() {
         let db = Firestore.firestore()
-        modelReg = db.collection("activities/\(getActId())/models").document(getModelId()).addSnapshotListener { [weak self] snapshot, error in
-            guard let document = try? snapshot?.data(as: Model.self) else {
-                print("Model does not exist.")
-                return
-            }
-            self?.model = document
-        }
-    }
-    
-    private func fetchUserAct() {
-        let db = Firestore.firestore()
-        userActReg = db.collection("users/\(getUserId())/activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
+        nickNameReg = db.collection("users/\(getUserId())/activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
             guard let document = try? snapshot?.data(as: UserActivity.self) else {
                 print("User activity does not exist.")
                 return
             }
-            self?.userActivity = document
-        }
-     }
-    
-    private func fetchUserModel() {
-        let db = Firestore.firestore()
-        userModelReg = db.collection("users/\(getUserId())/activities/\(getActId())/models").document(getModelId()).addSnapshotListener { [weak self] snapshot, error in
-            guard let document = try? snapshot?.data(as: UserBill.self) else {
-                print("User bill does not exist.")
-                return
-            }
-            self?.userModel = document
+            self?.userNickName = document.tempName
         }
     }
     
-    private func fetchUserClaims() {
-        Publishers.CombineLatest3($model, $userModel, $userActivity)
-            .map { [weak self] givenModel, givenUserModel, givenUserActivity in
-                return self?.generateClaims(mod: givenModel, userMod: givenUserModel, act: givenUserActivity)
+    private func fetchClaims() {
+        let db = Firestore.firestore()
+        claimsReg = db.collection("users/\(getUserId())/activities/\(getActId())/models").document(getModelId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let document = try? snapshot?.data(as: UserBill.self) else {
+                print("User model does not exist.")
+                return
             }
-            .assign(to: \.userClaims, on: self)
+            guard let self else {
+                return
+            }
+            self.itemsClaimed = self.generateClaims(idClaims: document.claims)
+        }
+    }
+    
+    private func generateClaims(idClaims: [String: Int]) -> [Claim] {
+        let claimed = idClaims.compactMap { claim in
+            if let sale = receipt.items.first(where: {$0.id == claim.key}) {
+                return Claim(itemName: sale.name, 
+                             quantityClaimed: claim.value,
+                             unitPrice: sale.price / Double(sale.quantity))
+            }
+            return nil
+        }
+        return claimed
+    }
+    
+    private func fetchUserDetails() {
+        Publishers.CombineLatest($userNickName, $itemsClaimed)
+            .map { nickname, items in
+                guard let name = nickname else {
+                    return nil
+                }
+                return UserClaims(alias: name, claims: items)
+            }
+            .assign(to: \.userDetails, on: self)
             .store(in: &cancellables)
     }
     
-    private func generateClaims(mod: Model?, userMod: UserBill?, act: UserActivity?) -> GroupBill? {
-        guard let mod = mod else {
-            return nil
-        }
-        guard let userMod = userMod else {
-            return nil
-        }
-        guard let act = act else {
-            return nil
-        }
-        switch mod.type {
-            case .Bill(let receipt):
-                let claimed = userMod.claims.compactMap { claim in
-                    if let sale = receipt.items.first(where: {$0.id == claim.key}) {
-                        return UserClaim(itemName: sale.name, quantityClaimed: claim.value, unitPrice: sale.price / Double(sale.quantity))
-                    }
-                    return nil
-                }
-                return GroupBill(id: getUserId(), alias: act.tempName, claims: claimed)
-            default:
-                return nil
-        }
-    }
-    
     func isAvailable() -> Bool {
-        if model != nil, userActivity != nil, userModel != nil {
-            return true
-        }
-        return false
+        return userNickName != nil && userDetails != nil
     }
     
-    func getUserId() -> String {
-        return meta.validUserId
+    private func getModelId() -> String {
+        return pathIds.id
     }
     
-    func getCurrentUser() -> String {
-        return meta.metaExpense.userId
+    private func getActId() -> String {
+        return pathIds.activityId
     }
     
-    func getModelId() -> String {
-        return meta.metaExpense.id
+    private func getUserId() -> String {
+        return pathIds.userId
     }
     
-    func getActId() -> String {
-        return meta.metaExpense.activityId
+    func getItems() -> [Claim] {
+        return userDetails!.claims
     }
     
-    func getName() -> String {
-        return userClaims!.alias
+    func getAlias() -> String {
+        return userDetails!.alias
     }
     
     func getDebt() -> Double {
         let userSubtotal = getSubtotal()
-        return userSubtotal + getTax(subtotal: userSubtotal)
+        return userSubtotal + getTax()
     }
     
-    private func getSubtotal() -> Double {
-        let user = userClaims!
+    func getSubtotal() -> Double {
+        let user = userDetails!
         return user.claims.reduce(0.0) { result, claim in
             result + (claim.unitPrice * Double(claim.quantityClaimed))
         }
     }
     
-    private func getTax(subtotal: Double) -> Double {
-        switch model!.type {
-        case .Bill(let receipt):
-            let preTotal = receipt.summary.subtotal
-            let tax = receipt.summary.tax
-            let taxPer = tax / preTotal
-            return subtotal * taxPer
-            
-        default:
-            return 0.0
-        }
+    func getTax() -> Double {
+        let preTotal = receipt.summary.subtotal
+        let tax = receipt.summary.tax
+        let taxPer = tax / preTotal
+        return getSubtotal() * taxPer
     }
 }

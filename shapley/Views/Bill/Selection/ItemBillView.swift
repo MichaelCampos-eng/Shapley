@@ -52,14 +52,12 @@ struct ItemBillView: View {
                         .font(.footnote)
                         .foregroundStyle(Color(.secondaryLabel))
                 }
-                Spacer() 
-                
-                HStack{
+                Spacer()
+                HStack {
                     Text("\(viewModel.selected)")
                         .foregroundStyle(.orange)
                     Text("/  \(saleItem.quantity)")
                 }
-                
                 Spacer()
                 Text("\(String(format: "%.2f", Double(viewModel.selected) * unitPrice))")
             }
