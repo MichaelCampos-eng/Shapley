@@ -18,68 +18,93 @@ struct BillView: View {
     
          
     var body: some View {
-        VStack {
-            if viewModel.isValid() {
-                ScrollView{
-                    LazyVStack {
-                        ForEach(Array(viewModel.getSales().enumerated()), id: \.element.id) { index, item in
-                            if index == 0 {
-                                ZStack {
-                                    Label("Demonstration", systemImage: "arrow.left.arrow.right")
-                                        .labelStyle(.iconOnly)
-                                        .font(.title2)
-                                        .padding(.trailing)
-                                        .foregroundStyle(Color.orange)
-                                        .offset(x:-205)
-                                    
+        ZStack{
+            VStack {
+                if viewModel.isValid() {
+                    
+                    HStack {
+                        Spacer()
+                        Image(systemName: "newspaper.circle")
+                        Text("Shapley")
+                            
+                        Spacer()
+                    }
+                    .font(.caption)
+                    .foregroundStyle(Color(.secondaryLabel))
+                    .frame(height: 10)
+                    Spacer()
+                    
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Split Bill")
+                                .font(.largeTitle)
+                                .bold()
+                            Text("Swipe to select")
+                                .font(.headline)
+                                .foregroundStyle(Color(.secondaryLabel))
+                        }
+                        Spacer()
+                    }
+                    .frame(height: 200)
+                    .padding()
+                    
+                    
+                    
+                    
+                    BillSummaryView(viewModel: viewModel)
+                        .padding(.horizontal)
+                    
+                    VStack {
+                        ScrollView(.vertical, showsIndicators: true){
+                            LazyVStack(spacing: 0) {
+                                ForEach(Array(viewModel.getSales().enumerated()), id: \.element.id) { index, item in
                                     ItemBillView(sale: item,
                                                  user: viewModel.userModel!,
-                                                 updateAction: viewModel.setItem(itemId:quantity:))
-                                    
-                                }
-                                .offset(x: isShifted ? 40 : 0)
-                                .animation(.bouncy(duration: 1.0), value: isShifted)
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        isShifted = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                            isShifted = false
-                                        }
+                                                 updateAction: viewModel.setItem(itemId:quantity:),
+                                                 isFirst: index == 0)
+                                    .scrollTransition(.interactive,
+                                                      axis: .vertical) { view, phase in
+                                        view.scaleEffect(phase.isIdentity ? 1.0 : 0)
+                                            .opacity(phase.isIdentity ? 1.0 : 0)
+                                            .offset(y: phase.isIdentity ? 0 : 1.0)
                                     }
                                 }
-                            } else {
-                                ItemBillView(sale: item,
-                                             user: viewModel.userModel!,
-                                             updateAction: viewModel.setItem(itemId:quantity:))
                             }
+                            .scrollTargetLayout()
                         }
+                        .scrollTargetBehavior(.viewAligned)
                     }
+                    .mask {
+                        RoundedRectangle(cornerRadius: 25.0)
+                            .fill(Color.black)
+                    }
+                    .background {
+                        RoundedRectangle(cornerRadius: 25.0)
+                            .fill(Color.roseTaupe)
+                            .shadow(radius: 15.0)
+                    }
+                    
+                    .padding(.horizontal)
+                    .padding(.bottom)
                 }
-                BillSummaryView(viewModel: viewModel)
-                .navigationTitle(viewModel.getTitle())
-            }
-        }
-        .navigationTitle("Receipt")
-        .toolbar {
-            Button {
-                isGroupPresented.toggle()
-            } label: {
-                Image(systemName: "person.3")
-                    .foregroundColor(.orange)
-            }
-            Button {
-                print("temp")
-            } label: {
-                Image(systemName: "pencil")
-                    .foregroundColor(.orange)
             }
             
+            
+            
+//            if isGroupPresented {
+//                Color.black.opacity(0.8)
+//                    .ignoresSafeArea()
+//                
+//                ManageBillGroupView(meta: viewModel.getMeta())
+//                    .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+//                    .zIndex(3.0)
+//                    
+//            }
         }
-        // TODO: Implement ManageBillGroupView
-        if isGroupPresented {
+        .animation(.default, value: isGroupPresented)
+        .sheet(isPresented: $isGroupPresented, content: {
             ManageBillGroupView(meta: viewModel.getMeta())
-        }
-        
+        })
     }
 }
 

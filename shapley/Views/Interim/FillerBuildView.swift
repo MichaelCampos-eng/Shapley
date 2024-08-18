@@ -23,7 +23,6 @@ struct FillerBuildView: View {
                     }
                 }
             }
-            .edgesIgnoringSafeArea(.all)
     }
 }
 

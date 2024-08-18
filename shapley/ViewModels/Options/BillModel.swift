@@ -143,14 +143,14 @@ class BillModel: ObservableObject {
     }
     
     func getUserTax() -> Double {
-        return getTax() * getUserAmount() / getSubtotal()
+        return getSalesTax() * getUserAmount() / getSubtotal()
     }
     
     func getUserGrandTotal() -> Double {
         return getUserTax() + getUserAmount()
     }
     
-    private func getSubtotal() -> Double {
+    func getSubtotal() -> Double {
         switch self.model!.type {
             case .Bill(let receipt):
                 return receipt.summary.subtotal
@@ -159,7 +159,7 @@ class BillModel: ObservableObject {
         }
     }
     
-    private func getTax() -> Double {
+    func getSalesTax() -> Double {
         switch self.model!.type {
             case .Bill(let receipt):
                 return receipt.summary.tax

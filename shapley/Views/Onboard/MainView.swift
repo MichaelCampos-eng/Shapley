@@ -22,25 +22,18 @@ struct MainView: View {
     
     @ViewBuilder
     func accountView() -> some View {
-        
-       
         TabView {
             ActivitiesView(userId: viewModel.currentUserId)
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-            
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.circle")
                 }
-            
-                
         }
         .tint(Color.orange)
-        
-}
-        
+    }
 }
 
 #Preview {

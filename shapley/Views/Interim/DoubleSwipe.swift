@@ -92,6 +92,7 @@ struct SwipeActionsView<Content: View>: View {
                             let proportion = CGFloat(right.meta.count - index)
                             let isDefault = index == right.meta.count - 1
                             let width = abs(isDefault && removeTriggered ? offset : offset * proportion / CGFloat(right.meta.count))
+                            
                             RightActionButton(width: width, symbol: symb)
                         }
                     }
@@ -155,6 +156,7 @@ struct RightActionButton: View {
     let symbol: ActionSymbol
     
     init(width: CGFloat, symbol: ActionSymbol) {
+        
         self.width = width
         self.symbol = symbol
     }
@@ -169,6 +171,7 @@ struct RightActionButton: View {
             .clipped()
             .frame(width: width)
             .font(.title2)
+            
     }
 }
 

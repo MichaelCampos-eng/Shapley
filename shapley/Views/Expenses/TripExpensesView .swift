@@ -89,7 +89,7 @@ struct TripExpensesView: View {
         case .Bill:
             BillView(meta: ModelPaths(id: meta.id,
                                       userId: meta.userId,
-                                      activityId: meta.userId))
+                                      activityId: meta.activityId))
         case .Gas:
             GasView(meta: meta)
         case .Vendue:

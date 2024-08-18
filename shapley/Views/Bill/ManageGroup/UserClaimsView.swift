@@ -16,16 +16,11 @@ struct UserClaimsView: View {
     }
     
     var body: some View {
-        let color: [Color] = [.black.opacity(0.5), .prussianBlue, .violet]
+        let color: [Color] = [.black, .prussianBlue, .violet]
     
         ZStack {
             RoundedRectangle(cornerRadius: 25.0)
                 .foregroundColor(color.randomElement())
-                .overlay(
-                    RoundedRectangle(cornerRadius: 25.0)
-                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                )
-                .shadow(color: Color.gray.opacity(0.4), radius: 4)
                 .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
             if viewModel.isAvailable() {
                 HStack {

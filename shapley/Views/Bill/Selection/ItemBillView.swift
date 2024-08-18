@@ -8,11 +8,17 @@
 import SwiftUI
 import Combine
 
+struct InterimSale {
+    let sale: Sale
+    let unitPrice: Double
+}
+
 struct ItemBillView: View {
     @StateObject private var viewModel: ItemBillViewModel
+    @State private var isShifted: Bool = false
+    private var isFirst: Bool
   
-    private let saleItem: Sale
-    private let unitPrice: Double
+    private let saleItem: InterimSale
     
     private let rightSymbols: [ActionSymbol] = [ActionSymbol(color: .clear,
                                                              name: "Remove",
@@ -29,39 +35,42 @@ struct ItemBillView: View {
     
     init(sale: Sale,
          user: UserBill,
-         updateAction: @escaping (String, Int) -> Void) {
-        self.saleItem = sale
-        self.unitPrice = Double(String(format: "%.2f", sale.price / Double(sale.quantity))) ?? 0.0
+         updateAction: @escaping (String, Int) -> Void,
+         isFirst: Bool) {
+        let unitPrice = Double(String(format: "%.2f", sale.price / Double(sale.quantity))) ?? 0.0
+        self.saleItem = InterimSale(sale: sale, unitPrice: unitPrice)
+        
         self._viewModel = StateObject(wrappedValue: ItemBillViewModel(selectedQuantity: user.claims[sale.id],
                                                                       saleItem: sale,
                                                                       action: updateAction))
+        self.isFirst = isFirst
     }
     
     var body: some View {
-        SwipeActionsView(right: SwipeAction(meta: rightSymbols, 
+        
+        @State var showInsights: Bool = false
+        
+        SwipeActionsView(right: SwipeAction(meta: rightSymbols,
                                             execute: viewModel.subtract),
-                         left: SwipeAction(meta: leftSymbols, 
+                         left: SwipeAction(meta: leftSymbols,
                                            execute: viewModel.add)) {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("\(saleItem.name)")
-                    Text("Total: \(String(format: "%.2f", saleItem.price))")
-                        .font(.footnote)
-                        .foregroundStyle(Color(.secondaryLabel))
-                    Text("Unit Price: \(String(format: "%.2f", unitPrice))")
-                        .font(.footnote)
-                        .foregroundStyle(Color(.secondaryLabel))
+            InsightsBillView(item: saleItem, selected: viewModel.selected)
+                .padding(.vertical)
+                .padding(.trailing)
+            .offset(x: !isShifted ? 0 : 40)
+            .animation(.bouncy(duration: 1.0), value: isShifted)
+            .onAppear {
+                if isFirst {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isShifted = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            isShifted = false
+                        }
+                    }
                 }
-                Spacer()
-                HStack {
-                    Text("\(viewModel.selected)")
-                        .foregroundStyle(.orange)
-                    Text("/  \(saleItem.quantity)")
-                }
-                Spacer()
-                Text("\(String(format: "%.2f", Double(viewModel.selected) * unitPrice))")
             }
         }
+        Divider()
     }
 }
 
@@ -73,5 +82,6 @@ struct ItemBillView: View {
                  user: UserBill(owner: false,
                                 claims: ["":3],
                                 createdDate: TimeInterval()),
-                 updateAction: {_, _ in})
+                 updateAction: {_, _ in},
+                 isFirst: true)
 }

@@ -33,20 +33,17 @@
 		C78BB7302C2A064D007D66E0 /* SplitBillSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */; };
 		C78BB7322C2A0CC3007D66E0 /* Sale.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7312C2A0CC3007D66E0 /* Sale.swift */; };
 		C78BB7342C2B282D007D66E0 /* SaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7332C2B282D007D66E0 /* SaleView.swift */; };
-		C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */; };
 		C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */; };
 		C7A207792C6033370094CC5C /* UserClaimsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A207782C6033370094CC5C /* UserClaimsView.swift */; };
 		C7A2077B2C61B53E0094CC5C /* FillerBuildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2077A2C61B53E0094CC5C /* FillerBuildView.swift */; };
 		C7A2077D2C6451450094CC5C /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2077C2C6451450094CC5C /* CustomColors.swift */; };
 		C7A207842C66A5860094CC5C /* UnclaimedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A207832C66A5860094CC5C /* UnclaimedView.swift */; };
-		C7A207882C6AF4020094CC5C /* ItemSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A207872C6AF4020094CC5C /* ItemSelectionView.swift */; };
 		C7A2078A2C6AF5720094CC5C /* BillSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A207892C6AF5720094CC5C /* BillSummaryView.swift */; };
 		C7AF5A6D2C543CCB00906E12 /* ManageBillGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A6C2C543CCB00906E12 /* ManageBillGroupView.swift */; };
 		C7AF5A6F2C543D3600906E12 /* ManageBillGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A6E2C543D3600906E12 /* ManageBillGroupModel.swift */; };
 		C7AF5A712C54670700906E12 /* ManageBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A702C54670700906E12 /* ManageBill.swift */; };
 		C7AF5A752C57E17800906E12 /* ManageBillUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A742C57E17800906E12 /* ManageBillUserModel.swift */; };
 		C7AF5A772C5B065300906E12 /* GroupSalesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A762C5B065300906E12 /* GroupSalesView.swift */; };
-		C7AF5A792C5B164B00906E12 /* PublicUserClaimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A782C5B164B00906E12 /* PublicUserClaimView.swift */; };
 		C7AF5A7B2C5B186800906E12 /* PieChartBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A7A2C5B186800906E12 /* PieChartBillView.swift */; };
 		C7AF5A7D2C5B86D400906E12 /* DebtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A7C2C5B86D400906E12 /* DebtView.swift */; };
 		C7AF5A872C5D9C4B00906E12 /* GroupClaimsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AF5A862C5D9C4B00906E12 /* GroupClaimsView.swift */; };
@@ -91,6 +88,7 @@
 		C7DD0AAA2C49B18B00C9AC1E /* Clip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AA92C49B18B00C9AC1E /* Clip.swift */; };
 		C7DD0AAC2C4AF4D100C9AC1E /* DoubleSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AAB2C4AF4D100C9AC1E /* DoubleSwipe.swift */; };
 		C7DD0AAE2C4F1F5200C9AC1E /* ItemBillViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD0AAD2C4F1F5200C9AC1E /* ItemBillViewModel.swift */; };
+		C7F331DB2C6FC4BB0099429D /* InsightsBillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F331DA2C6FC4BB0099429D /* InsightsBillView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,20 +118,17 @@
 		C78BB72F2C2A064D007D66E0 /* SplitBillSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBillSetupModel.swift; sourceTree = "<group>"; };
 		C78BB7312C2A0CC3007D66E0 /* Sale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sale.swift; sourceTree = "<group>"; };
 		C78BB7332C2B282D007D66E0 /* SaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleView.swift; sourceTree = "<group>"; };
-		C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
 		C78BB7372C2CB463007D66E0 /* SaleSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleSummaryView.swift; sourceTree = "<group>"; };
 		C7A207782C6033370094CC5C /* UserClaimsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserClaimsView.swift; sourceTree = "<group>"; };
 		C7A2077A2C61B53E0094CC5C /* FillerBuildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillerBuildView.swift; sourceTree = "<group>"; };
 		C7A2077C2C6451450094CC5C /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		C7A207832C66A5860094CC5C /* UnclaimedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnclaimedView.swift; sourceTree = "<group>"; };
-		C7A207872C6AF4020094CC5C /* ItemSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectionView.swift; sourceTree = "<group>"; };
 		C7A207892C6AF5720094CC5C /* BillSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillSummaryView.swift; sourceTree = "<group>"; };
 		C7AF5A6C2C543CCB00906E12 /* ManageBillGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBillGroupView.swift; sourceTree = "<group>"; };
 		C7AF5A6E2C543D3600906E12 /* ManageBillGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBillGroupModel.swift; sourceTree = "<group>"; };
 		C7AF5A702C54670700906E12 /* ManageBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBill.swift; sourceTree = "<group>"; };
 		C7AF5A742C57E17800906E12 /* ManageBillUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBillUserModel.swift; sourceTree = "<group>"; };
 		C7AF5A762C5B065300906E12 /* GroupSalesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSalesView.swift; sourceTree = "<group>"; };
-		C7AF5A782C5B164B00906E12 /* PublicUserClaimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicUserClaimView.swift; sourceTree = "<group>"; };
 		C7AF5A7A2C5B186800906E12 /* PieChartBillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartBillView.swift; sourceTree = "<group>"; };
 		C7AF5A7C2C5B86D400906E12 /* DebtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtView.swift; sourceTree = "<group>"; };
 		C7AF5A862C5D9C4B00906E12 /* GroupClaimsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupClaimsView.swift; sourceTree = "<group>"; };
@@ -176,6 +171,7 @@
 		C7DD0AA92C49B18B00C9AC1E /* Clip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clip.swift; sourceTree = "<group>"; };
 		C7DD0AAB2C4AF4D100C9AC1E /* DoubleSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleSwipe.swift; sourceTree = "<group>"; };
 		C7DD0AAD2C4F1F5200C9AC1E /* ItemBillViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBillViewModel.swift; sourceTree = "<group>"; };
+		C7F331DA2C6FC4BB0099429D /* InsightsBillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsBillView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,7 +328,6 @@
 				C7AF5A6C2C543CCB00906E12 /* ManageBillGroupView.swift */,
 				C7AF5A762C5B065300906E12 /* GroupSalesView.swift */,
 				C7A207832C66A5860094CC5C /* UnclaimedView.swift */,
-				C7AF5A782C5B164B00906E12 /* PublicUserClaimView.swift */,
 				C7AF5A862C5D9C4B00906E12 /* GroupClaimsView.swift */,
 				C7A207782C6033370094CC5C /* UserClaimsView.swift */,
 				C7AF5A7A2C5B186800906E12 /* PieChartBillView.swift */,
@@ -356,9 +351,8 @@
 			children = (
 				C7DC6B042C03AF6F0020C788 /* BillView.swift */,
 				C7A207892C6AF5720094CC5C /* BillSummaryView.swift */,
-				C7A207872C6AF4020094CC5C /* ItemSelectionView.swift */,
 				C7DD0AA72C47956200C9AC1E /* ItemBillView.swift */,
-				C78BB7352C2C8E94007D66E0 /* SwipeActionView.swift */,
+				C7F331DA2C6FC4BB0099429D /* InsightsBillView.swift */,
 			);
 			path = Selection;
 			sourceTree = "<group>";
@@ -554,7 +548,6 @@
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
 				C7A2077D2C6451450094CC5C /* CustomColors.swift in Sources */,
 				C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */,
-				C7AF5A792C5B164B00906E12 /* PublicUserClaimView.swift in Sources */,
 				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
 				C7BFFF5B2BFECBAD00FEE015 /* RegisterViewModel.swift in Sources */,
 				C78BB7382C2CB463007D66E0 /* SaleSummaryView.swift in Sources */,
@@ -570,7 +563,6 @@
 				C7DC6B0B2C03B6D90020C788 /* BillModel.swift in Sources */,
 				C7AF5A6D2C543CCB00906E12 /* ManageBillGroupView.swift in Sources */,
 				C78BB7152C1B71D9007D66E0 /* MetaExpense.swift in Sources */,
-				C7A207882C6AF4020094CC5C /* ItemSelectionView.swift in Sources */,
 				C7AF5A7B2C5B186800906E12 /* PieChartBillView.swift in Sources */,
 				C7A207842C66A5860094CC5C /* UnclaimedView.swift in Sources */,
 				C7BFFF592BFECBA600FEE015 /* LoginViewModel.swift in Sources */,
@@ -599,6 +591,7 @@
 				C7DD0A9E2C45EBE900C9AC1E /* Receipt.swift in Sources */,
 				C7343F212C3F15D800D81939 /* SliderActivityView.swift in Sources */,
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
+				C7F331DB2C6FC4BB0099429D /* InsightsBillView.swift in Sources */,
 				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,
 				C7DD0AA82C47956200C9AC1E /* ItemBillView.swift in Sources */,
 				C7DC6B072C03AF7D0020C788 /* VendueView.swift in Sources */,
@@ -607,7 +600,6 @@
 				C78BB72B2C29FA90007D66E0 /* VendueSetupView.swift in Sources */,
 				C78BB7112C178DAB007D66E0 /* ActivityViewModel.swift in Sources */,
 				C7A2077B2C61B53E0094CC5C /* FillerBuildView.swift in Sources */,
-				C78BB7362C2C8E94007D66E0 /* SwipeActionView.swift in Sources */,
 				C7BFFF512BFECB6C00FEE015 /* MainViewModel.swift in Sources */,
 				C7DC6B132C06AE190020C788 /* NewActivityView.swift in Sources */,
 				C7A2078A2C6AF5720094CC5C /* BillSummaryView.swift in Sources */,

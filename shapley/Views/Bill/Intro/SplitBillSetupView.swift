@@ -11,7 +11,7 @@ import Combine
 struct SplitBillSetupView: View {
     @StateObject var viewModel: SplitBillSetupModel
     @Binding var presented: Bool
-    @State var titleName: String = ""
+    @State var titleName: String = "" 
     @State private var error: Bool = false
     
     init(activityId: String, presented: Binding<Bool>) {

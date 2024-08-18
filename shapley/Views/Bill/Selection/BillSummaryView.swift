@@ -15,37 +15,91 @@ struct BillSummaryView: View {
     }
     
     var body: some View {
-        HStack{
-            Spacer()
-            if viewModel.isOwner() {
-                VStack(alignment: .trailing) {
-                    HStack{
-                        Text( "Total: \(String(format:"%.2f", viewModel.getTotal() ))")
-                    }
-                    HStack {
-                        Text( "Your Subtotal: \(String(format: "%.2f", viewModel.getUserAmount()))" )
-                    }
-                    HStack {
-                        Text("Your Tax: \(String(format: "%.2f", viewModel.getUserTax()))")
-                    }
-                    HStack {
-                        Text("Your Total:  \(String(format: "%.2f", viewModel.getUserGrandTotal()))")
-                            .foregroundStyle(.orange)
-                    }
-                    HStack {
-                        Text( "Missing: \(String(format: "%.2f", viewModel.getTotal() - viewModel.getUserGrandTotal()))")
-                            .foregroundStyle(.red)
+        if viewModel.isValid() {
+            VStack{
+                HStack {
+                    Text("Selection")
+                        .bold()
+                    Spacer()
+                    Button {
+//                        isGroupPresented.toggle()
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                            .foregroundColor(.orange)
                     }
                 }
-            } else {
-                Text("Subject POV")
+                .padding(.horizontal)
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Group Account")
+                            .foregroundStyle(Color.paleDogwood)
+                        Divider()
+                        HStack{
+                            Text("$\(String(format:"%.2f", viewModel.getTotal()))")
+                                .font(.title)
+                                .bold()
+                            Text( "Total")
+                                .foregroundStyle(Color.paleDogwood)
+                        }
+                        HStack {
+                            Text("$\(String(format: "%.2f", viewModel.getSubtotal()))")
+                                .font(.title3)
+                            Text("Subtotal")
+                                .foregroundStyle(Color.paleDogwood)
+                        }
+                        HStack{
+                            Text("$\(String(format: "%.2f", viewModel.getSalesTax()))")
+                                .font(.title3)
+                            Text("Tax")
+                                .foregroundStyle(Color.paleDogwood)
+                        }
+                    }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 25.0)
+                            .fill(Color.roseTaupe)
+                            .shadow(radius: 10.0)
+                    }
+                    VStack(alignment: .leading) {
+                        Text("Your Account")
+                            .foregroundStyle(Color.paleDogwood)
+                        Divider()
+                        HStack {
+                            Text("$\(String(format: "%.2f", viewModel.getUserGrandTotal()))")
+                                .font(.title)
+                                .bold()
+                                .foregroundStyle(Color.orange)
+                            Text("Total")
+                                .foregroundStyle(Color.paleDogwood)
+                        }
+                        HStack {
+                            Text( "$\(String(format: "%.2f", viewModel.getUserAmount()))")
+                                .font(.title3)
+                            Text("Subtotal")
+                                .foregroundStyle(Color.paleDogwood)
+                                .shadow(radius: 10.0)
+                        }
+                        HStack {
+                            Text("$\(String(format: "%.2f", viewModel.getUserTax()))")
+                                .font(.title3)
+                            Text("Tax")
+                                .foregroundStyle(Color.paleDogwood)
+                        }
+                    }
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 25.0)
+                            .fill(Color.prussianBlue.opacity(0.8))
+                            .shadow(radius: 10.0)
+                    }
+                }
             }
         }
     }
 }
 
 #Preview {
-    BillSummaryView(viewModel: BillModel(meta: ModelPaths(id: "",
-                                                           userId: "",
-                                                           activityId: "")))
+    BillSummaryView(viewModel: BillModel(meta: ModelPaths(id: "DkUXKLdl3wDRyl5iPdrs",
+                                                          userId: "mKDySPyahSVrtLMjvALFxleBRm52",
+                                                          activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316")))
 }

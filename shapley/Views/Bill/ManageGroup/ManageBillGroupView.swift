@@ -18,11 +18,8 @@ struct ManageBillGroupView: View {
 
     var body: some View {
         
-        ZStack {
-            Color.black
-                .overlay {
-                    FillerBuildView()
-                }
+        ZStack{
+            Color.prussianBlue
                 .ignoresSafeArea()
             if viewModel.isValid() {
                 VStack {
@@ -30,7 +27,7 @@ struct ManageBillGroupView: View {
                     VStack {
                         HStack {
                             Text("Hi, \(viewModel.getNickname())!")
-                                .foregroundStyle(Color.paleDogwood)
+                                .foregroundStyle(Color.white)
                                 .bold()
                                 .font(.title)
                             Spacer()
@@ -44,8 +41,6 @@ struct ManageBillGroupView: View {
                     GroupClaimsView(users: viewModel.getGroup())
                         .frame(maxHeight: 250)
                 }
-                .ignoresSafeArea()
-                .background(.ultraThinMaterial)
             }
         }
     }

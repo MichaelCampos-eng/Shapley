@@ -24,10 +24,12 @@ struct GroupClaimsView: View {
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                             .scrollTransition(.interactive,
                                               axis: .horizontal) { view, phase in
-                                view.offset(x: phase.value > 0 ? -20 : 0, y: phase.value > 0 ? 20 : 0)
-                                    .offset(y: phase.value < 0 ? 80 : 0)
-                                    .rotationEffect(.degrees(phase.value > 0 ? -10: 0))
-                                    .rotationEffect(.degrees(phase.value < 0 ?  -10 : 0))
+//                                view.offset(x: phase.value > 0 ? -20 : 0, y: phase.value > 0 ? 20 : 0)
+//                                    .offset(y: phase.value < 0 ? 80 : 0)
+//                                    .rotationEffect(.degrees(phase.value > 0 ? -10: 0))
+//                                    .rotationEffect(.degrees(phase.value < 0 ?  -10 : 0))
+                                view.scaleEffect(phase.isIdentity ? 1.0 : 0.7)
+                                    .blur(radius: phase.isIdentity ? 0.0 : 0.7)
                             }
                     }
                 }

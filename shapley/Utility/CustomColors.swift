@@ -30,12 +30,18 @@ extension Color {
     static let nonPhotoBlue = Color(hex: 0x9AD1D4)
     static let nonPhotoBlue2 = Color(hex: 0x80CED7)
     static let cerulean = Color(hex: 0x007EA7)
-    static let prussianBlue = Color(hex: 0x003249)
-    
+
     // Palette 3
     static let silver = Color(hex: 0xBFB5AF)
     static let bone = Color(hex: 0xECE2D0)
     static let paleDogwood = Color(hex: 0xD5B9B2)
     static let roseTaupe = Color(hex: 0xA26769)
     static let violet = Color(hex: 0x582C4D)
+    
+    // Palete 4
+    static let skyBlue = Color(hex: 0x8ECAE6)
+    static let blueGreen = Color(hex: 0x219EBC)
+    static let prussianBlue = Color(hex: 0x003249)
+    static let selectiveYellow = Color(hex: 0xFFB703)
+    static let utOrange = Color(hex: 0xFB8500)
 }
