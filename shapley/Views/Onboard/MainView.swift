@@ -10,11 +10,17 @@ import SwiftUI
 struct MainView: View {
     @StateObject var viewModel = MainViewModel()
     
+    init() {
+//        let appearance = UITabBarAppearance()
+//        appearance.configureWithTransparentBackground()
+//        UITabBar.appearance().standardAppearance = appearance
+//        UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var body: some View {
         if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
             accountView()
         } else {
-            // Show login screen
             LoginView()
         }
     }
@@ -25,14 +31,15 @@ struct MainView: View {
         TabView {
             ActivitiesView(userId: viewModel.currentUserId)
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label("Home", systemImage: "house.circle")
                 }
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.circle")
                 }
         }
-        .tint(Color.orange)
+        .tint(Color.walnutBrown)
+        
     }
 }
 

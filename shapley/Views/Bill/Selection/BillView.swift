@@ -19,6 +19,8 @@ struct BillView: View {
          
     var body: some View {
         ZStack{
+            Color.khaki
+                .ignoresSafeArea()
             VStack {
                 if viewModel.isValid() {
                     
@@ -26,7 +28,7 @@ struct BillView: View {
                         Spacer()
                         Image(systemName: "newspaper.circle")
                         Text("Shapley")
-                            
+                        
                         Spacer()
                     }
                     .font(.caption)
@@ -37,8 +39,9 @@ struct BillView: View {
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Split Bill")
-                                .font(.largeTitle)
+                                .font(Font(CTFont(.system, size: 50)))
                                 .bold()
+                                .shadow(radius: 10)
                             Text("Swipe to select")
                                 .font(.headline)
                                 .foregroundStyle(Color(.secondaryLabel))
@@ -48,10 +51,7 @@ struct BillView: View {
                     .frame(height: 200)
                     .padding()
                     
-                    
-                    
-                    
-                    BillSummaryView(viewModel: viewModel)
+                    BillSummaryView(viewModel: viewModel, isPresented: $isGroupPresented)
                         .padding(.horizontal)
                     
                     VStack {
@@ -66,7 +66,6 @@ struct BillView: View {
                                                       axis: .vertical) { view, phase in
                                         view.scaleEffect(phase.isIdentity ? 1.0 : 0)
                                             .opacity(phase.isIdentity ? 1.0 : 0)
-                                            .offset(y: phase.isIdentity ? 0 : 1.0)
                                     }
                                 }
                             }
@@ -80,31 +79,22 @@ struct BillView: View {
                     }
                     .background {
                         RoundedRectangle(cornerRadius: 25.0)
-                            .fill(Color.roseTaupe)
+                            .fill(Color.gunMetal)
                             .shadow(radius: 15.0)
                     }
-                    
                     .padding(.horizontal)
                     .padding(.bottom)
                 }
             }
-            
-            
-            
-//            if isGroupPresented {
-//                Color.black.opacity(0.8)
-//                    .ignoresSafeArea()
-//                
-//                ManageBillGroupView(meta: viewModel.getMeta())
-//                    .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
-//                    .zIndex(3.0)
-//                    
-//            }
         }
-        .animation(.default, value: isGroupPresented)
-        .sheet(isPresented: $isGroupPresented, content: {
+        .sheet(isPresented: $isGroupPresented) {
             ManageBillGroupView(meta: viewModel.getMeta())
-        })
+                .ignoresSafeArea()
+                .background {
+                    Color.walnutBrown
+                }
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 

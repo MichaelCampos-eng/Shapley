@@ -51,16 +51,11 @@ struct UnclaimedView: View {
                 .padding()
             
         }
+        .shadow(radius: 10)
         .onAppear {
             withAnimation {
-                updateProgress()
+                self.progress = 1
             }
-        }
-    }
-    
-    private func updateProgress() {
-        withAnimation {
-            self.progress = 1
         }
     }
 }

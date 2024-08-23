@@ -83,9 +83,10 @@ class ActivitiesViewModel: ObservableObject {
     private func generateMetaActivities(userData: [UserActivity], contents: [ContentActivity]) -> [MetaActivity] {
             let metaActivities = userData.flatMap { userActivity in
                 contents.compactMap { contentActivity in
-                    return userActivity.id == contentActivity.id ? MetaActivity(userId: self.userId,
-                                                                         id: contentActivity.id,
-                                                                         createdDate: contentActivity.createdDate) : nil
+                    return userActivity.id == contentActivity.id ? MetaActivity(id: contentActivity.id,
+                                                                                titleName: contentActivity.groupId,
+                                                                                userId: self.userId,
+                                                                                createdDate: contentActivity.createdDate) : nil
                 }
             }
             return metaActivities.sorted { $0.createdDate > $1.createdDate }

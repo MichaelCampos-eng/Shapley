@@ -34,14 +34,21 @@ struct PieChartBillView: View {
             .chartLegend(.hidden)
             .chartBackground { geometry in
                 VStack {
-                    if let selectedItem {
+                    if items.isEmpty {
+                        Image(systemName: "cart.circle")
+                            .font(.title)
+                            .foregroundStyle(Color.white)
+                            .bold()
+                        Text("Empty cart")
+                    }
+                    else if let selectedItem {
+                        Text("\(selectedItem.quantityClaimed)")
+                            .font(.title3)
+                            .foregroundStyle(Color.white)
+                            .bold()
                         Text(selectedItem.itemName)
                             .font(.title3)
                             .foregroundStyle(Color(.secondaryLabel))
-                            .bold()
-                        Text("(\(selectedItem.quantityClaimed))")
-                            .font(.title3)
-                            .foregroundStyle(Color.white)
                             .bold()
                         Text("$\(String(format: "%.2f", Double(selectedItem.quantityClaimed) * selectedItem.unitPrice))")
                             .font(.title3)

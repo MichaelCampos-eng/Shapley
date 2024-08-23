@@ -13,6 +13,8 @@
 		C73670032C36194800661184 /* UserBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670022C36194800661184 /* UserBill.swift */; };
 		C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670042C389F8B00661184 /* GeneralReceipt.swift */; };
 		C73670082C3DB6FD00661184 /* TextUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73670072C3DB6FD00661184 /* TextUtil.swift */; };
+		C761BF282C7539840006FC8A /* PhotoActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761BF272C7539840006FC8A /* PhotoActivityView.swift */; };
+		C761BF2A2C7828F10006FC8A /* SearchBarCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C761BF292C7828F10006FC8A /* SearchBarCustomView.swift */; };
 		C78BB7042C0D1C55007D66E0 /* TripExpensesView .swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */; };
 		C78BB7072C0D2919007D66E0 /* ExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB7062C0D2919007D66E0 /* ExpensesViewModel.swift */; };
 		C78BB70B2C0D3231007D66E0 /* ContentActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */; };
@@ -98,6 +100,8 @@
 		C73670022C36194800661184 /* UserBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBill.swift; sourceTree = "<group>"; };
 		C73670042C389F8B00661184 /* GeneralReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralReceipt.swift; sourceTree = "<group>"; };
 		C73670072C3DB6FD00661184 /* TextUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextUtil.swift; sourceTree = "<group>"; };
+		C761BF272C7539840006FC8A /* PhotoActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoActivityView.swift; sourceTree = "<group>"; };
+		C761BF292C7828F10006FC8A /* SearchBarCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCustomView.swift; sourceTree = "<group>"; };
 		C78BB7032C0D1C55007D66E0 /* TripExpensesView .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TripExpensesView .swift"; sourceTree = "<group>"; };
 		C78BB7062C0D2919007D66E0 /* ExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewModel.swift; sourceTree = "<group>"; };
 		C78BB70A2C0D3231007D66E0 /* ContentActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentActivity.swift; sourceTree = "<group>"; };
@@ -192,8 +196,10 @@
 			isa = PBXGroup;
 			children = (
 				C7DC6B0E2C06AC0A0020C788 /* ActivitiesView.swift */,
+				C761BF292C7828F10006FC8A /* SearchBarCustomView.swift */,
 				C7DC6B122C06AE190020C788 /* NewActivityView.swift */,
 				C7BFFF4A2BFECB1000FEE015 /* ActivityView.swift */,
+				C761BF272C7539840006FC8A /* PhotoActivityView.swift */,
 				C7343F202C3F15D800D81939 /* SliderActivityView.swift */,
 			);
 			path = Home;
@@ -546,6 +552,7 @@
 				C7DC6AFD2C02973E0020C788 /* SelectView.swift in Sources */,
 				C7AF5A872C5D9C4B00906E12 /* GroupClaimsView.swift in Sources */,
 				C7BFFF472BFECAB000FEE015 /* LoginView.swift in Sources */,
+				C761BF282C7539840006FC8A /* PhotoActivityView.swift in Sources */,
 				C7A2077D2C6451450094CC5C /* CustomColors.swift in Sources */,
 				C73670052C389F8B00661184 /* GeneralReceipt.swift in Sources */,
 				C7DC6B112C06AD970020C788 /* ActivitiesViewModel.swift in Sources */,
@@ -591,6 +598,7 @@
 				C7DD0A9E2C45EBE900C9AC1E /* Receipt.swift in Sources */,
 				C7343F212C3F15D800D81939 /* SliderActivityView.swift in Sources */,
 				C7BFFF1B2BFEC25800FEE015 /* shapleyApp.swift in Sources */,
+				C761BF2A2C7828F10006FC8A /* SearchBarCustomView.swift in Sources */,
 				C7F331DB2C6FC4BB0099429D /* InsightsBillView.swift in Sources */,
 				C7DC6B152C06B0330020C788 /* NewActivityViewModel.swift in Sources */,
 				C7DD0AA82C47956200C9AC1E /* ItemBillView.swift in Sources */,

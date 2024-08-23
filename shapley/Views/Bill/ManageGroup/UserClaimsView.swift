@@ -16,17 +16,17 @@ struct UserClaimsView: View {
     }
     
     var body: some View {
-        let color: [Color] = [.black, .prussianBlue, .violet]
+        let color: [Color] = [.gunMetal, .prussianBlue, .violet, .roseTaupe]
     
         ZStack {
             RoundedRectangle(cornerRadius: 25.0)
                 .foregroundColor(color.randomElement())
-                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                .shadow(radius: 10)
             if viewModel.isAvailable() {
                 HStack {
                     VStack(alignment: .leading) {
                         Text(viewModel.getAlias())
-                            .foregroundStyle(Color.paleDogwood)
+                            .foregroundStyle(Color.white)
                             .font(.title2)
                         Text("$\(String(format: "%.2f", viewModel.getDebt()))")
                             .font(.title)
@@ -43,6 +43,7 @@ struct UserClaimsView: View {
                 .transition(AnyTransition.asymmetric(insertion: .scale, removal: .scale))
             }
         }
+        
     }
 }
 

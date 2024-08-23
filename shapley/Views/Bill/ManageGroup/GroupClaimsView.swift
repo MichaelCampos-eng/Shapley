@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct GroupClaimsView: View {
-    private var ok = [Color.black.opacity(0.5), Color.prussianBlue, Color.black.opacity(0.5), Color.roseTaupe]
     private var users: BillGroup
     
     init(users: BillGroup) {
@@ -24,12 +23,10 @@ struct GroupClaimsView: View {
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                             .scrollTransition(.interactive,
                                               axis: .horizontal) { view, phase in
-//                                view.offset(x: phase.value > 0 ? -20 : 0, y: phase.value > 0 ? 20 : 0)
-//                                    .offset(y: phase.value < 0 ? 80 : 0)
-//                                    .rotationEffect(.degrees(phase.value > 0 ? -10: 0))
-//                                    .rotationEffect(.degrees(phase.value < 0 ?  -10 : 0))
-                                view.scaleEffect(phase.isIdentity ? 1.0 : 0.7)
-                                    .blur(radius: phase.isIdentity ? 0.0 : 0.7)
+                            view.offset(x: phase.value > 0 ? -20 : 0, y: phase.value > 0 ? 20 : 0)
+                                .offset(y: phase.value < 0 ? 80 : 0)
+                                .rotationEffect(.degrees(phase.value > 0 ? -10: 0))
+                                .rotationEffect(.degrees(phase.value < 0 ?  -10 : 0))
                             }
                     }
                 }

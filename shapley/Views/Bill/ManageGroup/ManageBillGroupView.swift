@@ -17,30 +17,34 @@ struct ManageBillGroupView: View {
     }
 
     var body: some View {
-        
-        ZStack{
-            Color.prussianBlue
-                .ignoresSafeArea()
-            if viewModel.isValid() {
+        if viewModel.isValid() {
+            VStack {
+                Capsule()
+                    .frame(width: 40, height: 5)
+                    .foregroundStyle(Color.gray)
+                    .padding()
+                Text("Group Details")
+                    .foregroundStyle(Color.white)
+                    .font(.title)
+                    .bold()
+                Spacer()
                 VStack {
-                    Spacer()
-                    VStack {
-                        HStack {
-                            Text("Hi, \(viewModel.getNickname())!")
-                                .foregroundStyle(Color.white)
-                                .bold()
-                                .font(.title)
-                            Spacer()
-                        }
-                        DebtView(missing: viewModel.getMissingAmount(), total: viewModel.getTotal())
-                            .frame(maxHeight: 100)
+                    HStack {
+                        Text("Hi, \(viewModel.getNickname())!")
+                            .foregroundStyle(Color.white)
+                            .bold()
+                            .font(.title)
+                            .shadow(radius: 10)
+                        Spacer()
                     }
-                    .padding(.horizontal)
-                    GroupSalesView(items: viewModel.getSales())
+                    DebtView(missing: viewModel.getMissingAmount(), total: viewModel.getTotal())
                         .frame(maxHeight: 100)
-                    GroupClaimsView(users: viewModel.getGroup())
-                        .frame(maxHeight: 250)
                 }
+                .padding(.horizontal)
+                GroupSalesView(items: viewModel.getSales())
+                    .frame(maxHeight: 100)
+                GroupClaimsView(users: viewModel.getGroup())
+                    .frame(maxHeight: 250)
             }
         }
     }

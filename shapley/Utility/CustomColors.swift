@@ -10,14 +10,14 @@ import SwiftUI
 
 extension Color {
     init(hex: UInt, alpha: Double = 1) {
-            self.init(
-                .sRGB,
-                red: Double((hex >> 16) & 0xff) / 255,
-                green: Double((hex >> 08) & 0xff) / 255,
-                blue: Double((hex >> 00) & 0xff) / 255,
-                opacity: alpha
-            )
-        }
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xff) / 255,
+            green: Double((hex >> 08) & 0xff) / 255,
+            blue: Double((hex >> 00) & 0xff) / 255,
+            opacity: alpha
+        )
+    }
     
     // Palette 1
     static let maize = Color(hex: 0xFFE74C)
@@ -30,7 +30,7 @@ extension Color {
     static let nonPhotoBlue = Color(hex: 0x9AD1D4)
     static let nonPhotoBlue2 = Color(hex: 0x80CED7)
     static let cerulean = Color(hex: 0x007EA7)
-
+    
     // Palette 3
     static let silver = Color(hex: 0xBFB5AF)
     static let bone = Color(hex: 0xECE2D0)
@@ -38,10 +38,10 @@ extension Color {
     static let roseTaupe = Color(hex: 0xA26769)
     static let violet = Color(hex: 0x582C4D)
     
-    // Palete 4
-    static let skyBlue = Color(hex: 0x8ECAE6)
-    static let blueGreen = Color(hex: 0x219EBC)
+    // Palette 5
+    static let gunMetal = Color(hex: 0x22333B)
+    static let almond = Color(hex: 0xEAE0D5)
+    static let khaki = Color(hex: 0xC6AC8F)
+    static let walnutBrown = Color(hex: 0x5E503F)
     static let prussianBlue = Color(hex: 0x003249)
-    static let selectiveYellow = Color(hex: 0xFFB703)
-    static let utOrange = Color(hex: 0xFB8500)
 }

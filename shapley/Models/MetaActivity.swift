@@ -8,7 +8,8 @@
 import Foundation
 
 struct MetaActivity: Codable, Identifiable, Hashable {
-    let userId: String
     let id: String
+    let titleName: String
+    let userId: String
     let createdDate: TimeInterval
 }

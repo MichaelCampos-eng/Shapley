@@ -31,6 +31,7 @@ struct DebtView: View {
                         Text("$\(String(format: "%.2f", missing))")
                             .bold()
                             .font(.largeTitle)
+                            .foregroundStyle(Color.white)
                         Text("/ $\(String(format: "%.2f", total))")
                             .foregroundStyle(Color(.secondaryLabel))
                     }
@@ -39,6 +40,7 @@ struct DebtView: View {
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                             .frame(height: 10)
                             .foregroundStyle(Color.gray.opacity(0.5))
+                            .shadow(radius: 10)
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                             .frame(width: metrics.size.width * progress, height: 10)
                             .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.orange, .maize]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
