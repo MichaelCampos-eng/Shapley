@@ -65,5 +65,9 @@ struct ExpenseView: View {
 }
 
 #Preview {
-    ExpenseView(metadata: MetaExpense(id: "", userId: "", activityId: "", type: .Vendue, dateCreated: TimeInterval()))
+    ExpenseView(metadata: MetaExpense(id: "37JuDhLT5ilrdryobZzH",
+                                      userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
+                                      activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316",
+                                      type: .Vendue,
+                                      dateCreated: TimeInterval()))
 }

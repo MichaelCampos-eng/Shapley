@@ -14,17 +14,21 @@ struct SaleView: View {
     @State private var quantity: String = ""
     @State private var price: String = ""
     
+    @FocusState private var focused: Bool
+    
     private let saleId: String
     
-    init(entry: Sale, givenModel: SplitBillSetupModel) {
+    init(entry: Sale, givenModel: SplitBillSetupModel, focused: FocusState<Bool>) {
         self.viewModel = givenModel
         self.saleId = entry.id
+        self._focused = focused
     }
 
     var body: some View {
                 HStack {
                     TextField("Item Name", text: $name)
-                    .onReceive(Just(name), perform: { _ in
+                        .focused($focused)
+                        .onReceive(Just(name), perform: { _ in
                         name = TextUtil.limitText(name, 15)
                         let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
                         if viewModel.isValidEntry(newSale) {
@@ -34,6 +38,7 @@ struct SaleView: View {
                     .foregroundColor(.white)
                     TextField("Quantity", text: $quantity)
                         .keyboardType(.numberPad)
+                        .focused($focused)
                         .onReceive(Just(quantity), perform: { _ in
                             let newSale = Sale(id: self.saleId, name: name, quantity: Int(quantity) ?? 0, price: Double(price) ?? 0.0)
                             if viewModel.isValidEntry(newSale) {
@@ -43,6 +48,7 @@ struct SaleView: View {
                         .foregroundColor(.white)
                     TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
+                        .focused($focused)
                         .multilineTextAlignment(.trailing)
                         .onReceive(Just(price), perform: { _ in
                             price = TextUtil.formatDecimal(price)
@@ -70,5 +76,6 @@ struct SaleView: View {
                          name: "",
                          quantity: 0,
                          price: 0.0),
-             givenModel: SplitBillSetupModel(id: ""))
+             givenModel: SplitBillSetupModel(id: ""),
+    focused: FocusState())
 }

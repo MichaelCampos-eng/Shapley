@@ -27,11 +27,6 @@ struct SelectSliderView: View {
                 }
             
             ))
-                .font(.caption)
-                .tint(.orange)
-                .toggleStyle(.button)
-                .contentTransition(.symbolEffect)
-            
             Toggle("Split Gas", systemImage: gas ? "car.fill" : "car", isOn: Binding(
                 get: { gas },
                 set: { newValue in
@@ -43,11 +38,6 @@ struct SelectSliderView: View {
                 }
             
             ))
-                .font(.caption)
-                .tint(.orange)
-                .toggleStyle(.button)
-                .contentTransition(.symbolEffect)
-            
             Toggle("Vendue", systemImage: vendue ? "bed.double.fill" : "bed.double", isOn: Binding(
                 get: { vendue },
                 set: { newValue in
@@ -59,12 +49,11 @@ struct SelectSliderView: View {
                 }
             
             ))
-                .font(.caption)
-                .tint(.orange)
-                .toggleStyle(.button)
-                .contentTransition(.symbolEffect)
         }
-        
+        .font(.caption)
+        .tint(.prussianBlue)
+        .toggleStyle(.button)
+        .contentTransition(.symbolEffect)
     }
 }
 

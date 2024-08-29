@@ -9,36 +9,35 @@ import SwiftUI
 
 struct SliderActivityView: View {
     
-    @Binding var createActivity: Bool
-    @Binding var joinActivity: Bool
+    @Binding var option1: Bool
+    @State private var option2: Bool = false
+
     
     var body: some View {
         HStack {
-            Toggle("Create Activity", systemImage: createActivity ? "figure.run.circle.fill" : "figure.run.circle", isOn: Binding(
-                get: { createActivity },
+            Toggle("Create", systemImage: option1 ? "figure.run.circle.fill" : "figure.run.circle", isOn: Binding(
+                get: { option1 },
                 set: { newValue in
                     if newValue {
-                        createActivity = true
-                        joinActivity = false
+                        option1 = true
+                        option2 = false
                     }
                 }
             ))
-            .font(.caption)
-            .tint(.orange)
+            .tint(.prussianBlue)
             .toggleStyle(.button)
             .contentTransition(.symbolEffect)
             
-            Toggle("Join Group", systemImage: joinActivity ? "person.3.fill" : "person.3", isOn: Binding(
-                get: { joinActivity },
+            Toggle("Join", systemImage: option2 ? "person.3.fill" : "person.3", isOn: Binding(
+                get: { option2 },
                 set: { newValue in
                     if newValue {
-                        createActivity = false
-                        joinActivity = true
+                        option2 = true
+                        option1 = false
                     }
                 }
             ))
-            .font(.caption)
-            .tint(.orange)
+            .tint(.prussianBlue)
             .toggleStyle(.button)
             .contentTransition(.symbolEffect)
         }
@@ -46,6 +45,5 @@ struct SliderActivityView: View {
 }
 
 #Preview {
-    SliderActivityView(createActivity: Binding(get: {true}, set: {_ in}),
-                       joinActivity: Binding(get: {false}, set: {_ in}))
+    SliderActivityView(option1: Binding(get: {true}, set: {_ in}))
 }

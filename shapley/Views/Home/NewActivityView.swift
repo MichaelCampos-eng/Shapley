@@ -11,75 +11,79 @@ struct NewActivityView: View {
     @StateObject var viewModel = NewActivityViewModel()
     @Binding var newItemPresented: Bool
     @State var createActivity: Bool = true
-    @State var joinActivity: Bool = false
     @Namespace private var animationSpacespace
     
     var body: some View {
-        Spacer()
-        ZStack {
-            VStack {
-                SliderActivityView(createActivity: $createActivity, joinActivity: $joinActivity)
-                    .padding(.vertical, 20)
-                Divider()
-                ZStack {
-                    if createActivity {
-                        VStack {
-                            Form {
-                                Section(header: Text("New Activity").font(.headline)) {
-                                    TextField("Activity Name", text: $viewModel.activityName)
-                                        .textFieldStyle(DefaultTextFieldStyle())
-                                    
-                                    ButtonView(title: "Create",
-                                               background: Color.orange) {
-                                        if viewModel.canCreate {
-                                            viewModel.create()
-                                            newItemPresented = false
-                                        } else {
-                                            viewModel.showAlert = true
-                                        }
-                                    }
-                                }
-                            }
-                            .scrollContentBackground(.hidden)
+        VStack {
+            SliderActivityView(option1: $createActivity)
+                .padding()
+            if createActivity {
+                VStack {
+                    HStack {
+                        TextField("",
+                                  text: $viewModel.activityName,
+                                  prompt: Text("Enter activity name").foregroundStyle(Color.walnutBrown).bold())
+                        .tint(Color.gunMetal)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 25.0)
+                                .fill(Color.khaki)
                         }
-                        .matchedGeometryEffect(id: "content", in: animationSpacespace)
-                        .frame(height: 200)
-                        Spacer()
-                    } else {
-                        VStack {
-                            Form {
-                                Section(header: Text("Join Group!").font(.headline)) {
-                                    
-                                    TextField("Group ID", text: $viewModel.groupId)
-                                        .textFieldStyle(DefaultTextFieldStyle())
-                                    
-                                    ButtonView(title: "Join Group",
-                                               background: Color.orange,
-                                               action: {
-                                        if viewModel.canJoin {
-                                            viewModel.join()
-                                            newItemPresented = false
-                                        } else {
-                                            viewModel.showAlert = true
-                                        }
-                                    })
-                                }
-                            }
-                            .scrollContentBackground(.hidden)
+                        Button(action: {}, label: {
+                            Image(systemName: "photo.badge.plus")
+                                .foregroundStyle(Color.walnutBrown)
+                        })
+                    }
+                    ButtonView(title: "Create",
+                               background: Color.walnutBrown) {
+                        if viewModel.canCreate {
+                            viewModel.create()
+                            newItemPresented = false
+                        } else {
+                            viewModel.showAlert = true
                         }
-                        .frame(height: 200)
-                        .matchedGeometryEffect(id: "content", in: animationSpacespace)
-                        Spacer()
                     }
                 }
-                .alert(isPresented: $viewModel.showAlert, content: {
-                    Alert(title: Text("Error"), message: Text(viewModel.alertMessage))
-                })
-                .animation(.smooth, value: createActivity)
-                .animation(.spring, value: joinActivity)
+                .transition(AnyTransition
+                    .asymmetric(insertion: .move(edge: .trailing),
+                                removal: .move(edge: .trailing))
+                        .combined(with: .opacity))
+            } else {
+                VStack {
+                    TextField("",
+                              text: $viewModel.groupId,
+                              prompt: Text("Enter group id").foregroundStyle(Color.walnutBrown).bold())
+                    .tint(Color.gunMetal)
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 25.0)
+                            .fill(Color.khaki)
+                    }
+                    ButtonView(title: "Join Group",
+                               background: Color.walnutBrown,
+                               action: {
+                        if viewModel.canJoin {
+                            viewModel.join()
+                            newItemPresented = false
+                        } else {
+                            viewModel.showAlert = true
+                        }
+                    })
+                }
+                .transition(AnyTransition
+                    .asymmetric(insertion: .move(edge: .leading),
+                                removal: .move(edge: .leading))
+                        .combined(with: .opacity))
             }
         }
-        Spacer()
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 25.0)
+                .fill(Color.almond)
+        }
+        .mask(RoundedRectangle(cornerRadius: 25.0)
+            .fill(Color.almond))
+        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.3), value: createActivity)
     }
 }
 

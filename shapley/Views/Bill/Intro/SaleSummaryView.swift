@@ -19,16 +19,13 @@ struct SaleSummaryView: View {
     } 
     
     var body: some View {
-        VStack(alignment: .trailing) {
+        VStack(alignment: .leading) {
             HStack{ Text("Subtotal: \(subtotal)")
                     .onReceive(viewModel.$receipt, perform: { newValue in
                         subtotal = String(format: "%.2f", newValue.subtotal)
                     })
             }
             HStack{
-                Spacer()
-                Image(systemName: "pencil")
-                    .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                 Text("Sales Tax:")
                 TextField("0.00", text: $tax)
                     .multilineTextAlignment(.trailing)
@@ -43,12 +40,14 @@ struct SaleSummaryView: View {
                             viewModel.updateReceipt(receipt: newReceipt)
                         }
                     })
-                    .foregroundColor(.white)
+                Image(systemName: "pencil")
+                    .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                Spacer()
             }
             HStack{Text("Total: \(String(format: "%.2f", viewModel.receipt.total))")}
         }
         .font(.headline)
-        .foregroundColor(.gray)
+        .foregroundStyle(Color.white)
     }
 }
 

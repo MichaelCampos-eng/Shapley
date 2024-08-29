@@ -14,8 +14,10 @@ class ExpensesViewModel: ObservableObject {
     @Published var showingManageGroup: Bool = false
     
     @Published var expensesMeta: [MetaExpense] = []
+    @Published var titleName: String = "Loading..."
     
     private var expenseReg: ListenerRegistration?
+    private var nameReg: ListenerRegistration?
     private var cancellables = Set<AnyCancellable>()
     private let activityId: String
     private let userId: String
@@ -30,13 +32,14 @@ class ExpensesViewModel: ObservableObject {
     
     func beginListening() {
         fetchModelIds()
-        print("Start goofy listen")
+        fetchActivityName()
     }
     
     func endListening() {
         expenseReg?.remove()
+        nameReg?.remove()
         expenseReg = nil
-        print("Stopped")
+        nameReg = nil
     }
     
     func isAdmin() -> Bool {
@@ -45,6 +48,17 @@ class ExpensesViewModel: ObservableObject {
     
     func getActivityId() -> String {
         return self.activityId
+    }
+    
+    private func fetchActivityName() {
+        let db = Firestore.firestore()
+        nameReg = db.collection("activities").document(self.activityId).addSnapshotListener { [weak self] snapshot, error in
+            guard let document = try? snapshot?.data(as: ContentActivity.self) else {
+                print("Unable to get activity document.")
+                return
+            }
+            self?.titleName = document.title
+        }
     }
     
     private func fetchModelIds() {
@@ -58,16 +72,16 @@ class ExpensesViewModel: ObservableObject {
                 return
             }
             let metaData = documents.compactMap{ queryDocumentSnapshot -> MetaExpense? in
-            guard let model = try? queryDocumentSnapshot.data(as: Model.self) else {
-                print("Unable to decode.")
-                return nil
-            }
-            let modelId = queryDocumentSnapshot.documentID
-            return MetaExpense(id: modelId,
-                               userId: self.userId,
-                               activityId: self.activityId,
-                               type: model.type,
-                               dateCreated: model.createdDate)
+                guard let model = try? queryDocumentSnapshot.data(as: Model.self) else {
+                    print("Unable to decode.")
+                    return nil
+                }
+                let modelId = queryDocumentSnapshot.documentID
+                return MetaExpense(id: modelId,
+                                   userId: self.userId,
+                                   activityId: self.activityId,
+                                   type: model.type,
+                                   dateCreated: model.createdDate)
             }.sorted{ $0.dateCreated > $1.dateCreated }
             self.expensesMeta = metaData
         }

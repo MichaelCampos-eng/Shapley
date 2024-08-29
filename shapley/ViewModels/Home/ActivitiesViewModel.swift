@@ -84,7 +84,7 @@ class ActivitiesViewModel: ObservableObject {
             let metaActivities = userData.flatMap { userActivity in
                 contents.compactMap { contentActivity in
                     return userActivity.id == contentActivity.id ? MetaActivity(id: contentActivity.id,
-                                                                                titleName: contentActivity.groupId,
+                                                                                titleName: contentActivity.title,
                                                                                 userId: self.userId,
                                                                                 createdDate: contentActivity.createdDate) : nil
                 }

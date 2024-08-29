@@ -24,7 +24,6 @@ struct SearchBarCustomView: View {
         HStack {
             Image(systemName: "magnifyingglass")
             TextField("Search for trip ", text: $searchText, onEditingChanged: { editing in
-                
                 withAnimation(.easeInOut(duration: 0.3)) {
                     if editing {
                         isEditing = true

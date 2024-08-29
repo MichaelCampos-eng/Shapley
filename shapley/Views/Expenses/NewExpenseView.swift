@@ -27,29 +27,33 @@ struct NewExpenseView: View {
     var body: some View {
             
         VStack {
-            SelectSliderView(receipt: $receipt, gas: $gas, vendue: $vendue)
-                .padding(.vertical, 20)
-            Divider()
-            Spacer()
-            
             ZStack {
                 if receipt {
                     SplitBillSetupView(activityId: self.activityId, presented: $newTripPresented)
                         .matchedGeometryEffect(id: "content", in: animationNamespace)
-                        .padding(.top, 10)
+                        
                 } else if gas {
                     SplitGasSetupView()
                         .matchedGeometryEffect(id: "content", in: animationNamespace)
-                        .padding(.top, 10)
+                        
                 } else if vendue {
                     VendueSetupView()
                         .matchedGeometryEffect(id: "content", in: animationNamespace)
-                        .padding(.top, 10)
+                        
                 }
             }
             .animation(.bouncy, value: receipt)
             .animation(.bouncy, value: gas)
             .animation(.bouncy, value: vendue)
+            
+            Spacer()
+            SelectSliderView(receipt: $receipt, gas: $gas, vendue: $vendue)
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                        .fill(Color.almond)
+                }
+                .padding()
         }
         Spacer()
     }

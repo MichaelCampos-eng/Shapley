@@ -10,87 +10,124 @@ import SwiftUI
 
 struct ActivityView: View {
     @StateObject var viewModel: ActivityViewModel
-    @State private var isEditing: Bool = false
     @State private var editedTitle: String = ""
-
+    @State private var isShowingOptions: Bool = false
+    @State private var isEditing: Bool = false
+    @FocusState private var isFocused: Bool
+    
     init(metadata: MetaActivity) {
         self._viewModel = StateObject(
             wrappedValue: ActivityViewModel(meta: metadata))
     }
     
-    var body: some View { 
+    var body: some View {
         
         let photos = (1..<7).map { "photo\($0)" }
         
         if viewModel.isAvailable() {
-            
-            
-            GeometryReader { geo in
-                RoundedRectangle(cornerRadius: 25.0)
-                    .fill(Color.almond)
-                    .overlay {
+            ZStack {
+                if isShowingOptions {
+                    VStack(spacing: 0) {
+                        Button(action: {
+                            isShowingOptions = false
+                            isEditing = true
+                            isFocused = true
+                        }, label: {
+                            Rectangle()
+                                .fill(Color.blue)
+//                                .ignoresSafeArea()
+                                .overlay {
+                                    Text("Edit")
+                                        .bold()
+                                        .foregroundStyle(Color.white)
+                                }
+                        })
+                        Button(action: {
+                            isShowingOptions = false
+                            viewModel.delete()
+                        }, label: {
+                            Rectangle()
+                                .fill(Color.red)
+//                                .ignoresSafeArea()
+                                .overlay {
+                                    Text("Delete")
+                                        .bold()
+                                        .foregroundStyle(Color.white)
+                                }
+                        })
+                        Button(action: {
+                            isShowingOptions = false
+                        }, label: {
+                            Rectangle()
+                                .fill(Color.almond)
+//                                .ignoresSafeArea()
+                                .overlay {
+                                    HStack {
+                                        Image(systemName: "arrowshape.turn.up.backward")
+                                        Text("Back")
+                                    }
+                                    .bold()
+                                    .foregroundStyle(Color.walnutBrown)
+                                }
+                        })
+                    }
+                    .mask(Circle())
+                    .transition(AnyTransition
+                        .asymmetric(insertion: .scale,
+                                    removal: .move(edge: .leading)))
+                }
+                    else {
                         VStack {
-                            PhotoActivityView(name: photos.randomElement()!)
-//                                .padding()
-                            
-                            
-                            HStack {
-                                if isEditing {
-                                    TextField(editedTitle, text: $editedTitle, onCommit: {
-                                        viewModel.updateTitle(name: editedTitle)
-                                        isEditing = false
-                                    })
-                                    .foregroundStyle(Color(.secondaryLabel))
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                } else {
+                            Spacer()
+                            if isEditing {
+                                TextField(editedTitle, text: $editedTitle, onCommit: {
+                                    viewModel.updateTitle(name: editedTitle)
+                                    isEditing = false
+                                })
+                                .foregroundStyle(Color(.secondaryLabel))
+                                .padding()
+                                .focused($isFocused)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .stroke(lineWidth: /*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
+                                        .foregroundStyle(Color.white)
+                                }
+                            } else {
+                                HStack {
+                                    Spacer()
                                     VStack(alignment: .leading) {
                                         Text(viewModel.getTitle())
-                                            .foregroundStyle(Color.black)
                                             .font(.body)
                                             .bold()
+                                            .foregroundStyle(Color.white)
                                         Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
-                                            .font(.footnote)
-                                            .foregroundStyle(Color.black)
+                                            .font(.caption2)
+                                            .foregroundStyle(Color.white)
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                    Spacer()
+                                    Button(action: {
+                                        isShowingOptions.toggle()
+                                    }, label: {
+                                        Image(systemName: isShowingOptions ?  "arrow.turn.right.down" : "ellipsis")
+                                            .rotationEffect(.degrees(isShowingOptions ? 0 : 360))
+                                            .foregroundStyle(Color.white)
+                                    })
                                     Spacer()
                                 }
-                                Spacer()
-                                Button(action: {},
-                                       label: {
-                                    Image(systemName: "ellipsis")
-                                        .font(.title)
-                                        .foregroundStyle(Color(.black))
-                                })
                             }
-                            .padding(.horizontal)
                             Spacer()
                         }
+                        .padding()
+                        .background {
+                            Circle()
+                                .overlay {
+                                    PhotoActivityView(name: photos.randomElement()!)
+                                        .mask(Circle())
+                                }
+                                .shadow(radius: 10)
+                        }
                     }
-                    .mask(RoundedRectangle(cornerRadius: 25.0))
-                    
             }
-            
-            
-            
-            
-            ////                        .swipeActions {
-            ////                            if viewModel.isAdmin() && !isEditing {
-            ////                                Button("Edit") {
-            ////                                    isEditing = true
-            ////                                }
-            ////                                .tint(Color.blue)
-            ////                            }
-            ////                            if !isEditing {
-            ////                                Button("Delete") {
-            ////                                    viewModel.delete()
-            ////                                }
-            ////                                .tint(Color.red)
-            ////                            }
-            ////                        }
-            //                    }
-            //                    .padding()
-            //                }
         }
     }
 }
