@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 
+struct DisplayUserPallete {
+    static let pallete1: [Color] = [Color.gunMetal, Color.prussianBlue, Color.violet, Color.roseTaupe]
+}
+
 extension Color {
     init(hex: UInt, alpha: Double = 1) {
         self.init(

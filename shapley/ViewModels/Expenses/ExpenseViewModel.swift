@@ -61,6 +61,16 @@ class ExpenseViewModel: ObservableObject {
         }
     }
     
+    func updateTitle(name: String) {
+        let db = Firestore.firestore()
+        let ref = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId())
+        ref.updateData(["title" : name]) { error in
+            if let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func delete() {
         self.errorMessage = ""
         let db = Firestore.firestore()

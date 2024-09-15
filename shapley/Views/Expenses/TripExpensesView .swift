@@ -22,10 +22,8 @@ struct TripExpensesView: View {
     
     var body: some View {
         ZStack {
-            
             Color.prussianBlue
                 .ignoresSafeArea()
-            
             if !viewModel.showingNewTrip {
                 MainExpensesView(viewModel: viewModel, onClicked: $onClickedDismiss)
                     .transition(AnyTransition
@@ -65,7 +63,7 @@ struct TripExpensesView: View {
                 }
             } label: {
                 Image(systemName: viewModel.showingNewTrip ? "arrow.turn.up.left" : "plus")
-                    .foregroundColor( viewModel.showingNewTrip ? .orange : .white)
+                    .foregroundStyle(Color.white)
                     .rotationEffect(.degrees(viewModel.showingNewTrip ? 0 : 360))
             }
         }

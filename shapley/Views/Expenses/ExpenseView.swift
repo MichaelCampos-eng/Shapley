@@ -23,7 +23,14 @@ struct ExpenseView: View {
         if viewModel.isAvailable() {
             HStack {
                 if isEditing {
-                    // TODO:  Add an editing feature, perhaps, not necessary, allow title changes
+                    HStack {
+                        TextField(viewModel.getTitle(), text: $editedTitle)
+                        .onSubmit {
+                            viewModel.updateTitle(name: editedTitle)
+                            isEditing = false
+                        }
+                        .foregroundStyle(Color(.secondaryLabel))
+                    }
                 } else {
                     HStack {
                         VStack(alignment: .leading) {

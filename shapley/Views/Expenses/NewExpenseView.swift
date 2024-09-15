@@ -51,7 +51,7 @@ struct NewExpenseView: View {
                 .padding()
                 .background {
                     RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                        .fill(Color.almond)
+                        .fill(Color.khaki)
                 }
                 .padding()
         }

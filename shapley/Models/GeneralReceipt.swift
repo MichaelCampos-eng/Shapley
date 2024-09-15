@@ -14,6 +14,10 @@ struct GeneralReceipt: Codable, Equatable, Hashable {
     var total: Double {
         return subtotal + tax
     }
+    
+    var taxPercentage: Double {
+        return (total/subtotal) - 1.0
+    }
 
     mutating func changeSubtotal(_ state: Double) {
         subtotal = state

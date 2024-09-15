@@ -11,13 +11,11 @@ import FirebaseFirestore
  
 class ManageBillGroupModel: ObservableObject {
     @Published private var model: Model?
-    @Published private var validUserIds: [String] = []
-    @Published private var nickName: String?
+    @Published var nickName: String?
     
-    private var group: BillGroup?
-    private var items: [Sale] = []
-    private var missingAmount: Double?
-    private var total: Double?
+    @Published var receipt: Receipt?
+    @Published var group: [DisplayUser] = []
+    
     private var validate: Bool = false
     
     private var modelReg: ListenerRegistration?
@@ -35,10 +33,9 @@ class ManageBillGroupModel: ObservableObject {
     
     func beginListening() {
         self.fetchModel()
-        self.fetchIds()
+        self.fetchGroup()
         self.fetchUserNickName()
-        
-        self.fetchMeta()
+    
         self.fetchReceipt()
         self.setIsValid()
     }
@@ -62,14 +59,20 @@ class ManageBillGroupModel: ObservableObject {
         }
     }
     
-    private func fetchIds() {
+    private func fetchGroup() {
         let db = Firestore.firestore()
         validIdsReg = db.collection("activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let self else {
+                return
+            }
             guard let document = try? snapshot?.data(as: ContentActivity.self) else {
                 print("Activity does not exist.")
                 return
             }
-            self?.validUserIds = document.validUsers
+            self.group = document.validUsers.map{ DisplayUser(pathIds:  ModelPaths(id: self.getModelId(),
+                                                                                    userId: $0,
+                                                                                    activityId: self.getActId()))
+                           }
         }
     }
     
@@ -84,32 +87,15 @@ class ManageBillGroupModel: ObservableObject {
         }
     }
     
-    private func fetchMeta() {
-        $validUserIds
-            .sink { [weak self] newUserIds in
-                guard let self = self else {
-                    return
-                }
-                self.group = BillGroup(receipt: getReciept(), 
-                                       validUsers: newUserIds.map{ModelPaths(id: self.getModelId(),
-                                                                           userId: $0,
-                                                                           activityId: self.getActId())})
-            }
-            .store(in: &cancellables)
-    }
-    
     private func fetchReceipt() {
         $model
-            .sink { [weak self] val in
+            .sink { [weak self] givenModel in
                 guard let self = self else {
                     return
                 }
-                switch(val?.type) {
+                switch givenModel?.type {
                 case .Bill(let receipt):
-                    self.items = receipt.items
-                    self.total = receipt.summary.total
-                    self.missingAmount = receipt.items.reduce(0.0) { (result, item) in
-                        result + (Double(item.available) * item.price)}
+                    self.receipt = receipt
                 default:
                     return
                 }
@@ -118,9 +104,9 @@ class ManageBillGroupModel: ObservableObject {
     }
     
     private func setIsValid() {
-        Publishers.CombineLatest($model, $nickName)
-            .map { givenModel, givenName in
-                givenModel != nil && givenName != nil
+        Publishers.CombineLatest3($model, $nickName, $receipt)
+            .map { givenModel, givenName, givenReceipt in
+                return givenModel != nil && givenName != nil && givenReceipt != nil
             }
             .assign(to: \.validate , on: self)
             .store(in: &cancellables)
@@ -140,38 +126,5 @@ class ManageBillGroupModel: ObservableObject {
     
     func isValid() -> Bool {
         return validate
-    }
-    
-    func getNickname() -> String {
-        return nickName!
-    }
-    
-    func getMissingAmount() -> Double {
-        return missingAmount!
-    }
-    
-    func getTotal() -> Double {
-        return total!
-    }
-    
-    func getSales() -> [Sale] {
-        return self.items
-    }
-    
-    func getGroup() -> BillGroup {
-        return self.group!
-    }
-    
-    func getMeta() -> ModelPaths {
-        return self.meta
-    }
-    
-    private func getReciept() -> Receipt {
-        switch model?.type {
-        case .Bill(let reciept):
-            return reciept
-        default:
-            return Receipt(summary: GeneralReceipt(subtotal: 0.0, tax: 0.0), items: [])
-        }
     }
 }

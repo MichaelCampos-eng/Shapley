@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct NewActivityView: View {
-    @StateObject var viewModel = NewActivityViewModel()
+    @StateObject var viewModel: NewActivityViewModel = NewActivityViewModel()
     @Binding var newItemPresented: Bool
     @State var createActivity: Bool = true
     @Namespace private var animationSpacespace
+    
+    init(present: Binding<Bool>) {
+        self._newItemPresented = present
+    }
+    
     
     var body: some View {
         VStack {
@@ -63,8 +68,10 @@ struct NewActivityView: View {
                                background: Color.walnutBrown,
                                action: {
                         if viewModel.canJoin {
-                            viewModel.join()
-                            newItemPresented = false
+                            Task {
+                                await viewModel.join()
+                                newItemPresented = false
+                            }
                         } else {
                             viewModel.showAlert = true
                         }
@@ -88,9 +95,10 @@ struct NewActivityView: View {
 }
 
 #Preview {
-    NewActivityView(newItemPresented: Binding(get: {
+    NewActivityView(present:     Binding(get: {
         return true
     }, set: { _ in
         return
-    }))
+    })
+)
 }

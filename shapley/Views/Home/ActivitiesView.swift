@@ -107,7 +107,7 @@ struct ActivitiesView: View {
                                 }
                             }
                         }
-                    NewActivityView(newItemPresented: $viewModel.showingNewActivity)
+                    NewActivityView(present: $viewModel.showingNewActivity)
                         .padding()
                         .frame(height: 275)
                         .transition(AnyTransition

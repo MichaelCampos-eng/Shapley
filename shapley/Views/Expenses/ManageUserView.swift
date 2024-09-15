@@ -12,6 +12,7 @@ struct ManageUserView: View {
     @StateObject var viewModel: ManageUserViewModel
     @State private var isEditing = false
     @State private var editedName = ""
+    @State private var showingOptions: Bool = false
     
     init(userId: String, activityId: String, completion: @escaping (String, String) -> Void) {
         self._viewModel = StateObject(wrappedValue: ManageUserViewModel(user: userId,
@@ -25,64 +26,103 @@ struct ManageUserView: View {
         let diameter = min(screenSize.width, screenSize.height) / 3
         
         if viewModel.validate() {
-            HStack {
-                if isEditing {
-                    TextField("Change Name", text: $editedName, onCommit: {
-                        viewModel.updateUserName(name: editedName)
-                        isEditing = false
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                } else {
-                    ZStack{
-                        Image(systemName: "person")
-                            .tint(.orange)
-                        Rectangle()
-                            .fill(Material.ultraThin)
-                            .frame(width: diameter, height: diameter)
-                            .cornerRadius(20)
-                            .overlay {
-                                VStack(alignment: .center) {
-                                    Text(viewModel.getName())
-                                        .font(.body)
-                                        .bold()
-                                    if viewModel.isAdmin() {
-                                        Text("Admin")
-                                            .font(.footnote)
-                                            .foregroundStyle(Color(.secondaryLabel))
+  
+                    Rectangle()
+                        .fill(Material.ultraThin)
+                        .frame(width: diameter, height: diameter)
+                        .cornerRadius(20)
+                        .overlay {
+                            ZStack{
+                                if viewModel.isEditible || viewModel.isRemovable {
+                                    VStack {
+                                        HStack {
+                                            Spacer()
+                                            Button(action: {
+                                                showingOptions.toggle()
+                                                isEditing = false
+                                            }, label: {
+                                                Image(systemName: "ellipsis")
+                                                    .foregroundStyle(Color.white)
+                                            })
+                                        }
+                                        Spacer()
                                     }
-                                    Text(viewModel.getContact())
-                                        .font(.footnote)
-                                        .foregroundStyle(Color(.secondaryLabel))
+                                    .padding()
+                                    .zIndex(3.0)
+                                }
+                                if isEditing {
+                                    HStack {
+                                        Image(systemName: "person")
+                                        TextField("Change Name", text: $editedName)
+                                            .onSubmit {
+                                                viewModel.updateUserName(name: editedName)
+                                                isEditing = false
+                                                showingOptions = false
+                                            }
+                                    }
+                                    .zIndex(2.0)
+                                    .padding()
+                                } else {
+                                    if !showingOptions {
+                                        VStack(alignment: .center) {
+                                            Text(viewModel.getName())
+                                                .foregroundStyle(Color.white)
+                                                .font(.body)
+                                                .bold()
+                                            if viewModel.isAdmin() {
+                                                Text("Admin")
+                                                    .font(.footnote)
+                                                    .foregroundStyle(Color(.secondaryLabel))
+                                            }
+                                            Text(viewModel.getContact())
+                                                .font(.footnote)
+                                                .foregroundStyle(Color(.secondaryLabel))
+                                        }
+                                        .zIndex(1.0)
+                                    } else {
+                                        VStack {
+                                            if viewModel.isEditible {
+                                                HStack {
+                                                    Spacer()
+                                                    Text("Edit")
+                                                        .bold()
+                                                        .foregroundStyle(Color.white)
+                                                    Spacer()
+                                                }
+                                                .padding()
+                                                .background {
+                                                    RoundedRectangle(cornerRadius: 25)
+                                                        .fill(Color.blue)
+                                                }
+                                                .onTapGesture {
+                                                    isEditing = true
+                                                }
+                                            }
+                                            if viewModel.isRemovable {
+                                                HStack {
+                                                    Spacer()
+                                                    Text("Remove")
+                                                        .bold()
+                                                        .foregroundStyle(Color.white)
+                                                    Spacer()
+                                                }
+                                                .padding()
+                                                .background {
+                                                    RoundedRectangle(cornerRadius: 25)
+                                                        .fill(Color.red)
+                                                }
+                                                .onTapGesture {
+                                                    viewModel.removeUser()
+                                                }
+                                            }
+                                        }
+                                        .padding()
+                                        .zIndex(1.0)
+                                    }
                                 }
                             }
-                    }
-                    
-                }
-            }
-//            .swipeActions {
-//                if viewModel.isRemovable {
-//                    Button("Remove") {
-//                        viewModel.removeUser()
-//                    }
-//                    .tint(Color.red)
-//                }
-//                
-//                if viewModel.isEditible {
-//                    Button("Edit") {
-//                        isEditing = true
-//                    }
-//                    .tint(Color.blue)
-//                }
-//                
-//            }
+                        }
         }
-//            .scrollTransition(.interactive,
-//                              axis: .horizontal) { view, phase in
-//                view.opacity(phase.value > 0 ? 0 : 1.0)
-//                    .offset(x: phase.value > 0 ? 500 : 0)
-//                    .blur(radius: phase.value > 0 ? 15 : 0)
-//                    .rotationEffect(.degrees(phase.value > 0 ? -90 : 0))
-//            }
     }
 }
 

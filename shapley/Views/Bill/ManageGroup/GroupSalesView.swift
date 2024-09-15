@@ -8,36 +8,32 @@
 import SwiftUI
 
 struct GroupSalesView: View {
-    
-    private let items: [Sale]
-    @State private var progress: Double =  0.3
-    
-    init(items: [Sale]) {
-        self.items = items
-    }
+    @EnvironmentObject var viewModel: ManageBillGroupModel
     
     var body: some View {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
-                    ForEach(Array(items.enumerated()), id: \.1) { index, item in
-                        UnclaimedView(item: item)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 0) {
+                ForEach(viewModel.receipt!.items) { item in
+                    UnclaimedView(item: item)
                         .padding(.horizontal, 5)
                         .containerRelativeFrame(.horizontal, count: 3, spacing: 0)
                         .scrollTransition(.interactive,
                                           axis: .horizontal) { view, phase in
-                            view.offset(y: phase.isIdentity ? 0 : 50)
+                            view.offset(x: phase.isIdentity ? 0 : 50)
                                 .scaleEffect(phase.isIdentity ? 1 : 0.4)
                                 .opacity(phase.isIdentity ? 1 : 0.75)
                         }
-                    }
                 }
-                .scrollTargetLayout()
+                .animation(.spring(Spring(duration: 0.3, bounce: 0.3), blendDuration: 0.1), value: viewModel.receipt!.items)
             }
-            .scrollTargetBehavior(.viewAligned)
+            .scrollTargetLayout()
+        }
+        .scrollTargetBehavior(.viewAligned)
+        .environmentObject(viewModel)
     }
 }
 
-#Preview {
-    GroupSalesView(items: [Sale(id: "1", name: "Bagels", quantity: 9, price: 2.98),
-                               Sale(id: "2", name: "Apple", quantity: 27, price: 2.98)])
-}
+//#Preview {
+//    GroupSalesView(items: [Sale(id: "1", name: "Bagels", quantity: 9, price: 2.98),
+//                               Sale(id: "2", name: "Apple", quantity: 27, price: 2.98)])
+//}

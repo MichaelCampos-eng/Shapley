@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct UnclaimedView: View {
-    
     private var item: Sale
-    @State private var progress: Double
-    
     init(item: Sale) {
         self.item = item
-        self._progress = State(initialValue: 0.0)
     }
     
     var body: some View {
@@ -39,11 +35,10 @@ struct UnclaimedView: View {
                                 .frame(height: 10)
                                 .foregroundStyle(Color.gray.opacity(0.5))
                             RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                                .frame(width: metrics.size.width * progress, height: 10)
+                                .frame(width: metrics.size.width * item.progress, height: 10)
                                 .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.orange, .maize]),
                                                                 startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/,
                                                                 endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
-                                .animation(.bouncy, value: progress)
                         }
                     }
                     Spacer()
@@ -52,11 +47,6 @@ struct UnclaimedView: View {
             
         }
         .shadow(radius: 10)
-        .onAppear {
-            withAnimation {
-                self.progress = 1
-            }
-        }
     }
 }
 

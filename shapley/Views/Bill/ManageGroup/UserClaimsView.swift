@@ -8,37 +8,36 @@
 import SwiftUI
 
 struct UserClaimsView: View {
-    
     @StateObject private var viewModel: ManageBillUserModel
     
-    init(receipt: Receipt, refPaths: ModelPaths) {
-        self._viewModel = StateObject(wrappedValue: ManageBillUserModel(receipt: receipt, refPaths: refPaths))
+    init(receipt: Receipt, user: DisplayUser) {
+        self._viewModel = StateObject(wrappedValue: ManageBillUserModel(receipt: receipt, user: user))
     }
     
     var body: some View {
-        let color: [Color] = [.gunMetal, .prussianBlue, .violet, .roseTaupe]
-    
         ZStack {
             RoundedRectangle(cornerRadius: 25.0)
-                .foregroundColor(color.randomElement())
+                .foregroundColor(viewModel.getColor())
                 .shadow(radius: 10)
             if viewModel.isAvailable() {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(viewModel.getAlias())
+                        Text(viewModel.userDetails!.alias)
                             .foregroundStyle(Color.white)
                             .font(.title2)
-                        Text("$\(String(format: "%.2f", viewModel.getDebt()))")
+                        Text("$\(String(format: "%.2f", viewModel.userDetails!.debt))")
                             .font(.title)
                             .bold()
-                        Text("$\(String(format: "%.2f", viewModel.getSubtotal())) Subtotal")
+                        Text("$\(String(format: "%.2f", viewModel.userDetails!.subtotal)) Subtotal")
                             .foregroundStyle(Color(.secondaryLabel))
-                        Text("$\(String(format: "%.2f", viewModel.getTax())) Tax")
+                        Text("$\(String(format: "%.2f", viewModel.userDetails!.tax)) Tax")
                             .foregroundStyle(Color(.secondaryLabel))
                     }
                     .shadow(radius: 10)
-                    PieChartBillView(items: viewModel.getItems())
+                    PieChartBillView(items: viewModel.userDetails!.claims)
                 }
+                .animation(.spring(Spring(duration: 0.5, bounce: 0.3), blendDuration: 0.1),
+                           value: viewModel.userDetails!.claims)
                 .padding(.leading)
                 .transition(AnyTransition.asymmetric(insertion: .scale, removal: .scale))
             }
@@ -58,7 +57,7 @@ struct UserClaimsView: View {
                                                  name: "Snapples",
                                                  quantity: 3,
                                                  price: 8.97)]),
-                   refPaths: ModelPaths(id: "cG1pKA6E7gCXkysxTD3o",
-                                      userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
-                                      activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316"))
+                   user: DisplayUser(pathIds: ModelPaths(id: "cG1pKA6E7gCXkysxTD3o",
+                                                         userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
+                                                         activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316")))
 }

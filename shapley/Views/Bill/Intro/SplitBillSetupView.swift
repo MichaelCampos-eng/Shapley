@@ -23,91 +23,103 @@ struct SplitBillSetupView: View {
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
-            List {
-                Section("Receipt") {
-                    ForEach(viewModel.sales) { item in
-                        SaleView(entry: item, givenModel: viewModel, focused: _focusItem)
-                    }
-                }
-            }
-            .scrollContentBackground(.hidden)
-            Divider()
-            if !focusItem {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Sale Summary")
-                            .font(.title)
-                            .bold()
-                            .foregroundStyle(Color(.secondaryLabel))
-                        HStack {
-                            TextField("Receipt Name", text: $titleName)
-                                .bold()
-                                .fixedSize(horizontal: true, vertical: false)
-                                .multilineTextAlignment(.leading)
-                                .onReceive(Just(titleName), perform: { _ in
-                                    titleName = TextUtil.limitText(titleName, 15)
-                                })
-                                .foregroundStyle(Color.blue)
-                            Image(systemName: "pencil")
-                                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                            Spacer()
+            
+            VStack {
+                List {
+                    Section("Receipt") {
+                        ForEach(viewModel.sales) { item in
+                            SaleView(entry: item, givenModel: viewModel, focused: _focusItem)
+                                .listRowBackground(Color.walnutBrown)
                         }
-                        SaleSummaryView(model: viewModel)
                     }
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .fill(Color.prussianBlue)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                                    .stroke(Color.roseTaupe, lineWidth: 2.0)
-                            }
-                    }
-                    Button {
-                        viewModel.createNewEntry()
-                    } label: {
-                        Image(systemName: "plus")
-                            .foregroundColor(.white)
-                            .font(.largeTitle)
-                    }
-                    .padding()
                 }
+                .scrollContentBackground(.hidden)
                 .background {
                     RoundedRectangle(cornerRadius: 25.0)
-                        .fill(Color.roseTaupe)
+                        .fill(Color.khaki)
                         .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                 }
-                .padding()
-                .transition(AnyTransition
-                    .asymmetric(insertion: .move(edge: .bottom),
-                                removal: .move(edge: .top))
-                        .combined(with: .opacity)
-                        .combined(with: .scale))
             }
-                
+            .padding()
+            if !focusItem {
+                ZStack {
+                        Button {
+                            if viewModel.isSharable(titleName: titleName) {
+                                viewModel.shareReceipt(titleName: titleName)
+                                presented = false
+                                self.error = false
+                            } else {
+                                self.error = true
+                            }
+                        } label: {
+                            Text("Publish")
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 8)
+                                .foregroundColor(.white)
+                                .background(.orange)
+                                .cornerRadius(8)
+                        }
+                        .zIndex(2.0)
+                        .shadow(radius: 10)
+                        .offset(x: 115, y: 60)
+                    
+                    
+                    VStack(spacing: 0) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Sale Summary")
+                                    .font(.title)
+                                    .bold()
+                                    .foregroundStyle(Color(.secondaryLabel))
+                                HStack {
+                                    TextField("Receipt Name", text: $titleName)
+                                        .bold()
+                                        .fixedSize(horizontal: true, vertical: false)
+                                        .multilineTextAlignment(.leading)
+                                        .onReceive(Just(titleName), perform: { _ in
+                                            titleName = TextUtil.limitText(titleName, 15)
+                                        })
+                                        .foregroundStyle(Color.blue)
+                                    Image(systemName: "pencil")
+                                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                                    Spacer()
+                                }
+                                SaleSummaryView(model: viewModel)
+                            }
+                            .padding()
+                            .background {
+                                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                    .fill(Color.prussianBlue)
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                                            .stroke(Color.roseTaupe, lineWidth: 2.0)
+                                    }
+                            }
+                            Button {
+                                viewModel.createNewEntry()
+                            } label: {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.white)
+                                    .font(.largeTitle)
+                            }
+                            .padding()
+                        }
+                        .background {
+                            RoundedRectangle(cornerRadius: 25.0)
+                                .fill(Color.roseTaupe)
+                                .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                        }
+                        .padding()
+                    }
+                    .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
+                    .transition(AnyTransition
+                        .asymmetric(insertion: .move(edge: .bottom),
+                                    removal: .move(edge: .top))
+                            .combined(with: .opacity)
+                            .combined(with: .scale))
+                }
+            }
                 Spacer()
-                
-//                HStack(alignment: .center) {
-//                    Spacer()
-//                    Button {
-//                        if viewModel.isSharable(titleName: titleName) {
-//                            viewModel.shareReceipt(titleName: titleName)
-//                            presented = false
-//                            self.error = false
-//                        } else {
-//                            self.error = true
-//                        }
-//                        
-//                    } label: {
-//                        Text("Publish")
-//                            .padding(.horizontal, 20)
-//                            .padding(.vertical, 8)
-//                            .foregroundColor(.white)
-//                            .background(.orange.opacity(0.7))
-//                            .cornerRadius(8)
-//                    }
-//                    Spacer()
-//                }
             }
         .animation(.easeInOut(duration: 0.3), value: focusItem)
             .onTapGesture {

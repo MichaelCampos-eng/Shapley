@@ -12,13 +12,19 @@ struct Sale: Codable, Identifiable, Equatable, Hashable {
     var quantity: Int
     var price: Double
     var available: Int
+    var unitPrice: Double {
+        return price / Double(quantity)
+    }
+    var progress: Double {
+        return 1.0 - Double(available) / Double(quantity)
+    }
     
     init(id: String, name: String, quantity: Int, price: Double) {
         self.id = id
         self.name = name
         self.quantity = quantity
         self.price = price
-        self.available = quantity
+        self.available = quantity 
     }
     
     mutating func addAvailble(_ val: Int) {
@@ -34,6 +40,7 @@ struct Sale: Codable, Identifiable, Equatable, Hashable {
             return lhs.name == rhs.name &&
                    lhs.name == rhs.name &&
                    lhs.quantity == rhs.quantity &&
-                   lhs.price == rhs.price
+                   lhs.price == rhs.price &&
+                lhs.available == rhs.available
         }
 }

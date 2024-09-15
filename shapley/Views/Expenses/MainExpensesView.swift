@@ -20,9 +20,15 @@ struct MainExpensesView: View {
         VStack(spacing: 0) {
             Spacer()
             HStack {
-                Text("Expenses")
-                    .bold()
-                    .font(.system(size: 50, weight: .bold))
+                VStack(alignment: .leading) {
+                    Text("Expenses")
+                        .bold()
+                        .font(.system(size: 50, weight: .bold))
+                        .shadow(radius: 10)
+                    Text("Tap or swipe left")
+                        .bold()
+                        .foregroundStyle(Color(.secondaryLabel))
+                }
                 Spacer()
             }
             .padding()

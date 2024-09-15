@@ -97,11 +97,9 @@ class ManageUserViewModel: ObservableObject {
                 guard let uId = Auth.auth().currentUser?.uid else {
                     return
                 }
-                
                 guard let user = user else {
                     return
                 }
-                
                 if uId == user.id {
                     self?.isEditible = true
                 } else {
@@ -172,12 +170,10 @@ class ManageUserViewModel: ObservableObject {
     private func fetchUserInfo() {
         let db = Firestore.firestore()
         db.collection("users").document(self.userId).addSnapshotListener { [weak self] snapshot, error in
-            
             guard let snapshot = snapshot else {
                 print("Error fetching user info")
-                return
+                return;
             }
-            
             self?.userInfo = try? snapshot.data(as: User.self)
         }
     }
@@ -185,12 +181,10 @@ class ManageUserViewModel: ObservableObject {
     private func fetchUserActivity() {
         let db = Firestore.firestore()
         db.collection("users/\(userId)/activities").document(self.activityId).addSnapshotListener { [weak self] snapshot, error in
-            
             guard let snapshot = snapshot else {
                 print("Error fetching user activity")
                 return
             }
-            
             self?.userActivity = try? snapshot.data(as: UserActivity.self)
         }
     }
@@ -223,11 +217,9 @@ class ManageUserViewModel: ObservableObject {
         guard let user = user else {
             return nil
         }
-        
         guard let activity = activity else {
             return nil
         }
-        
         return ManageUser(id: user.id, 
                           userName: activity.tempName,
                           contact: user.email,

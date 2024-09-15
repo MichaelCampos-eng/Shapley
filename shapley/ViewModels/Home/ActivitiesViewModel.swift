@@ -49,11 +49,9 @@ class ActivitiesViewModel: ObservableObject {
                 print("No documents")
                 return
             }
-
             self?.userData = documents.compactMap{queryDocumentSnapshot -> UserActivity? in
                 return try? queryDocumentSnapshot.data(as: UserActivity.self)
             }
-    
         }
     }
     

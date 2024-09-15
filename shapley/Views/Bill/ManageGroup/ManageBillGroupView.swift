@@ -9,8 +9,7 @@ import SwiftUI
 import Charts
 
 struct ManageBillGroupView: View {
-    
-    @StateObject private var viewModel: ManageBillGroupModel
+    @StateObject private var viewModel: ManageBillGroupModel 
     
     init(meta: ModelPaths) {
         self._viewModel = StateObject(wrappedValue: ManageBillGroupModel(meta: meta))
@@ -25,27 +24,28 @@ struct ManageBillGroupView: View {
                     .padding()
                 Text("Group Details")
                     .foregroundStyle(Color.white)
-                    .font(.title)
+                    .font(.title3)
                     .bold()
                 Spacer()
                 VStack {
                     HStack {
-                        Text("Hi, \(viewModel.getNickname())!")
+                        Text("Hi, \(viewModel.nickName!)!")
                             .foregroundStyle(Color.white)
                             .bold()
-                            .font(.title)
+                            .font(.largeTitle)
                             .shadow(radius: 10)
                         Spacer()
                     }
-                    DebtView(missing: viewModel.getMissingAmount(), total: viewModel.getTotal())
+                    DebtView()
                         .frame(maxHeight: 100)
                 }
                 .padding(.horizontal)
-                GroupSalesView(items: viewModel.getSales())
+                GroupSalesView()
                     .frame(maxHeight: 100)
-                GroupClaimsView(users: viewModel.getGroup())
+                GroupClaimsView()
                     .frame(maxHeight: 250)
             }
+            .environmentObject(viewModel)
         }
     }
 }

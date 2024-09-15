@@ -4,7 +4,7 @@
 //
 //  Created by Michael Campos on 5/28/24.
 //
-
+ 
 import FirebaseAuth
 import FirebaseFirestore
 import Foundation
@@ -21,30 +21,22 @@ class NewActivityViewModel: ObservableObject {
         self.fetchUser()
     }
     
-    public func create() -> Void {
-        
+    func create() -> Void {
         guard canCreate else {
             return
         }
-        
         guard let currentUser = self.user else {
             return
         }
-        
         let activityId = UUID().uuidString
         let groupId = self.generateAlphanumericID(length: 8)
-        
         let userActivity = UserActivity(id: activityId, isAdmin: true, tempName: currentUser.name)
         let content = ContentActivity(id: activityId,
                                       createdDate: Date().timeIntervalSince1970,
                                       title: self.activityName,
                                       groupId: groupId,
                                       validUsers: [currentUser.id])
-        
-        // Save user metadata for a particular activity
         self.saveUserActivity(userId: currentUser.id, userActivity: userActivity)
-        
-        // Save content metadata about activity
         self.saveContentActivity(content: content)
     }
     
@@ -52,7 +44,6 @@ class NewActivityViewModel: ObservableObject {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
-        
         let db = Firestore.firestore()
         db.collection("users").document(userId).addSnapshotListener{ [weak self] snapshot, error in
             guard let snapshot = snapshot else {
@@ -63,9 +54,7 @@ class NewActivityViewModel: ObservableObject {
         }
     }
     
-    
     private func saveUserActivity(userId: String, userActivity: UserActivity) -> Void {
-        
         let db = Firestore.firestore()
         db.collection("users")
             .document(userId)
@@ -75,7 +64,7 @@ class NewActivityViewModel: ObservableObject {
                 if let error = error {
                     print("Error saving user activity: \(error.localizedDescription)")
                 } else {
-                    print("Sucessfully saved user activity!")
+                    print("Successfully saved user activity!")
                 }
             })
     }
@@ -102,47 +91,31 @@ class NewActivityViewModel: ObservableObject {
             result.append(characters[randomCharacter])
         }
         return result
-    }
-    
-    public func join() -> Void {
-        
-        let db = Firestore.firestore()
-        let activities = db.collection("activities")
+    } 
 
-        activities.whereField("groupId", isEqualTo: groupId).getDocuments{ [weak self] snapshot, error in
-            if let error = error {
-                print("Error getting documents: \(error.localizedDescription)")
-            } else if let snapshot = snapshot {
-                
-                if snapshot.documents.isEmpty {
-                    self?.alertMessage = "Invalid Group Id"
-                }
-                
-                for document in snapshot.documents {
-                    do {
-                        guard let currentUser = self?.user else {
-                            return
-                        }
-                        
-                        var activity = try document.data(as: ContentActivity.self)
-                        let validUsers = activity.validUsers
-                        
-                        if !validUsers.contains(currentUser.id) {
-                            activity.addUser(currentUser.id)
-                            document.reference.setData(activity.asDictionary())
-                        }
-                        
-                        let activityId = activity.id
-                        let userActivity = UserActivity(id: activityId, isAdmin: false, tempName: currentUser.name)
-                        self?.saveUserActivity(userId: currentUser.id, userActivity: userActivity)
-                        
-                    } catch {
-                        print("Error decoding document: \(error.localizedDescription)")
+    func join() async {
+        let db = Firestore.firestore()
+        do {
+            let snapshot = try await db.collection("activities").whereField("groupId", isEqualTo: groupId).getDocuments()
+            for document in snapshot.documents {
+                do {
+                    guard let currentUser = self.user else { return }
+                    var activity = try document.data(as: ContentActivity.self)
+                    let validUsers = activity.validUsers
+                    if !validUsers.contains(currentUser.id) {
+                        activity.addUser(currentUser.id)
+                        try await document.reference.setData(activity.asDictionary())
                     }
+                    let activityId = activity.id
+                    let userActivity = UserActivity(id: activityId, isAdmin: false, tempName: currentUser.name)
+                    self.saveUserActivity(userId: currentUser.id, userActivity: userActivity)
+                } catch {
+                    print("Error decoding document: \(error.localizedDescription)")
                 }
             }
+        } catch {
+            self.alertMessage = "Invalid Group Id"
         }
-        
     }
     
     var canCreate: Bool {
@@ -160,7 +133,4 @@ class NewActivityViewModel: ObservableObject {
         }
         return true
     }
-    
-    
-    
 }

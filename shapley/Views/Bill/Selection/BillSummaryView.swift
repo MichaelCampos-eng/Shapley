@@ -50,7 +50,7 @@ struct BillSummaryView: View {
                         Divider()
                         HStack{
                             Text("$\(String(format:"%.2f", viewModel.getTotal()))")
-                                .font(.title)
+                                .font( viewModel.getTotal() < 100.0 ? .title :  .title2)
                                 .bold()
                             Text( "Total")
                                 .foregroundStyle(Color(.secondaryLabel))
@@ -80,6 +80,7 @@ struct BillSummaryView: View {
                         Divider()
                         HStack {
                             Text("$\(String(format: "%.2f", viewModel.getUserGrandTotal()))")
+                                .font(viewModel.getUserGrandTotal() < 100.0 ? .title :  .title2)
                                 .font(.title)
                                 .bold()
                                 .foregroundStyle(Color.orange)

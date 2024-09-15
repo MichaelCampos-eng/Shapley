@@ -8,21 +8,22 @@
 import FirebaseFirestore
 import Foundation
 import Combine
+import SwiftUI
 
 class ManageBillUserModel: ObservableObject {
     @Published private var itemsClaimed: [Claim] = []
     @Published private var userNickName: String?
-    private var userDetails: UserClaims?
+    @Published var userDetails: UserClaims?
     
     private var claimsReg: ListenerRegistration?
     private var nickNameReg: ListenerRegistration?
     private var cancellables = Set<AnyCancellable>()
     
+    private let user: DisplayUser
     private let receipt: Receipt
-    private let pathIds: ModelPaths
     
-    init(receipt: Receipt, refPaths: ModelPaths) {
-        self.pathIds = refPaths
+    init(receipt: Receipt, user: DisplayUser) {
+        self.user = user
         self.receipt = receipt
         self.beginListening()
     }
@@ -80,56 +81,38 @@ class ManageBillUserModel: ObservableObject {
     
     private func fetchUserDetails() {
         Publishers.CombineLatest($userNickName, $itemsClaimed)
-            .map { nickname, items in
-                guard let name = nickname else {
+            .map { [weak self] nickname, items in
+                guard let self else {
                     return nil
                 }
-                return UserClaims(alias: name, claims: items)
+                guard let nickname else {
+                    return nil
+                }
+                return UserClaims(alias: nickname, 
+                                  claims: items,
+                                  taxPercentage: self.receipt.summary.taxPercentage)
             }
             .assign(to: \.userDetails, on: self)
             .store(in: &cancellables)
     }
     
     func isAvailable() -> Bool {
-        return userNickName != nil && userDetails != nil
+        return userDetails != nil
     }
     
     private func getModelId() -> String {
-        return pathIds.id
+        return user.pathIds.id
     }
     
     private func getActId() -> String {
-        return pathIds.activityId
+        return user.pathIds.activityId
     }
     
     private func getUserId() -> String {
-        return pathIds.userId
+        return user.pathIds.userId
     }
     
-    func getItems() -> [Claim] {
-        return userDetails!.claims
-    }
-    
-    func getAlias() -> String {
-        return userDetails!.alias
-    }
-    
-    func getDebt() -> Double {
-        let userSubtotal = getSubtotal()
-        return userSubtotal + getTax()
-    }
-    
-    func getSubtotal() -> Double {
-        let user = userDetails!
-        return user.claims.reduce(0.0) { result, claim in
-            result + (claim.unitPrice * Double(claim.quantityClaimed))
-        }
-    }
-    
-    func getTax() -> Double {
-        let preTotal = receipt.summary.subtotal
-        let tax = receipt.summary.tax
-        let taxPer = tax / preTotal
-        return getSubtotal() * taxPer
+    func getColor() -> Color {
+        return user.displayColor
     }
 }
