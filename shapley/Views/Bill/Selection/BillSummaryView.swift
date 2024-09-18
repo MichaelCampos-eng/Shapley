@@ -9,11 +9,10 @@ import SwiftUI
 
 struct BillSummaryView: View {
     @Environment(\.dismiss ) var dismiss
-    @ObservedObject private var viewModel: BillModel
+    @EnvironmentObject private var viewModel: BillModel
     @Binding private var isPresented: Bool
     
-    init(viewModel: BillModel, isPresented: Binding<Bool>) {
-        self.viewModel = viewModel
+    init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
     }
     
@@ -49,20 +48,20 @@ struct BillSummaryView: View {
                             .foregroundStyle(Color(.secondaryLabel))
                         Divider()
                         HStack{
-                            Text("$\(String(format:"%.2f", viewModel.getTotal()))")
-                                .font( viewModel.getTotal() < 100.0 ? .title :  .title2)
+                            Text("$\(String(format:"%.2f", viewModel.receipt!.summary.total))")
+                                .font(.title)
                                 .bold()
                             Text( "Total")
                                 .foregroundStyle(Color(.secondaryLabel))
                         }
                         HStack {
-                            Text("$\(String(format: "%.2f", viewModel.getSubtotal()))")
+                            Text("$\(String(format: "%.2f", viewModel.receipt!.summary.subtotal))")
                                 .font(.title3)
                             Text("Subtotal")
                                 .foregroundStyle(Color(.secondaryLabel))
                         }
                         HStack{
-                            Text("$\(String(format: "%.2f", viewModel.getSalesTax()))")
+                            Text("$\(String(format: "%.2f", viewModel.receipt!.summary.tax))")
                                 .font(.title3)
                             Text("Tax")
                                 .foregroundStyle(Color(.secondaryLabel))
@@ -79,8 +78,7 @@ struct BillSummaryView: View {
                             .foregroundStyle(Color(.secondaryLabel))
                         Divider()
                         HStack {
-                            Text("$\(String(format: "%.2f", viewModel.getUserGrandTotal()))")
-                                .font(viewModel.getUserGrandTotal() < 100.0 ? .title :  .title2)
+                            Text("$\(String(format: "%.2f", viewModel.userInvoice!.debt))")
                                 .font(.title)
                                 .bold()
                                 .foregroundStyle(Color.orange)
@@ -88,14 +86,14 @@ struct BillSummaryView: View {
                                 .foregroundStyle(Color(.secondaryLabel))
                         }
                         HStack {
-                            Text( "$\(String(format: "%.2f", viewModel.getUserAmount()))")
+                            Text( "$\(String(format: "%.2f", viewModel.userInvoice!.subtotal))")
                                 .font(.title3)
                             Text("Subtotal")
                                 .foregroundStyle(Color(.secondaryLabel))
                                 .shadow(radius: 10.0)
                         }
                         HStack {
-                            Text("$\(String(format: "%.2f", viewModel.getUserTax()))")
+                            Text("$\(String(format: "%.2f", viewModel.userInvoice!.tax))")
                                 .font(.title3)
                             Text("Tax")
                                 .foregroundStyle(Color(.secondaryLabel))
@@ -114,8 +112,5 @@ struct BillSummaryView: View {
 }
 
 #Preview {
-    BillSummaryView(viewModel: BillModel(meta: ModelPaths(id: "DkUXKLdl3wDRyl5iPdrs",
-                                                          userId: "mKDySPyahSVrtLMjvALFxleBRm52",
-                                                          activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316")),
-    isPresented: Binding(get: {return true}, set: {_ in}))
+    BillSummaryView(isPresented: Binding(get: {return true}, set: {_ in}))
 }

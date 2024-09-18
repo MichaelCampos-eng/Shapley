@@ -8,17 +8,10 @@
 import SwiftUI
 import Combine
 
-struct InterimSale {
-    let sale: Sale
-    let unitPrice: Double
-}
-
 struct ItemBillView: View {
     @StateObject private var viewModel: ItemBillViewModel
     @State private var isShifted: Bool = false
     private var isFirst: Bool
-  
-    private let saleItem: InterimSale
     
     private let rightSymbols: [ActionSymbol] = [ActionSymbol(color: .clear,
                                                              name: "Remove",
@@ -33,28 +26,21 @@ struct ItemBillView: View {
                                                             name: "Add to cart",
                                                             systemIcon: "cart.badge.plus")]
     
-    init(sale: Sale,
-         user: UserBill,
-         updateAction: @escaping (String, Int) -> Void,
+    init(claim: Claim,
+         updateAction: @escaping (String, Int) async -> Void,
          isFirst: Bool) {
-        let unitPrice = Double(String(format: "%.2f", sale.price / Double(sale.quantity))) ?? 0.0
-        self.saleItem = InterimSale(sale: sale, unitPrice: unitPrice)
-        
-        self._viewModel = StateObject(wrappedValue: ItemBillViewModel(selectedQuantity: user.claims[sale.id],
-                                                                      saleItem: sale,
+        self._viewModel = StateObject(wrappedValue: ItemBillViewModel(claim: claim,
                                                                       action: updateAction))
         self.isFirst = isFirst
     }
     
     var body: some View {
-        
         @State var showInsights: Bool = false
-        
         SwipeActionsView(right: SwipeAction(meta: rightSymbols,
                                             execute: viewModel.subtract),
                          left: SwipeAction(meta: leftSymbols,
                                            execute: viewModel.add)) {
-            InsightsBillView(item: saleItem, selected: viewModel.selected)
+            InsightsBillView(item: viewModel.claim.sale, selected: viewModel.selected)
                 .padding(.vertical)
                 .padding(.trailing)
             .offset(x: !isShifted ? 0 : 40)
@@ -75,13 +61,11 @@ struct ItemBillView: View {
 }
 
 #Preview {
-    ItemBillView(sale: Sale(id: "",
-                            name: "Mango",
-                            quantity: 12,
-                            price: 35.88),
-                 user: UserBill(owner: false,
-                                claims: ["":3],
-                                createdDate: TimeInterval()),
+    ItemBillView(claim: Claim(sale: Sale(id: "",
+                                         name: "Mango",
+                                         quantity: 12,
+                                         price: 35.88),
+                              quantityClaimed: 2),
                  updateAction: {_, _ in},
                  isFirst: true)
 }

@@ -57,5 +57,9 @@ struct Model: Codable, Identifiable {
             }
         }
     }
-    
+}
+
+struct ModelBase {
+    let title: String
+    let createdDate: TimeInterval
 }

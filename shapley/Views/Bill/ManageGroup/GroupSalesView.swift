@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GroupSalesView: View {
-    @EnvironmentObject var viewModel: ManageBillGroupModel
+    @EnvironmentObject private var viewModel: ManageBillGroupModel
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -24,12 +24,11 @@ struct GroupSalesView: View {
                                 .opacity(phase.isIdentity ? 1 : 0.75)
                         }
                 }
-                .animation(.spring(Spring(duration: 0.3, bounce: 0.3), blendDuration: 0.1), value: viewModel.receipt!.items)
+                .animation(.spring(Spring(duration: 0.4, bounce: 0.5), blendDuration: 0.1), value: viewModel.receipt!.items)
             }
             .scrollTargetLayout()
         }
         .scrollTargetBehavior(.viewAligned)
-        .environmentObject(viewModel)
     }
 }
 

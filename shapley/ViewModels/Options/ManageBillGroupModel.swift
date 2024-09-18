@@ -10,15 +10,13 @@ import Combine
 import FirebaseFirestore
  
 class ManageBillGroupModel: ObservableObject {
-    @Published private var model: Model?
-    @Published var nickName: String?
-    
     @Published var receipt: Receipt?
-    @Published var group: [DisplayUser] = []
+    @Published var group: [UserDisplayRefs] = []
+    @Published var nickName: String?
     
     private var validate: Bool = false
     
-    private var modelReg: ListenerRegistration?
+    private var receiptReg: ListenerRegistration?
     private var validIdsReg: ListenerRegistration?
     private var nickNameReg: ListenerRegistration?
     private var cancellables = Set<AnyCancellable>()
@@ -32,47 +30,48 @@ class ManageBillGroupModel: ObservableObject {
     }
     
     func beginListening() {
-        self.fetchModel()
+        self.fetchReceipt()
         self.fetchGroup()
         self.fetchUserNickName()
     
-        self.fetchReceipt()
         self.setIsValid()
     }
     
     func endListening() {
-        self.modelReg?.remove()
+        self.receiptReg?.remove()
         self.validIdsReg?.remove()
         self.nickNameReg?.remove()
-        self.modelReg = nil
+        self.receiptReg = nil
         self.validIdsReg = nil
     }
     
-    private func fetchModel() {
+    private func fetchReceipt() {
         let db = Firestore.firestore()
-        modelReg = db.collection("activities/\(getActId())/models/").document(getModelId()).addSnapshotListener { [weak self] snapshot, error in
-            guard let document = try? snapshot?.data(as: Model.self) else {
+        receiptReg = db.collection("activities/\(getActId())/models/").document(getModelId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let model = try? snapshot?.data(as: Model.self) else {
                 print("Model does not exist.")
                 return
             }
-            self?.model = document
+            switch model.type {
+            case .Bill(let receipt):
+                self?.receipt = receipt
+            default:
+                return
+            }
         }
     }
     
     private func fetchGroup() {
         let db = Firestore.firestore()
         validIdsReg = db.collection("activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
-            guard let self else {
-                return
-            }
+            guard let self else { return }
             guard let document = try? snapshot?.data(as: ContentActivity.self) else {
                 print("Activity does not exist.")
                 return
             }
-            self.group = document.validUsers.map{ DisplayUser(pathIds:  ModelPaths(id: self.getModelId(),
-                                                                                    userId: $0,
-                                                                                    activityId: self.getActId()))
-                           }
+            self.group = document.validUsers.map{ UserDisplayRefs(pathIds:  ModelPaths(id: self.getModelId(),
+                                                                                       userId: $0,
+                                                                                       activityId: self.getActId()))}
         }
     }
     
@@ -87,26 +86,10 @@ class ManageBillGroupModel: ObservableObject {
         }
     }
     
-    private func fetchReceipt() {
-        $model
-            .sink { [weak self] givenModel in
-                guard let self = self else {
-                    return
-                }
-                switch givenModel?.type {
-                case .Bill(let receipt):
-                    self.receipt = receipt
-                default:
-                    return
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
     private func setIsValid() {
-        Publishers.CombineLatest3($model, $nickName, $receipt)
-            .map { givenModel, givenName, givenReceipt in
-                return givenModel != nil && givenName != nil && givenReceipt != nil
+        Publishers.CombineLatest($nickName, $receipt)
+            .map {givenName, givenReceipt in
+                return givenName != nil && givenReceipt != nil
             }
             .assign(to: \.validate , on: self)
             .store(in: &cancellables)

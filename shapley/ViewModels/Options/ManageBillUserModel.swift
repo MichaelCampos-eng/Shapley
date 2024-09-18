@@ -11,108 +11,84 @@ import Combine
 import SwiftUI
 
 class ManageBillUserModel: ObservableObject {
-    @Published private var itemsClaimed: [Claim] = []
-    @Published private var userNickName: String?
-    @Published var userDetails: UserClaims?
+    @Published var alias: String?
+    @Published var invoice: Invoice?
     
     private var claimsReg: ListenerRegistration?
-    private var nickNameReg: ListenerRegistration?
-    private var cancellables = Set<AnyCancellable>()
+    private var aliasReg: ListenerRegistration?
     
-    private let user: DisplayUser
+    private let refs: UserDisplayRefs
     private let receipt: Receipt
     
-    init(receipt: Receipt, user: DisplayUser) {
-        self.user = user
+    init(receipt: Receipt, refs: UserDisplayRefs) {
+        self.refs = refs
         self.receipt = receipt
         self.beginListening()
     }
     
     func beginListening() {
-        self.fetchClaims()
-        self.fetchNickName()
-        
-        self.fetchUserDetails()
+        self.fetchInvoice()
+        self.fetchAlias()
     }
     
     func endListening() {
         claimsReg?.remove()
-        nickNameReg?.remove()
+        aliasReg?.remove()
         claimsReg = nil
-        nickNameReg = nil
+        aliasReg = nil
     }
     
-    private func fetchNickName() {
+    private func fetchAlias() {
         let db = Firestore.firestore()
-        nickNameReg = db.collection("users/\(getUserId())/activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
-            guard let document = try? snapshot?.data(as: UserActivity.self) else {
+        aliasReg = db.collection("users/\(getUserId())/activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let userAct = try? snapshot?.data(as: UserActivity.self) else {
                 print("User activity does not exist.")
                 return
             }
-            self?.userNickName = document.tempName
+            self?.alias = userAct.tempName
         }
     }
     
-    private func fetchClaims() {
+    private func fetchInvoice() {
         let db = Firestore.firestore()
         claimsReg = db.collection("users/\(getUserId())/activities/\(getActId())/models").document(getModelId()).addSnapshotListener { [weak self] snapshot, error in
+            guard let self else { return }
             guard let document = try? snapshot?.data(as: UserBill.self) else {
                 print("User model does not exist.")
                 return
             }
-            guard let self else {
-                return
-            }
-            self.itemsClaimed = self.generateClaims(idClaims: document.claims)
+            let claims = self.generateClaims(idClaims: document.claims)
+            self.invoice = Invoice(claims: claims, taxPercentage: self.receipt.summary.taxPercentage)
         }
     }
     
     private func generateClaims(idClaims: [String: Int]) -> [Claim] {
         let claimed = idClaims.compactMap { claim in
             if let sale = receipt.items.first(where: {$0.id == claim.key}) {
-                return Claim(itemName: sale.name, 
-                             quantityClaimed: claim.value,
-                             unitPrice: sale.price / Double(sale.quantity))
+                return Claim(sale: sale, quantityClaimed: claim.value)
             }
             return nil
         }
         return claimed
     }
     
-    private func fetchUserDetails() {
-        Publishers.CombineLatest($userNickName, $itemsClaimed)
-            .map { [weak self] nickname, items in
-                guard let self else {
-                    return nil
-                }
-                guard let nickname else {
-                    return nil
-                }
-                return UserClaims(alias: nickname, 
-                                  claims: items,
-                                  taxPercentage: self.receipt.summary.taxPercentage)
-            }
-            .assign(to: \.userDetails, on: self)
-            .store(in: &cancellables)
-    }
-    
     func isAvailable() -> Bool {
-        return userDetails != nil
+        return invoice != nil
     }
     
     private func getModelId() -> String {
-        return user.pathIds.id
+        return refs.pathIds.id
     }
     
     private func getActId() -> String {
-        return user.pathIds.activityId
+        return refs.pathIds.activityId
     }
     
     private func getUserId() -> String {
-        return user.pathIds.userId
+        return refs.pathIds.userId
     }
     
     func getColor() -> Color {
-        return user.displayColor
+        return refs.displayColor
     }
 }

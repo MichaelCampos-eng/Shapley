@@ -14,8 +14,8 @@ struct GroupClaimsView: View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false){
                 HStack {
-                    ForEach(viewModel.group, id: \.self) { user in
-                        UserClaimsView(receipt: viewModel.receipt!, user: user)
+                    ForEach(viewModel.group, id: \.self) { refs in
+                        UserClaimsView(receipt: viewModel.receipt!, refs: refs) 
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                             .scrollTransition(.interactive,
                                               axis: .horizontal) { view, phase in

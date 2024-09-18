@@ -10,10 +10,10 @@ import SwiftUI
 struct InsightsBillView: View {
     
     @State var showInsights: Bool = false
-    private let item: InterimSale
+    private let item: Sale
     private let selected: Int
     
-    init(item: InterimSale, selected: Int) {
+    init(item: Sale, selected: Int) {
         self.item = item
         self.selected = selected
     }
@@ -30,16 +30,15 @@ struct InsightsBillView: View {
                 })
             
             VStack(alignment: .leading) {
-                Text("\(item.sale.name)")
+                Text("\(item.name)")
                 if !showInsights {
                     Text("$\(String(format: "%.2f", Double(selected) * item.unitPrice))")
                         .font(.footnote)
                         .bold()
                 }
                 if showInsights {
-                    
                     HStack(alignment: .center) {
-                        Text("$\(String(format: "%.2f", item.sale.price)) Total")
+                        Text("$\(String(format: "%.2f", item.price)) Total")
                             .font(.footnote)
                             .foregroundStyle(Color(.secondaryLabel))
                         Image(systemName: "arrow.right")
@@ -58,7 +57,7 @@ struct InsightsBillView: View {
                         .foregroundStyle(.orange)
                         .bold()
                     if showInsights {
-                        Text(" | \(item.sale.quantity)")
+                        Text(" | \(item.quantity)")
                             .foregroundStyle(Color(.secondaryLabel))
                     }
                 }
@@ -69,10 +68,9 @@ struct InsightsBillView: View {
 }
 
 #Preview {
-    InsightsBillView(item: InterimSale(sale: Sale(id: "",
-                                                  name: "Oranges",
-                                                  quantity: 3,
-                                                  price: 3.0),
-                                       unitPrice: 1.0),
+    InsightsBillView(item: Sale(id: "", 
+                                name: "apple",
+                                quantity: 2,
+                                price: 1.98),
                      selected: 2)
 }

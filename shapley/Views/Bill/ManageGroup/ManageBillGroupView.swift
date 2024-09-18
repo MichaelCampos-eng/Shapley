@@ -9,8 +9,8 @@ import SwiftUI
 import Charts
 
 struct ManageBillGroupView: View {
-    @StateObject private var viewModel: ManageBillGroupModel 
-    
+    @StateObject private var viewModel: ManageBillGroupModel
+
     init(meta: ModelPaths) {
         self._viewModel = StateObject(wrappedValue: ManageBillGroupModel(meta: meta))
     }
@@ -20,10 +20,10 @@ struct ManageBillGroupView: View {
             VStack {
                 Capsule()
                     .frame(width: 40, height: 5)
-                    .foregroundStyle(Color.gray)
+                    .foregroundStyle(Color.gunMetal)
                     .padding()
                 Text("Group Details")
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color(.secondaryLabel))
                     .font(.title3)
                     .bold()
                 Spacer()

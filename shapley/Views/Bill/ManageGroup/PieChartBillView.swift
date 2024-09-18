@@ -22,12 +22,12 @@ struct PieChartBillView: View {
     
     var body: some View {
         VStack {
-            Chart(items, id: \.itemName) { item in
+            Chart(items, id: \.sale.name) { item in
                 SectorMark(angle: .value("Macros", item.quantityClaimed * multiplier),
                            innerRadius: .ratio(0.65),
-                           outerRadius: selectedItem?.itemName == item.itemName ? .ratio(1.5) : .ratio(0.9),
+                           outerRadius: selectedItem?.sale.name == item.sale.name ? .ratio(1.5) : .ratio(0.9),
                            angularInset: 1.5)
-                .foregroundStyle(by: .value("Name", item.itemName ))
+                .foregroundStyle(by: .value("Name", item.sale.name ))
                 .cornerRadius(10)
             }
             .chartAngleSelection(value: $selectedCount)
@@ -46,11 +46,11 @@ struct PieChartBillView: View {
                             .font(.title3)
                             .foregroundStyle(Color.white)
                             .bold()
-                        Text(selectedItem.itemName)
+                        Text(selectedItem.sale.name)
                             .font(.title3)
                             .foregroundStyle(Color(.secondaryLabel))
                             .bold()
-                        Text("$\(String(format: "%.2f", Double(selectedItem.quantityClaimed) * selectedItem.unitPrice))")
+                        Text("$\(String(format: "%.2f", Double(selectedItem.quantityClaimed) * selectedItem.sale.unitPrice))")
                             .font(.title3)
                             .foregroundStyle(Color(.secondaryLabel))
                             .bold()
@@ -93,7 +93,20 @@ struct PieChartBillView: View {
 }
 
 #Preview {
-    PieChartBillView(items: [Claim(itemName: "Water", quantityClaimed: 12, unitPrice: 3.99),
-                             Claim(itemName: "Oranges", quantityClaimed: 3, unitPrice: 1.99),
-                             Claim(itemName: "Apples", quantityClaimed: 8, unitPrice: 9.99)])
+    
+    PieChartBillView(items: [Claim(sale: Sale(id: "a", 
+                                              name: "Water",
+                                              quantity: 12,
+                                              price: 23.88), 
+                                   quantityClaimed: 4),
+                             Claim(sale: Sale(id: "b",
+                                              name: "Oranges",
+                                              quantity: 3,
+                                              price: 8.97), 
+                                   quantityClaimed: 1),
+                             Claim(sale: Sale(id: "c", 
+                                              name: "Apples",
+                                              quantity: 5,
+                                              price: 19.55),
+                                   quantityClaimed: 4)])
 }

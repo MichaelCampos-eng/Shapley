@@ -20,6 +20,6 @@ struct Receipt: Codable, Hashable {
     }
     
     var progress: Double {
-        return 1 -  ( missingAmount / summary.subtotal)
+        return 1 -  ( missingAmount / summary.total)
     }
 }

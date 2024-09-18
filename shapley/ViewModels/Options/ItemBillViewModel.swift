@@ -12,15 +12,14 @@ class ItemBillViewModel: ObservableObject {
     @Published var selected: Int
     private var cancellables = Set<AnyCancellable>()
     
-    private let saleItem: Sale
-    private let upper: Int
-    private let updateAction: (String, Int) -> Void
+    let claim: Claim
+    private lazy var upper: Int = { claim.quantityClaimed + claim.sale.available }()
+    private let updateAction: (String, Int) async -> Void
     
-    init(selectedQuantity: Int?, saleItem: Sale, action: @escaping (String, Int) -> Void) {
-        self.selected = selectedQuantity ?? 0
-        self.saleItem = saleItem
+    init(claim: Claim, action: @escaping (String, Int) async -> Void) {
+        self.claim = claim
+        self.selected = claim.quantityClaimed
         self.updateAction = action
-        self.upper = selectedQuantity ?? 0 + saleItem.available
         self.setupSelectSave()
     }
     
@@ -39,7 +38,9 @@ class ItemBillViewModel: ObservableObject {
             .debounce(for: 0.6, scheduler: RunLoop.main)
             .sink { [weak self] val in
                 if let self = self {
-                    self.updateAction(self.saleItem.id, val)
+                    Task {
+                        await self.updateAction(self.claim.sale.id, val)
+                    }
                 }
             }
             .store(in: &cancellables)

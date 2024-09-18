@@ -5,35 +5,60 @@
 //  Created by Michael Campos on 5/26/24.
 //
 
-import Foundation
 import FirebaseFirestore
+import Foundation
+import Combine
 
 class BillModel: ObservableObject {
-    @Published var model: Model?
-    @Published var userModel: UserBill?
+    @Published var receipt: Receipt?
+    
+    @Published private var userModel: UserBill?
+    @Published var userInvoice: Invoice?
+    
+    private var receiptReg: ListenerRegistration?
+    private var userReg: ListenerRegistration?
+    private var cancellables = Set<AnyCancellable>()
     
     private let meta: ModelPaths
     
     init(meta: ModelPaths) {
         self.meta = meta
-        self.fetchModel()
-        self.fetchUserModel()
+        beginListening()
     }
     
-    private func fetchModel() {
+    private func beginListening() {
+        self.fetchReceipt()
+        self.fetchUserModel()
+        
+        self.fetchUserClaims()
+    }
+    
+    private func endListening() {
+        receiptReg?.remove()
+        userReg?.remove()
+        receiptReg = nil
+        userReg = nil
+    }
+    
+    private func fetchReceipt() {
         let db = Firestore.firestore()
-        db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+        receiptReg = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let model = try? snapshot?.data(as: Model.self) else {
                 print("Failed to decode model or document with that id does not exist.")
                 return
             }
-            self?.model = model
+            switch model.type {
+            case .Bill(let receipt):
+                self?.receipt = receipt
+            default:
+                return
+            }
         }
     }
     
     private func fetchUserModel() {
         let db = Firestore.firestore()
-        db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+        userReg = db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let userModel = try? snapshot?.data(as: UserBill.self) else {
                 print("Failed to decode user mode or document with that id does not exist.")
                 return
@@ -42,36 +67,34 @@ class BillModel: ObservableObject {
         }
     }
     
-    func isValid() -> Bool {
-        if model != nil && userModel != nil {
-            return true
-        }
-        return false
-    }
-    
-    func getTotal() -> Double {
-        switch self.model!.type {
-        case .Bill(let receipt):
-            return receipt.summary.total
-        default:
-            return 0.0
-        }
-    }
-    
-    func getUserAmount() -> Double {
-        let claims = userModel!.claims
-        let sales = getSales()
-        var amount = 0.0
-        for (key, value) in claims {
-            if let index = sales.firstIndex(where: {$0.id ==  key}) {
-                let unitPrice = Double(String(format: "%.2f",  sales[index].price / Double(sales[index].quantity) )) ?? 0.0
-                amount += unitPrice * Double(value)
+    private func fetchUserClaims() {
+        Publishers.CombineLatest($receipt, $userModel)
+            .map { [weak self] givenReceipt, givenUser in
+                guard let self else { return nil }
+                guard let givenReceipt else { return nil }
+                guard let givenUser else { return nil }
+                let claims = self.generateClaims(givenReceipt: givenReceipt, idClaims: givenUser.claims)
+                return Invoice(claims: claims, taxPercentage: givenReceipt.summary.taxPercentage)
             }
-        }
-        return amount
+            .assign(to: \.userInvoice, on: self)
+            .store(in: &cancellables)
     }
     
-    func setItem(itemId: String, quantity: Int) {
+    private func generateClaims(givenReceipt: Receipt, idClaims: [String: Int]) -> [Claim] {
+        let claims = idClaims.compactMap { claim in
+            if let sale = givenReceipt.items.first(where: {$0.id == claim.key}) {
+                return Claim(sale: sale, quantityClaimed: claim.value)
+            }
+            return nil
+        }
+        return claims
+    }
+    
+    func isValid() -> Bool {
+        return receipt != nil && userModel != nil
+    }
+    
+    func setItem(itemId: String, quantity: Int) async {
         guard var item = getItem(itemId: itemId) else {
             print("Item with that id does not exist.")
             return
@@ -86,10 +109,14 @@ class BillModel: ObservableObject {
             user.claims[itemId] = potential
         }
         item.addAvailble(userAmount - potential)
-        updateBill(bill: user, sale: item)
+        await updateBill(bill: user, sale: item)
     }
     
-    private func updateBill(bill: UserBill, sale: Sale) {
+    func getItem(itemId: String) -> Sale? {
+        return receipt?.items.first{ $0.id == itemId}
+    }
+    
+    private func updateBill(bill: UserBill, sale: Sale) async {
         let db = Firestore.firestore()
         let userModelRef = db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId())
         do {
@@ -97,32 +124,20 @@ class BillModel: ObservableObject {
         } catch {
             print("Failed to store user model")
         }
-        switch self.model!.type {
-        case .Bill(let receipt):
-            if let index = receipt.items.firstIndex(where: {$0.id == sale.id}) {
-                var newReceipt = receipt
-                var newModel = self.model!
-                
-                newReceipt.items[index] = sale
-                newModel.type = .Bill(receipt: newReceipt)
-                
-                let modelRef = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId())
-                do {
-                    try modelRef.setData(from: newModel)
-                } catch {
-                    print("Failed to store model.")
-                }
+        guard let receipt else { return }
+        if let index = receipt.items.firstIndex(where: {$0.id == sale.id}) {
+            var newReceipt = receipt
+            newReceipt.items[index] = sale
+            let modelRef = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId())
+            do {
+                try await modelRef.updateData(["type": ExpenseType.Bill(receipt: newReceipt).asDictionary()])
+            } catch {
+                print("Failed to store model.")
             }
-        default:
-            return
         }
     }
     
-    func getItem(itemId: String) -> Sale? {
-        return self.getSales().first{ $0.id == itemId}
-    }
-    
-    internal func getModelId() -> String {
+    func getModelId() -> String {
         return meta.id
     }
     
@@ -134,50 +149,12 @@ class BillModel: ObservableObject {
         return meta.userId
     }
     
-    func isOwner() -> Bool {
-        return userModel!.owner
-    }
-    
-    func getTitle() -> String {
-        return model!.title
-    }
-    
-    func getUserTax() -> Double {
-        return getSalesTax() * getUserAmount() / getSubtotal()
-    }
-    
-    func getUserGrandTotal() -> Double {
-        return getUserTax() + getUserAmount()
-    }
-    
-    func getSubtotal() -> Double {
-        switch self.model!.type {
-            case .Bill(let receipt):
-                return receipt.summary.subtotal
-            default:
-                return 0.0
-        }
-    }
-    
-    func getSalesTax() -> Double {
-        switch self.model!.type {
-            case .Bill(let receipt):
-                return receipt.summary.tax
-            default:
-                return 0.0
-        }
-    }
-    
-    func getSales() -> [Sale] {
-        switch self.model!.type {
-            case .Bill(let receipt):
-            return receipt.items
-        default:
-            return []
-        }
-    }
-    
     func getMeta() -> ModelPaths {
         return meta
     }
+    
+    func isOwner() -> Bool {
+        return userModel!.owner
+    }
+
 }

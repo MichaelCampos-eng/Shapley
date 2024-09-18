@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DebtView: View {
-    @EnvironmentObject var viewModel: ManageBillGroupModel
+    @EnvironmentObject private var viewModel: ManageBillGroupModel
     
     var body: some View {
         GeometryReader { metrics in
@@ -34,7 +34,7 @@ struct DebtView: View {
                         .frame(width: metrics.size.width * viewModel.receipt!.progress,
                                height: 10)
                         .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.orange, .maize]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
-                        .animation(.spring(Spring(duration: 0.3, bounce: 0.3), blendDuration: 0.1), 
+                        .animation(.spring(Spring(duration: 0.4, bounce: 0.5), blendDuration: 0.1), 
                                    value: viewModel.receipt!.progress)
                 }
             }
