@@ -77,15 +77,15 @@ class ManageBillUserModel: ObservableObject {
     }
     
     private func getModelId() -> String {
-        return refs.pathIds.id
+        return refs.paths.modelId!
     }
     
     private func getActId() -> String {
-        return refs.pathIds.activityId
+        return refs.paths.activityId!
     }
     
     private func getUserId() -> String {
-        return refs.pathIds.userId
+        return refs.paths.userId!
     }
     
     func getColor() -> Color {

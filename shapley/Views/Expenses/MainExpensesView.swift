@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct MainExpensesView: View {
-    @ObservedObject var viewModel: ExpensesViewModel
-    @Binding private var onClicked: Bool
-    
-    init(viewModel: ExpensesViewModel, onClicked: Binding<Bool>) {
-        self.viewModel = viewModel
-        self._onClicked = onClicked
-    }
+    @EnvironmentObject private var viewModel: ExpensesViewModel
+    @Environment(\.dismiss ) private var dismiss
+    @State private var onClickedDismiss = false
     
     var body: some View {
         VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                Text(viewModel.title)
+                    .bold()
+                    .font(.headline)
+                    .foregroundStyle(Color(.secondaryLabel))
+                    .padding()
+                Spacer()
+            }
             Spacer()
             HStack {
                 VStack(alignment: .leading) {
@@ -35,7 +40,7 @@ struct MainExpensesView: View {
             Spacer()
             HStack {
                 Button {
-                    onClicked = true
+                    onClickedDismiss = true
                 } label: {
                     HStack {
                         Image(systemName: "chevron.backward")
@@ -53,40 +58,38 @@ struct MainExpensesView: View {
             .foregroundStyle(Color.white)
             .padding()
             Divider()
-            List(viewModel.expensesMeta) { item in
+            List(viewModel.expensesMeta, id: \.paths.modelId) { item in
                 NavigationLink(value: item) {
                     ExpenseView(metadata: item)
                 }
                 .listRowBackground(Color.roseTaupe)
             }
             .navigationDestination(for: MetaExpense.self) { item in
-                expenseView(meta: item)
+                switch item.type {
+                case .Bill:
+                    BillView(meta: item.paths)
+                case .Gas:
+                    GasView(meta: item)
+                case .Vendue:
+                    VendueView(meta: item)
+                }
             }
             .scrollContentBackground(.hidden)
             .frame(height: 300)
             .shadow(radius: 10)
             Divider()
         }
-    }
-    
-    // TODO: change parameter for each view type
-    @ViewBuilder
-    private func expenseView(meta: MetaExpense) -> some View {
-        switch meta.type {
-        case .Bill:
-            BillView(meta: ModelPaths(id: meta.id,
-                                      userId: meta.userId,
-                                      activityId: meta.activityId))
-        case .Gas:
-            GasView(meta: meta)
-        case .Vendue:
-            VendueView(meta: meta)
+        .onChange(of: onClickedDismiss) { old, new in
+            if old == false && new == true {
+                dismiss()
+            }
         }
     }
 }
 
 #Preview {
-    MainExpensesView(viewModel: ExpensesViewModel(userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
-                                                  activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316"),
-                     onClicked: Binding(get: {return false}, set: {_ in}))
+    MainExpensesView()
+        .environmentObject(ExpensesViewModel(paths: ModelPaths(modelId: "UEiWyvP90F69eAttZDRM",
+                                                               userId: "rXsJ8ZNOodV9acUZbxLpC8WAqry2",
+                                                               activityId: "FAF0D8A4-CAAD-4845-93A5-1B08EC48CA7F")))
 }

@@ -81,9 +81,9 @@ class ActivitiesViewModel: ObservableObject {
     private func generateMetaActivities(userData: [UserActivity], contents: [ContentActivity]) -> [MetaActivity] {
             let metaActivities = userData.flatMap { userActivity in
                 contents.compactMap { contentActivity in
-                    return userActivity.id == contentActivity.id ? MetaActivity(id: contentActivity.id,
+                    return userActivity.id == contentActivity.id ? MetaActivity(paths: ModelPaths(userId: self.userId,
+                                                                                                  activityId: contentActivity.id),
                                                                                 titleName: contentActivity.title,
-                                                                                userId: self.userId,
                                                                                 createdDate: contentActivity.createdDate) : nil
                 }
             }

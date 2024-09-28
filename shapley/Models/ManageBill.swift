@@ -7,15 +7,9 @@
 import SwiftUI
 import Foundation
 
-struct ModelPaths: Hashable {
-    let id: String
-    let userId: String
-    let activityId: String
-}
-
-struct UserDisplayRefs: Hashable {
+struct UserDisplayRefs {
+    let paths: ModelPaths
     let displayColor: Color = DisplayUserPallete.pallete1.randomElement()!
-    let pathIds: ModelPaths 
 }
 
 struct Sale: Codable, Identifiable, Equatable, Hashable {

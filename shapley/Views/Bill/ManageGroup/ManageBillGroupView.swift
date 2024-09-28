@@ -51,7 +51,7 @@ struct ManageBillGroupView: View {
 }
 
 #Preview {
-    ManageBillGroupView(meta: ModelPaths(id: "cG1pKA6E7gCXkysxTD3o",
+    ManageBillGroupView(meta: ModelPaths(modelId: "cG1pKA6E7gCXkysxTD3o",
                                        userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
                                        activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316"))
 }

@@ -93,6 +93,7 @@ class SplitBillSetupModel: ObservableObject {
     }
     
     public func deleteEntry(saleId: String) {
+        print("deleting")
         if let index = sales.firstIndex(where: {$0.id == saleId}) { sales.remove(at: index) }
     }
     

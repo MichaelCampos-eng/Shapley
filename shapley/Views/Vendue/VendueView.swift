@@ -20,9 +20,9 @@ struct VendueView: View {
 }
 
 #Preview {
-    VendueView(meta: MetaExpense(id: "", 
-                                 userId: "",
-                                 activityId: "",
+    VendueView(meta: MetaExpense(paths: ModelPaths(modelId: "",
+                                                        userId: "",
+                                                        activityId: ""),
                                  type: .Vendue,
-                                 dateCreated: TimeInterval()))
+                                 createdDate: TimeInterval()))
 }

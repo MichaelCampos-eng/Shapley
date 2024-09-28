@@ -16,8 +16,7 @@ struct ActivityView: View {
     @FocusState private var isFocused: Bool
     
     init(metadata: MetaActivity) {
-        self._viewModel = StateObject(
-            wrappedValue: ActivityViewModel(meta: metadata))
+        self._viewModel = StateObject(wrappedValue: ActivityViewModel(meta: metadata))
     }
     
     var body: some View {
@@ -96,11 +95,11 @@ struct ActivityView: View {
                                 HStack {
                                     Spacer()
                                     VStack(alignment: .leading) {
-                                        Text(viewModel.getTitle())
+                                        Text(viewModel.content!.title)
                                             .font(.body)
                                             .bold()
                                             .foregroundStyle(Color.white)
-                                        Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
+                                        Text("\(Date(timeIntervalSince1970: viewModel.content!.createdDate).formatted(date: .abbreviated, time: .shortened))")
                                             .font(.caption2)
                                             .foregroundStyle(Color.white)
                                     }
@@ -133,8 +132,8 @@ struct ActivityView: View {
 }
 
 #Preview {
-    ActivityView(metadata: MetaActivity(id: "6DE21F32-FBD8-4F26-94AC-5FA8B5EC1A5B",
+    ActivityView(metadata: MetaActivity(paths: ModelPaths( userId: "mKDySPyahSVrtLMjvALFxleBRm52",
+                                                           activityId: "6DE21F32-FBD8-4F26-94AC-5FA8B5EC1A5B"),
                                         titleName: "",
-                                        userId: "mKDySPyahSVrtLMjvALFxleBRm52",
                                         createdDate: Date().timeIntervalSince1970))
 }

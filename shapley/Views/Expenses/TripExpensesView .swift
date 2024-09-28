@@ -10,33 +10,50 @@ import SwiftUI
 
 struct TripExpensesView: View {
     @StateObject var viewModel: ExpensesViewModel
-    @State private var onClickedDismiss = false
-    
     @EnvironmentObject private var navigation: NavigationPathStore
-    @Environment(\.dismiss ) private var dismiss
     
-    init(userId: String, activityId: String) {
-        self._viewModel = StateObject(wrappedValue: ExpensesViewModel(userId: userId,
-                                                                          activityId: activityId))
+    init(paths: ModelPaths) {
+        self._viewModel = StateObject(wrappedValue: ExpensesViewModel(paths: paths))
     }
     
     var body: some View {
         ZStack {
             Color.prussianBlue
                 .ignoresSafeArea()
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation {
+                            viewModel.showingNewTrip.toggle()
+                        }
+                    } label: {
+                        Image(systemName: viewModel.showingNewTrip ? "arrow.turn.up.left" : "plus")
+                            .foregroundStyle(Color.white)
+                            .rotationEffect(.degrees(viewModel.showingNewTrip ? 0 : 360))
+                    }
+                    .font(.title2)
+                    .padding()
+                }
+                Spacer()
+            }
+            .zIndex(4.0)
+            
+            Spacer()
             if !viewModel.showingNewTrip {
-                MainExpensesView(viewModel: viewModel, onClicked: $onClickedDismiss)
+                MainExpensesView()
+                    .environmentObject(viewModel)
                     .transition(AnyTransition
                         .asymmetric(insertion: .move(edge: .leading),
                                     removal: .move(edge: .trailing)))
                     .zIndex(2.0)
             } else {
-                NewExpenseView(activityId: viewModel.getActivityId(),
+                NewExpenseView(activityId: viewModel.getActId(),
                                newTripPresented: $viewModel.showingNewTrip)
-                    .transition(AnyTransition
-                            .asymmetric(insertion: .move(edge: .leading),
-                                    removal: .move(edge: .trailing)))
-                    .zIndex(2.0)
+                .transition(AnyTransition
+                    .asymmetric(insertion: .move(edge: .leading),
+                                removal: .move(edge: .trailing)))
+                .zIndex(2.0)
             }
         }
         .onChange(of: navigation.path) {
@@ -47,33 +64,17 @@ struct TripExpensesView: View {
                 viewModel.endListening()
             }
         }
-        .onChange(of: onClickedDismiss) { old, new in
-            if old == false && new == true {
-                dismiss()
-            }
-        }
         .sheet(isPresented: $viewModel.showingManageGroup) {
-            ManageGroupView(presented: $viewModel.showingManageGroup, activityId: viewModel.getActivityId())
+            ManageGroupView(presented: $viewModel.showingManageGroup, activityId: viewModel.getActId())
                 .presentationDetents([.fraction(0.30)])
         }
-        .toolbar {
-            Button {
-                withAnimation {
-                    viewModel.showingNewTrip.toggle()
-                }
-            } label: {
-                Image(systemName: viewModel.showingNewTrip ? "arrow.turn.up.left" : "plus")
-                    .foregroundStyle(Color.white)
-                    .rotationEffect(.degrees(viewModel.showingNewTrip ? 0 : 360))
-            }
-        }
-        .navigationTitle(viewModel.titleName)
-        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
     }
 }
 
 #Preview {
-        TripExpensesView(userId: "10b8fa78neXKKsaGdiZvbnzDCN62", activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316")
+    
+        TripExpensesView(paths: ModelPaths(userId: "rXsJ8ZNOodV9acUZbxLpC8WAqry2",
+                                           activityId: "FAF0D8A4-CAAD-4845-93A5-1B08EC48CA7F"))
         .environmentObject(NavigationPathStore())
 }

@@ -69,9 +69,9 @@ class ManageBillGroupModel: ObservableObject {
                 print("Activity does not exist.")
                 return
             }
-            self.group = document.validUsers.map{ UserDisplayRefs(pathIds:  ModelPaths(id: self.getModelId(),
-                                                                                       userId: $0,
-                                                                                       activityId: self.getActId()))}
+            self.group = document.validUsers.map{ UserDisplayRefs(paths:  ModelPaths(modelId: self.getModelId(),
+                                                                                     userId: $0,
+                                                                                     activityId: self.getActId()))}
         }
     }
     
@@ -96,15 +96,15 @@ class ManageBillGroupModel: ObservableObject {
     }
     
     private func getModelId() -> String {
-        return meta.id
+        return meta.modelId!
     }
     
     private func getActId() -> String {
-        return meta.activityId
+        return meta.activityId!
     }
     
     private func getUserId() -> String {
-        return meta.userId
+        return meta.userId!
     }
     
     func isValid() -> Bool {

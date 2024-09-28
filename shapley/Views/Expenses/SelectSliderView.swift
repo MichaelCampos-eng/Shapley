@@ -51,7 +51,7 @@ struct SelectSliderView: View {
             ))
         }
         .font(.caption)
-        .tint(.prussianBlue)
+        .tint(.almond)
         .toggleStyle(.button)
         .contentTransition(.symbolEffect)
     }

@@ -25,7 +25,6 @@ struct NewExpenseView: View {
     }
     
     var body: some View {
-            
         VStack {
             ZStack {
                 if receipt {
@@ -45,20 +44,16 @@ struct NewExpenseView: View {
             .animation(.bouncy, value: receipt)
             .animation(.bouncy, value: gas)
             .animation(.bouncy, value: vendue)
-            
-            Spacer()
-            SelectSliderView(receipt: $receipt, gas: $gas, vendue: $vendue)
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                        .fill(Color.khaki)
-                }
-                .padding()
-        }
         Spacer()
+        SelectSliderView(receipt: $receipt, gas: $gas, vendue: $vendue)
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                    .fill(Color.gunMetal)
+            }
+            .padding()
+        }
     }
-        
-    
 }
 
 

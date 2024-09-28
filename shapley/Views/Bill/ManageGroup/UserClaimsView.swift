@@ -57,7 +57,7 @@ struct UserClaimsView: View {
                                                  name: "Snapples",
                                                  quantity: 3,
                                                  price: 8.97)]),
-                   refs: UserDisplayRefs(pathIds: ModelPaths(id: "cG1pKA6E7gCXkysxTD3o",
+                   refs: UserDisplayRefs(paths: ModelPaths(modelId: "cG1pKA6E7gCXkysxTD3o",
                                                          userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
                                                          activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316")))
 }

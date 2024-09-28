@@ -31,3 +31,12 @@ struct ContentActivity: Codable, Identifiable, Equatable {
     }
 }
 
+struct UserActivity: Codable, Identifiable, Equatable {
+    let id: String
+    let isAdmin: Bool
+    var tempName: String
+    
+    mutating func changeTempName(_ state: String) {
+        tempName = state
+    }
+}

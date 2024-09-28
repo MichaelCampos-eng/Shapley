@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BillScrollView: View {
-    @EnvironmentObject private var viewModel: BillModel
+    @EnvironmentObject private var viewModel: BillViewModel
     
     var body: some View {
         VStack {

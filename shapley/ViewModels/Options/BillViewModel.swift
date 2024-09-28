@@ -9,7 +9,7 @@ import FirebaseFirestore
 import Foundation
 import Combine
 
-class BillModel: ObservableObject {
+class BillViewModel: ObservableObject {
     @Published var receipt: Receipt?
     
     @Published private var userModel: UserBill?
@@ -42,7 +42,7 @@ class BillModel: ObservableObject {
     
     private func fetchReceipt() {
         let db = Firestore.firestore()
-        receiptReg = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+        receiptReg = db.collection("activities/\(self.getActId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let model = try? snapshot?.data(as: Model.self) else {
                 print("Failed to decode model or document with that id does not exist.")
                 return
@@ -58,7 +58,7 @@ class BillModel: ObservableObject {
     
     private func fetchUserModel() {
         let db = Firestore.firestore()
-        userReg = db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+        userReg = db.collection("users/\(self.getUserId())/activities/\(self.getActId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let userModel = try? snapshot?.data(as: UserBill.self) else {
                 print("Failed to decode user mode or document with that id does not exist.")
                 return
@@ -118,7 +118,7 @@ class BillModel: ObservableObject {
     
     private func updateBill(bill: UserBill, sale: Sale) async {
         let db = Firestore.firestore()
-        let userModelRef = db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId())
+        let userModelRef = db.collection("users/\(self.getUserId())/activities/\(self.getActId())/models").document(self.getModelId())
         do {
             try userModelRef.setData(from: bill)
         } catch {
@@ -128,7 +128,7 @@ class BillModel: ObservableObject {
         if let index = receipt.items.firstIndex(where: {$0.id == sale.id}) {
             var newReceipt = receipt
             newReceipt.items[index] = sale
-            let modelRef = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId())
+            let modelRef = db.collection("activities/\(self.getActId())/models").document(self.getModelId())
             do {
                 try await modelRef.updateData(["type": ExpenseType.Bill(receipt: newReceipt).asDictionary()])
             } catch {
@@ -138,23 +138,18 @@ class BillModel: ObservableObject {
     }
     
     func getModelId() -> String {
-        return meta.id
+        return meta.modelId!
     }
     
-    func getActivityId() -> String {
-        return meta.activityId
+    func getActId() -> String {
+        return meta.activityId!
     }
     
     func getUserId() -> String {
-        return meta.userId
+        return meta.userId!
     }
     
     func getMeta() -> ModelPaths {
         return meta
     }
-    
-    func isOwner() -> Bool {
-        return userModel!.owner
-    }
-
 }

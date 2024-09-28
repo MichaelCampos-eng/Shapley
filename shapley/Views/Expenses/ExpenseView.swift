@@ -24,7 +24,7 @@ struct ExpenseView: View {
             HStack {
                 if isEditing {
                     HStack {
-                        TextField(viewModel.getTitle(), text: $editedTitle)
+                        TextField(viewModel.model!.title, text: $editedTitle)
                         .onSubmit {
                             viewModel.updateTitle(name: editedTitle)
                             isEditing = false
@@ -34,10 +34,10 @@ struct ExpenseView: View {
                 } else {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(viewModel.getTitle())
+                            Text(viewModel.model!.title)
                                 .font(.body)
                                 .bold()
-                            Text("\(Date(timeIntervalSince1970: viewModel.getCreatedDate()).formatted(date: .abbreviated, time: .shortened))")
+                            Text("\(Date(timeIntervalSince1970: viewModel.model!.createdDate).formatted(date: .abbreviated, time: .shortened))")
                                 .font(.footnote)
                                 .foregroundStyle(Color(.secondaryLabel))
                         }
@@ -56,7 +56,7 @@ struct ExpenseView: View {
                 }
             }
             .swipeActions {
-                if viewModel.isOwner() {
+                if viewModel.user!.owner {
                     Button("Edit") {
                         isEditing = true
                     }
@@ -72,9 +72,9 @@ struct ExpenseView: View {
 }
 
 #Preview {
-    ExpenseView(metadata: MetaExpense(id: "37JuDhLT5ilrdryobZzH",
-                                      userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
-                                      activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316",
+    ExpenseView(metadata: MetaExpense(paths: ModelPaths(modelId: "37JuDhLT5ilrdryobZzH",
+                                                             userId: "10b8fa78neXKKsaGdiZvbnzDCN62",
+                                                             activityId: "3220F83A-136D-4FF2-912A-38F5AFF12316"),
                                       type: .Vendue,
-                                      dateCreated: TimeInterval()))
+                                      createdDate: TimeInterval()))
 }

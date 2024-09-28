@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BillSummaryView: View {
     @Environment(\.dismiss ) var dismiss
-    @EnvironmentObject private var viewModel: BillModel
+    @EnvironmentObject private var viewModel: BillViewModel
     @Binding private var isPresented: Bool
     
     init(isPresented: Binding<Bool>) {

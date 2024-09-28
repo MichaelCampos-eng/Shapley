@@ -10,23 +10,35 @@ import Combine
 import Foundation
 
 class ActivityViewModel: ObservableObject {
-    @Published private var user: UserActivity?
-    @Published private var content: ContentActivity?
+    @Published var user: UserActivity?
+    @Published var content: ContentActivity?
     
     private var userReg: ListenerRegistration?
     private var contentsReg: ListenerRegistration?
     private var cancellables = Set<AnyCancellable>()
     
-    private var activityData: MetaActivity
+    private var meta: MetaActivity
     
     init(meta: MetaActivity) {
-        self.activityData = meta
+        self.meta = meta
         self.beginListening()
+    }
+    
+    func beginListening() {
+        self.fetchUser()
+        self.fetchContent()
+    }
+    
+    func endListening() {
+        userReg?.remove()
+        contentsReg?.remove()
+        userReg = nil
+        contentsReg = nil
     }
     
     private func fetchUser() {
         let db = Firestore.firestore()
-        userReg = db.collection("users/\(getUserId())/activities/").document(getContentId()).addSnapshotListener { [weak self] snapshot, error in
+        userReg = db.collection("users/\(getUserId())/activities/").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
             guard let document = try? snapshot?.data(as: UserActivity.self) else {
                 print("User does not exist.")
                 return
@@ -37,7 +49,7 @@ class ActivityViewModel: ObservableObject {
     
     private func fetchContent() {
         let db = Firestore.firestore()
-        contentsReg = db.collection("activities").document(getContentId()).addSnapshotListener { [weak self] snapshot, error in
+        contentsReg = db.collection("activities").document(getActId()).addSnapshotListener { [weak self] snapshot, error in
             guard let document = try? snapshot?.data(as: ContentActivity.self) else {
                 print("Activity does not exist.")
                 return
@@ -48,7 +60,7 @@ class ActivityViewModel: ObservableObject {
     
     func updateTitle(name: String) {
         let db = Firestore.firestore()
-        let document = db.collection("activities").document(getContentId())
+        let document = db.collection("activities").document(getActId())
      
         document.getDocument(as: ContentActivity.self) { result in
             switch result {
@@ -74,26 +86,16 @@ class ActivityViewModel: ObservableObject {
         let document = db.collection("users")
             .document(getUserId())
             .collection("activities")
-            .document(getContentId())
+            .document(getActId())
         document.delete()
         
-        if self.isAdmin() {
-            db.collection("activities")
-                .document(getContentId())
-                .delete()
+        if let user {
+            if user.isAdmin {
+                db.collection("activities")
+                    .document(getActId())
+                    .delete()
+            }
         }
-    }
-    
-    func beginListening() {
-        self.fetchUser()
-        self.fetchContent()
-    }
-    
-    func endListening() {
-        userReg?.remove()
-        contentsReg?.remove()
-        userReg = nil
-        contentsReg = nil
     }
     
     func isAvailable() -> Bool {
@@ -104,23 +106,11 @@ class ActivityViewModel: ObservableObject {
     }
     
     func getUserId() -> String {
-        return self.activityData.userId
+        return meta.paths.userId!
     }
     
-    func getContentId() -> String {
-        return self.activityData.id
-    }
-    
-    func isAdmin() -> Bool {
-        return user!.isAdmin
-    }
-    
-    func getTitle() -> String {
-        return content!.title
-    }
-    
-    func getCreatedDate() -> TimeInterval {
-        return content!.createdDate
+    func getActId() -> String {
+        return meta.paths.activityId!
     }
 }
     

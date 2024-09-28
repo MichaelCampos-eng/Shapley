@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DisplayUserPallete {
     static let pallete1: [Color] = [Color.gunMetal, Color.prussianBlue, Color.violet, Color.roseTaupe]
+    static let pallete2: [Color] = [Color.teal, Color.green, Color.mint, Color.orange, Color.cyan, Color.indigo]
 }
 
 extension Color {

@@ -9,10 +9,9 @@ import SwiftUI
 import Charts
 
 struct PieChartBillView: View {
-    
     @State private var selectedCount: Int?
     @State private var selectedItem: Claim?
-    
+
     private let multiplier = 100
     private var items: [Claim]
     
@@ -22,12 +21,12 @@ struct PieChartBillView: View {
     
     var body: some View {
         VStack {
-            Chart(items, id: \.sale.name) { item in
+            Chart(items, id: \.sale.id) { item in
                 SectorMark(angle: .value("Macros", item.quantityClaimed * multiplier),
                            innerRadius: .ratio(0.65),
                            outerRadius: selectedItem?.sale.name == item.sale.name ? .ratio(1.5) : .ratio(0.9),
                            angularInset: 1.5)
-                .foregroundStyle(by: .value("Name", item.sale.name ))
+                .foregroundStyle(by: .value("id", item.sale.id))
                 .cornerRadius(10)
             }
             .chartAngleSelection(value: $selectedCount)

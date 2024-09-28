@@ -9,25 +9,45 @@ import SwiftUI
 import Combine
 
 struct SaleSummaryView: View {
-    @State var subtotal: String = ""
-    @State var total: String = ""
-    @State var tax: String = ""
-    @ObservedObject var viewModel: SplitBillSetupModel
+    @EnvironmentObject var viewModel: SplitBillSetupModel
+    @State private var subtotal: String = ""
+    @State private var total: String = ""
+    @State private var tax: String = ""
+    @FocusState private var focused: Field?
     
-    init(model: SplitBillSetupModel) {
-        self.viewModel = model
-    } 
+    init(focused: FocusState<Field?>) {
+        self._focused = focused
+    }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack{ Text("Subtotal: \(subtotal)")
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Total Amount")
+                .font(.caption)
+                .foregroundStyle(Color(.secondaryLabel))
+            Text("$\(String(format: "%.2f", viewModel.receipt.total))")
+                .font(.largeTitle)
+                .bold()
+                .foregroundStyle(Color.white)
+            HStack {
+                Image(systemName: "plus")
+                    .font(.caption)
+                    .foregroundStyle(Color.white)
+                Text("\(subtotal)")
+                    .bold()
+                    .foregroundStyle(Color.white)
                     .onReceive(viewModel.$receipt, perform: { newValue in
                         subtotal = String(format: "%.2f", newValue.subtotal)
                     })
+                Text("Subtotal")
+                    .foregroundStyle(Color(.secondaryLabel))
+                    .font(.caption)
             }
-            HStack{
-                Text("Sales Tax:")
+            HStack {
+                Image(systemName: "plus")
+                    .font(.caption)
+                    .foregroundStyle(Color.white)
                 TextField("0.00", text: $tax)
+                    .focused($focused, equals: Field.summary)
                     .multilineTextAlignment(.trailing)
                     .fixedSize(horizontal: true, vertical: false)
                     .keyboardType(.numberPad)
@@ -40,17 +60,26 @@ struct SaleSummaryView: View {
                             viewModel.updateReceipt(receipt: newReceipt)
                         }
                     })
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            Button(action: { focused = nil }, label: {
+                                Text("Done")
+                                    .foregroundStyle(Color.white)
+                                    .bold()
+                            })
+                        }
+                    }
+                Text("Tax")
+                    .foregroundStyle(Color(.secondaryLabel))
+                    .font(.caption)
                 Image(systemName: "pencil")
                     .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                Spacer()
             }
-            HStack{Text("Total: \(String(format: "%.2f", viewModel.receipt.total))")}
         }
-        .font(.headline)
-        .foregroundStyle(Color.white)
     }
 }
 
 #Preview {
-    SaleSummaryView(model: SplitBillSetupModel(id: ""))
+    SaleSummaryView(focused: FocusState())
 }

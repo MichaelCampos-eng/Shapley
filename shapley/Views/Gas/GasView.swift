@@ -21,9 +21,9 @@ struct GasView: View {
 }
 
 #Preview {
-    GasView(meta: MetaExpense(id: "", 
-                              userId: "",
-                              activityId: "",
+    GasView(meta: MetaExpense(paths: ModelPaths(modelId: "",
+                                           userId: "",
+                                           activityId: ""),
                               type: .Gas,
-                              dateCreated: TimeInterval()))
+                              createdDate: TimeInterval()))
 }

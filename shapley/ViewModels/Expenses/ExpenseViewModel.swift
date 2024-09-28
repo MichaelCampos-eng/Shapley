@@ -12,17 +12,32 @@ class ExpenseViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var user: UserBill? = nil
     @Published var model: Model? = nil
+    
+    private var userModelReg: ListenerRegistration?
+    private var modelReg: ListenerRegistration?
+    
     private var meta: MetaExpense
     
     init(meta: MetaExpense) {
         self.meta = meta
-        self.fetchModel()
-        self.fetchUserModel()
+        self.beginListening()
+    }
+    
+    private func beginListening() {
+        fetchUserModel()
+        fetchModel()
+    }
+    
+    private func endListening() {
+        userModelReg?.remove()
+        modelReg?.remove()
+        userModelReg = nil
+        modelReg = nil
     }
     
     private func fetchUserModel() {
         let db = Firestore.firestore()
-        db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+        userModelReg = db.collection("users/\(self.getUserId())/activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let userModel = try? snapshot?.data(as: UserBill.self) else {
                 self?.create()
                 return
@@ -47,12 +62,11 @@ class ExpenseViewModel: ObservableObject {
         } catch {
             print(error)
         }
-        
     }
     
     private func fetchModel() {
         let db = Firestore.firestore()
-        db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
+        modelReg = db.collection("activities/\(self.getActivityId())/models").document(self.getModelId()).addSnapshotListener { [weak self] snapshot, error in
             guard let model = try? snapshot?.data(as: Model.self) else {
                 print("Model does not exist or was not able to be decoded. - ExpenseViewModel")
                 return
@@ -95,32 +109,20 @@ class ExpenseViewModel: ObservableObject {
         }
         return false
     }
-    
-    func isOwner() -> Bool {
-        return user!.owner
-    }
-    
-    func getTitle() -> String {
-        return model!.title
-    }
-    
-    func getCreatedDate() -> TimeInterval {
-        return model!.createdDate
-    }
-    
+
     func getType() -> ExpenseType {
         return meta.type
     }
     
     private func getUserId() -> String {
-        return self.meta.userId
+        return meta.paths.userId!
     }
     
     private func getActivityId() -> String {
-        return self.meta.activityId
+        return meta.paths.activityId!
     }
     
     private func getModelId() -> String {
-        return self.meta.id
+        return meta.paths.modelId!
     }
 }

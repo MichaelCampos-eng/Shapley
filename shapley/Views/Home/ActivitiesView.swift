@@ -71,7 +71,7 @@ struct ActivitiesView: View {
                     SearchBarCustomView(search: $searchText, isEditing: $isSearching).padding(.horizontal)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: isSearching ? searchRows : defaultRows, spacing: 0) {
-                                ForEach(suggestions) { item in
+                            ForEach(suggestions, id: \.paths.activityId!) { item in
                                     NavigationLink(value: item) {
                                         ActivityView(metadata: item)
                                             .padding()
@@ -90,7 +90,7 @@ struct ActivitiesView: View {
                     .frame(height: isSearching ? 200 : 375)
                     .scrollTargetBehavior(.viewAligned)
                     .navigationDestination(for: MetaActivity.self) { item in
-                        TripExpensesView(userId: item.userId, activityId: item.id)
+                        TripExpensesView(paths: item.paths)
                             .environmentObject(navigation)
                     }
                 }
